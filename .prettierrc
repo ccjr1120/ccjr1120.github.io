@@ -4,5 +4,6 @@
   "singleQuote": true,
   "bracketSpacing": true,
   "proseWrap": "preserve",
-  "trailingComma": "none"
+  "trailingComma": "none",
+  "plugins": ["prettier-plugin-tailwindcss"]
 }
