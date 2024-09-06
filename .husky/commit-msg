@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+bun run commitlint --edit "$1"
+# 添加emoji前缀
+bun "$(dirname -- "$0")/prefix-emoji.ts" "$1"
