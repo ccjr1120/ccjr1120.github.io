@@ -1,6 +1,6 @@
-import { getBlogPosts } from '@/posts/utils'
 import dayjs from 'dayjs'
 import Link from 'next/link'
+import { getBlogPosts } from '../../posts/utils'
 
 export type Blog = ReturnType<typeof getBlogPosts>[number]
 export default function Home() {

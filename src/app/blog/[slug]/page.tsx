@@ -1,4 +1,4 @@
-import { getBlogPosts } from '@/posts/utils'
+import { getBlogPosts } from '../../../../posts/utils'
 import BeautifyMDXRemote from './components/BeautifyMDXRemote'
 
 export async function generateStaticParams() {
