@@ -19,7 +19,7 @@
     "prepare": "husky",
     "dev": "next dev -p 4399",
     "build": "next build",
-    "start": "npx serve@latest out",
+    "start": "next build && bunx serve@latest out",
     "lint": "next lint"
   },
   "dependencies": {
@@ -27,7 +27,7 @@
     "@mdx-js/react": "^3.0.1",
     "@next/mdx": "^14.2.7",
     "@types/mdx": "^2.0.13",
-    "moment": "^2.30.1",
+    "dayjs": "^1.11.13",
     "next": "14.2.5",
     "next-mdx-remote": "^5.0.0",
     "react": "^18",

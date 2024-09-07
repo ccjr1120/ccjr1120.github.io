@@ -15,13 +15,13 @@ export default function Page({
 
   return (
     <section>
-      <h1 className="title text-2xl font-semibold tracking-tighter">{title}</h1>
+      <h1 className="title text-xl font-semibold tracking-tighter">{title}</h1>
       <div className="mb-8 mt-2 flex items-center justify-between text-sm">
         <p className="text-sm text-neutral-600 dark:text-neutral-400">
           {metadata?.date}
         </p>
       </div>
-      <article className="prose">
+      <article className="prose text text-base font-light tracking-widest">
         <BeautifyMDXRemote source={content || ''} />
       </article>
     </section>

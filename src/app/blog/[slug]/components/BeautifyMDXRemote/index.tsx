@@ -5,11 +5,7 @@ import { MDXRemote } from 'next-mdx-remote/rsc'
 function CustomP({ children }: any) {
   // tailwind letter-spacing
 
-  return (
-    <p className="mb-2 indent-8 text-base font-light leading-6">
-      {children as string}
-    </p>
-  )
+  return <p className="mb-2 indent-8 leading-6">{children as string}</p>
 }
 const overrideComponents: MDXComponents = {
   p: CustomP
