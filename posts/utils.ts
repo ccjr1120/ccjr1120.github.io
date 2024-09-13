@@ -93,6 +93,11 @@ function getMDXData(dir: string) {
       }
     })
     .filter((post) => post.metadata.status !== 'un-publish')
+    .sort(
+      (a, b) =>
+        new Date(b.metadata.date).getTime() -
+        new Date(a.metadata.date).getTime()
+    )
 }
 
 export function formatDate(date: string, includeRelative = false) {
