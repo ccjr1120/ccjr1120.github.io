@@ -63,6 +63,6 @@ public add<T = any>(fn: TickerCallback<T>, context?: T, priority: number = UPDAT
 }
 ```
 
-至此，render便会由Ticker来触发了。同时，这篇文章也就到这里了。Ticker本身应该还有其操控队列的机制，但是这不是我所关心的，我的目的是找到Pixi使用WebGPU渲染的部分，如今从app.init出发，到这里基本上就找到了。
+至此，render便会由Ticker来触发了。同时，这篇文章也就到这里了。Ticker本身应该还有其操控队列的机制，但这并不是我所关心的，我的目的是找到Pixi使用WebGPU渲染的部分，如今从app.init出发，到这里基本上就找到了。
 
-这个过程中，如今梳理起来还是挺简单的，但在我看源码的过程中，一直忽略了TickerPlugin用Object.defineProperty赋值的操作，以及没有转换过来其内部this的指向问题，导致我一直没有找到Ticker和Render直接接触，想不明白Ticker到底是如何触发的。还得多学多练。
+整个过程中，现在梳理起来还是挺简单的，但在我看源码的过程中，一直忽略了TickerPlugin用Object.defineProperty赋值的操作，也没有转换过来其内部this的指向问题，导致我一直没有找到Ticker和Render直接接触的地方，想不明白Ticker到底是如何触发的。还得多学多练。

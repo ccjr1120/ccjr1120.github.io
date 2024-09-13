@@ -9,6 +9,7 @@ type Metadata = {
   readMinutes: number
   tags?: string[]
   series?: string
+  status?: 'un-publish'
 }
 
 function uuid() {
@@ -80,16 +81,18 @@ function readMDXFile(filePath: string) {
 
 function getMDXData(dir: string) {
   const mdxFiles = getMDXFiles(dir)
-  return mdxFiles.map((file) => {
-    const { metadata, content } = readMDXFile(file)
-    const title = path.basename(file, path.extname(file))
-    return {
-      metadata,
-      slug: metadata.slug,
-      title,
-      content
-    }
-  })
+  return mdxFiles
+    .map((file) => {
+      const { metadata, content } = readMDXFile(file)
+      const title = path.basename(file, path.extname(file))
+      return {
+        metadata,
+        slug: metadata.slug,
+        title,
+        content
+      }
+    })
+    .filter((post) => post.metadata.status !== 'un-publish')
 }
 
 export function formatDate(date: string, includeRelative = false) {
