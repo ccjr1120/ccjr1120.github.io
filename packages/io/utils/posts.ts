@@ -137,5 +137,5 @@ export function formatDate(date: string, includeRelative = false) {
 }
 
 export function getBlogPosts() {
-  return getMDXData(path.join(process.cwd(), 'posts'))
+  return getMDXData(path.join(process.cwd(), '../../posts'))
 }

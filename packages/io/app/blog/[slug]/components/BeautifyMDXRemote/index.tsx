@@ -27,7 +27,7 @@ const overrideComponents: MDXComponents = {
   p: P,
   code: Code,
   h2: ({ children }) => (
-    <h2 className="center my-4 text-lg font-bold text-pri">{children}</h2>
+    <h2 className="center text-pri my-4 text-lg font-bold">{children}</h2>
   )
 }
 export default function BeautifyMDXRemote({ source }: { source: string }) {

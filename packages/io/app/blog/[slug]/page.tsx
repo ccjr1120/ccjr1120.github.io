@@ -1,4 +1,4 @@
-import { getBlogPosts } from '../../../../posts/utils'
+import { getBlogPosts } from '@/utils/posts'
 import BeautifyMDXRemote from './components/BeautifyMDXRemote'
 
 export async function generateStaticParams() {
@@ -15,7 +15,7 @@ export default function Page({
 
   return (
     <section>
-      <h1 className="title text-xl font-semibold tracking-tighter text-pri">
+      <h1 className="title text-pri text-xl font-semibold tracking-tighter">
         {title}
       </h1>
       <div className="mb-8 mt-2 flex items-center justify-between text-sm">
