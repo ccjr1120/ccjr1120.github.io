@@ -1,0 +1,12 @@
+{
+  "name": "@ccjr/gpu-mesh",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/types/index.d.ts",
+  "scripts": {
+    "build": "bun build './src/index.ts' --outdir ./dist && tsc"
+  },
+  "devDependencies": {
+    "@webgpu/types": "^0.1.45"
+  }
+}

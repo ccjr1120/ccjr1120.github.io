@@ -1,6 +1,4 @@
 import createMDX from '@next/mdx'
-import path from 'path'
-import { fileURLToPath } from 'url'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -10,11 +8,7 @@ const nextConfig = {
   // Optionally, add any other Next.js config below
   typescript: {
     tsconfigPath: './tsconfig.json'
-  },
-  outputFileTracingRoot: path.join(
-    path.dirname(fileURLToPath(import.meta.url)),
-    '../../'
-  )
+  }
 }
 
 const withMDX = createMDX({

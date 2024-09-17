@@ -18,7 +18,8 @@
     "react": "^18",
     "react-dom": "^18",
     "react-syntax-highlighter": "^15.5.0",
-    "rehype-starry-night": "^2.1.0"
+    "rehype-starry-night": "^2.1.0",
+    "@ccjr/gpu-mesh": "workspace:*"
   },
   "devDependencies": {
     "@types/bun": "latest",

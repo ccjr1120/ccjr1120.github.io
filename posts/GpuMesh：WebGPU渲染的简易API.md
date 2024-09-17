@@ -1,7 +1,7 @@
 ---
 slug: f491aa71bbbe44b78e051a1170f529fe
 date: 9/14/2024, 12:40:39 AM
-desc: GpuMesh，简化Gpu渲染流程。
+desc: 介绍一下GpuMesh，以及开发过程遇到的问题:打包ts项目，了解WebGpu渲染流程。
 status: 'un-publish'
 ---
 
