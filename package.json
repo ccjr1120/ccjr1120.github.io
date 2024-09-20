@@ -18,7 +18,7 @@
   "scripts": {
     "prepare": "husky",
     "dev": "bun run --filter @ccjr/io dev",
-    "build-io": "bun run --filter @ccjr/io build",
+    "build-io": "bun run --filter @ccjr/gpu-mesh build && bun run --filter @ccjr/io build",
     "lint": "next lint"
   },
   "devDependencies": {
