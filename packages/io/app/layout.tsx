@@ -17,11 +17,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.className} mx-auto min-h-screen max-w-2xl py-8`}
-      >
-        <AppHeader />
-        <main className="h-[calc(100vh-306px)] w-full">{children}</main>
+      <body className={`${inter.className} mx-16`}>
+        <div id="app" className="mx-auto min-h-screen max-w-4xl py-8">
+          <AppHeader />
+          <main className="h-[calc(100vh-306px)] w-full">{children}</main>
+        </div>
       </body>
     </html>
   )

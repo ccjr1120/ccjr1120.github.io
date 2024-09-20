@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { MDXComponents } from 'mdx/types'
+import { type MDXComponents } from 'mdx/types'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { irBlack } from 'react-syntax-highlighter/dist/esm/styles/hljs'

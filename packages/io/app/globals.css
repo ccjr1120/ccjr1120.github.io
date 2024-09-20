@@ -24,3 +24,32 @@ body {
     text-wrap: balance;
   }
 }
+
+.twinkle-card-wrapper {
+  position: relative;
+  border-radius: 1.5rem;
+  background: linear-gradient(16deg, hsla(57, 69%, 51%, 0.8), hsla(320, 100%, 70%, 0.8));
+  letter-spacing: 1.5px;
+
+  .twinkle-card {
+    position: relative;
+    z-index: 3;
+  }
+
+  &:hover {
+    &::before {
+      margin: 0.4rem;
+      clip-path: circle(50% at 50% 50%);
+    }
+  }
+
+  &::before {
+    content: '';
+    z-index: 0;
+    position: absolute;
+    inset: 0;
+    background-color: #010507;
+    clip-path: circle(0% at 50% 50%);
+    transition: 0.3s;
+  }
+}
