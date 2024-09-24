@@ -3,35 +3,34 @@ export type RenderParams = {
   device: GPUDevice
   shader: { vertex: string; fragment: string }
   vertices: Float32Array
-  attributes?: { [key: string]: number[] }
+  instanceCount?: number
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  attributes?: { [key: string]: any }
 }
 
 export default class MeshRenderer {
   device: GPUDevice
   shader: RenderParams['shader']
   vertices: RenderParams['vertices']
+  instanceCount: RenderParams['instanceCount']
   attributes: RenderParams['attributes']
   canvas: HTMLCanvasElement
   canvasCtx: GPUCanvasContext
-  constructor({ shader, vertices, attributes, device, canvas }: RenderParams) {
+  constructor({
+    shader,
+    vertices,
+    instanceCount,
+    attributes,
+    device,
+    canvas
+  }: RenderParams) {
     this.shader = shader
     this.vertices = vertices
     this.attributes = attributes
+    this.instanceCount = instanceCount || 1
     this.canvas = canvas
     this.device = device
     this.canvasCtx = this.setupCanvasContext()
-  }
-
-  private setupCanvasContext() {
-    const ctx = this.canvas.getContext('webgpu')
-    if (!ctx) throw new Error('WebGPU not supported')
-    const canvasFormat = navigator.gpu.getPreferredCanvasFormat()
-    ctx.configure({
-      device: this.device,
-      format: canvasFormat,
-      alphaMode: 'opaque'
-    })
-    return ctx
   }
 
   render() {
@@ -46,12 +45,25 @@ export default class MeshRenderer {
       vertexBufferLayout
     })
     const renderPass = this.createRenderPass(encoder)
+    this.setupUniform(renderPass, pipeline)
     renderPass.setPipeline(pipeline)
     renderPass.setVertexBuffer(0, vertexBuffer)
-    renderPass.draw(vertices.length / 2)
+    renderPass.draw(vertices.length / 2, this.instanceCount)
     renderPass.end() // 完成指令队列的记录
     const commandBuffer = encoder.finish() // 结束编码
     this.device.queue.submit([commandBuffer]) // 提交给 GPU 命令队列
+  }
+
+  private setupCanvasContext() {
+    const ctx = this.canvas.getContext('webgpu')
+    if (!ctx) throw new Error('WebGPU not supported')
+    const canvasFormat = navigator.gpu.getPreferredCanvasFormat()
+    ctx.configure({
+      device: this.device,
+      format: canvasFormat,
+      alphaMode: 'opaque'
+    })
+    return ctx
   }
 
   private createVertexBL() {
@@ -107,10 +119,8 @@ export default class MeshRenderer {
     const vertexShaderModule = this.device.createShaderModule({
       label: 'Mesh Shader',
       code: `
-      @vertex
       ${this.shader.vertex}
   
-      @fragment
       ${this.shader.fragment}
     `
     })
@@ -123,11 +133,40 @@ export default class MeshRenderer {
         {
           view: this.canvasCtx.getCurrentTexture().createView(),
           loadOp: 'clear',
-          clearValue: { r: 0, g: 0, b: 0, a: 0 },
+          clearValue: { r: 0, g: 0, b: 0.4, a: 0 },
           storeOp: 'store'
         }
       ]
     })
     return renderPass
+  }
+
+  private setupUniform(
+    pass: GPURenderPassEncoder,
+    pipeline: GPURenderPipeline
+  ) {
+    if (!this.attributes) return
+    const device = this.device
+    const bindGroupEntries: GPUBindGroupEntry[] = []
+    for (let i = 0; i < Object.keys(this.attributes).length; i++) {
+      const key = Object.keys(this.attributes)[i]
+      const usage = key.endsWith('Uniform')
+        ? GPUBufferUsage.UNIFORM
+        : GPUBufferUsage.STORAGE
+      const value = this.attributes[key]
+      const buffer = device.createBuffer({
+        label: key,
+        size: value.byteLength,
+        usage: usage | GPUBufferUsage.COPY_DST
+      })
+      device.queue.writeBuffer(buffer, 0, value)
+      bindGroupEntries.push({ binding: i, resource: { buffer } })
+    }
+    const bindGroup = device.createBindGroup({
+      label: `Group`,
+      layout: pipeline.getBindGroupLayout(0),
+      entries: bindGroupEntries
+    })
+    pass.setBindGroup(0, bindGroup)
   }
 }
