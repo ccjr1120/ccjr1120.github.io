@@ -53,7 +53,7 @@ function readMDXFile(filePath: string) {
   const rawContent = fs.readFileSync(filePath, 'utf-8')
   const res = parseFrontmatter(rawContent)
   // 计算阅读时长
-  res.metadata.readMinutes = Math.ceil(res.content.trim().length / 200)
+  res.metadata.readMinutes = Math.ceil(res.content.trim().length / 600)
   if (!res.metadata.slug) {
     res.metadata.slug = uuid()
     const fileContent = rawContent.replace(

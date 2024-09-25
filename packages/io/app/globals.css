@@ -50,6 +50,6 @@ body {
     inset: 0;
     background-color: #010507;
     clip-path: circle(0% at 50% 50%);
-    transition: 0.3s;
+    transition: 0.5s;
   }
 }

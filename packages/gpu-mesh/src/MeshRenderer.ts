@@ -120,7 +120,7 @@ export default class MeshRenderer {
       label: 'Mesh Shader',
       code: `
       ${this.shader.vertex}
-  
+
       ${this.shader.fragment}
     `
     })

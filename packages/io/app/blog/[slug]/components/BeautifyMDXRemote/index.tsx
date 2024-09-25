@@ -20,14 +20,20 @@ function Code({ className, ...other }: any) {
       style={irBlack}
     />
   ) : (
-    <code className={className} {...other} />
+    <code className={`${className} text-lime-500`} {...other} />
   )
 }
 const overrideComponents: MDXComponents = {
   p: P,
   code: Code,
   h2: ({ children }) => (
-    <h2 className="center text-pri my-4 text-lg font-bold">{children}</h2>
+    <h2 className="center text-pri my-4 text-xl font-bold">{children}</h2>
+  ),
+  h3: ({ children }) => (
+    <h3 className="center text-pri my-4 text-lg font-bold">{children}</h3>
+  ),
+  h4: ({ children }) => (
+    <h3 className="center text-pri my-4 text-base font-bold">{children}</h3>
   )
 }
 export default function BeautifyMDXRemote({ source }: { source: string }) {

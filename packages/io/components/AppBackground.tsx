@@ -6,15 +6,8 @@ import { useLayoutEffect, useRef } from 'react'
 export default function GpuMesh() {
   const containerRef = useRef<HTMLDivElement>(null)
   const isFirst = useRef(true)
-  const GRID_SIZE = 32
-  let lastTime = 0
-  function rafRender(time: number) {
-    // 5秒执行一次
-    if (lastTime && time - lastTime < Math.random() * 6000) {
-      requestAnimationFrame(rafRender)
-      return
-    }
-    lastTime = time
+  const GRID_SIZE = 60
+  function rafRender() {
     if (!containerRef.current) return
     containerRef.current.innerHTML = ''
     const cellStateStorage = new Uint32Array(GRID_SIZE * GRID_SIZE)
@@ -25,31 +18,32 @@ export default function GpuMesh() {
     ) {
       cellStateStorage[j] = 1
     }
-    Gpu.Mesh.loadDevice().then(() => {
-      new Gpu.Mesh(containerRef.current!, {
-        vertices: new Float32Array([
-          //   X,    Y,
-          -0.8,
-          -0.8, // Triangle 1 (Blue)
-          0.8,
-          -0.8,
-          0.8,
-          0.8,
+    Gpu.Mesh.loadDevice().then(
+      () =>
+        new Gpu.Mesh(containerRef.current!, {
+          vertices: new Float32Array([
+            //   X,    Y,
+            -0.8,
+            -0.8, // Triangle 1 (Blue)
+            0.8,
+            -0.8,
+            0.8,
+            0.8,
 
-          -0.8,
-          -0.8, // Triangle 2 (Red)
-          0.8,
-          0.8,
-          -0.8,
-          0.8
-        ]),
-        instanceCount: GRID_SIZE ** 2,
-        attributes: {
-          gridUniform: new Float32Array([GRID_SIZE, GRID_SIZE]),
-          cellStateStorage: cellStateStorage
-        },
-        shader: {
-          vertex: `
+            -0.8,
+            -0.8, // Triangle 2 (Red)
+            0.8,
+            0.8,
+            -0.8,
+            0.8
+          ]),
+          instanceCount: GRID_SIZE ** 2,
+          attributes: {
+            gridUniform: new Float32Array([GRID_SIZE, GRID_SIZE]),
+            cellStateStorage: cellStateStorage
+          },
+          shader: {
+            vertex: `
         struct VertexInput {
           @location(0) pos: vec2f,
           @builtin(instance_index) instance: u32,
@@ -78,24 +72,28 @@ export default function GpuMesh() {
           output.cell = cell;
           return output;
         }`,
-          fragment: `
+            fragment: `
         @fragment
         fn fragmentMain(input: VertexOutput) -> @location(0) vec4f {
           let cell = input.cell;
           let c = cell / grid;
           return vec4f(c,1-c.x,1);
         }`
-        }
-      })
-    })
-    requestAnimationFrame(rafRender)
+          }
+        })
+    )
   }
   useLayoutEffect(() => {
-    isFirst.current &&
-      Gpu.Mesh.loadDevice().then(() => {
-        requestAnimationFrame(rafRender)
-      })
+    isFirst.current && rafRender()
     isFirst.current = false
   }, [])
-  return <div ref={containerRef} className="mx-auto aspect-square h-full"></div>
+  return (
+    <div className="fixed inset-x-0 -z-10 aspect-square opacity-0">
+      <div className="absolute inset-0 z-10 bg-slate-700 opacity-90" />
+      <div
+        ref={containerRef}
+        className="absolute inset-x-0 -z-10 aspect-square"
+      ></div>
+    </div>
+  )
 }

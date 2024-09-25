@@ -14,7 +14,7 @@ export default function Page({
     getBlogPosts().find((post) => post.slug === slug) || {}
 
   return (
-    <section>
+    <section className="mx-auto max-w-3xl">
       <h1 className="title text-pri text-xl font-semibold tracking-tighter">
         {title}
       </h1>
