@@ -5,7 +5,7 @@ export default function Header() {
     <header className="relative mb-14 flex items-end justify-between py-4">
       <div className="flex gap-1">
         <Link href={'/'}>
-          <h1 className="text-2xl font-black tracking-wide">Home</h1>
+          <h1 className="text-2xl font-black tracking-wide">Blog</h1>
         </Link>
         <Link href={'/nav'}>
           {/* <svg
