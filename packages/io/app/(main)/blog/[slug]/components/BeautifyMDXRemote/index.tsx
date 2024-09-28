@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { type MDXComponents } from 'mdx/types'
 import { MDXRemote } from 'next-mdx-remote/rsc'
-import Image, { type ImageProps } from 'next/image'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { irBlack } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 
@@ -37,14 +36,17 @@ const overrideComponents: MDXComponents = {
     <h3 className="center text-pri my-4 text-base font-bold">{children}</h3>
   ),
   img: (props) => {
-    const root = 'https://github.com/ccjr1120/ccjr1120.github.io/blob/main/'
-    const imageSrc = decodeURIComponent(`${root}${props.src}`)
+    // https://raw.githubusercontent.com/ccjr1120/ccjr1120.github.io/refs/heads/main/posts/%F0%9F%93%B7/%E8%B0%88%E8%B0%88%E5%90%91%E6%97%A5%E8%91%B5/assets/full.jpg
+    // https://raw.githubusercontent.com/ccjr1120/ccjr1120.github.io/refs/heads/main/posts/%F0%9F%93%B7/%E8%B0%88%E8%B0%88%E5%90%91%E6%97%A5%E8%91%B5/assets/full.jpg
+    const root =
+      'https://raw.githubusercontent.com/ccjr1120/ccjr1120.github.io/refs/heads/main/'
+    const imageSrc = `${root}${props.src}`
     return (
-      <Image
-        sizes="100vw"
-        style={{ width: '100%', height: 'auto' }}
-        {...(props as ImageProps)}
+      <img
+        {...props}
         src={imageSrc}
+        width={'48%'}
+        style={{ objectFit: 'fill', display: 'inline' }}
       />
     )
   }
