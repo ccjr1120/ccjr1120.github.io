@@ -21,7 +21,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "app/(toys)/gpu-mesh/page.mdx"  ],
   "exclude": [
     "node_modules"
   ]
