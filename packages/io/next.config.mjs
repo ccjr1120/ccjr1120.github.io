@@ -8,6 +8,9 @@ const nextConfig = {
   // Optionally, add any other Next.js config below
   typescript: {
     tsconfigPath: './tsconfig.json'
+  },
+  images: {
+    unoptimized: true
   }
 }
 

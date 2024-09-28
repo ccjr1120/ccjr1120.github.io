@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { type MDXComponents } from 'mdx/types'
 import { MDXRemote } from 'next-mdx-remote/rsc'
+import Image, { type ImageProps } from 'next/image'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { irBlack } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 
@@ -34,7 +35,19 @@ const overrideComponents: MDXComponents = {
   ),
   h4: ({ children }) => (
     <h3 className="center text-pri my-4 text-base font-bold">{children}</h3>
-  )
+  ),
+  img: (props) => {
+    const root = 'https://github.com/ccjr1120/ccjr1120.github.io/blob/main/'
+    const imageSrc = decodeURIComponent(`${root}${props.src}`)
+    return (
+      <Image
+        sizes="100vw"
+        style={{ width: '100%', height: 'auto' }}
+        {...(props as ImageProps)}
+        src={imageSrc}
+      />
+    )
+  }
 }
 export default function BeautifyMDXRemote({ source }: { source: string }) {
   return <MDXRemote source={source} components={overrideComponents} />

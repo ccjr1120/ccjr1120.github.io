@@ -79,12 +79,23 @@ function readMDXFile(filePath: string) {
   return res
 }
 
+function getPostTitle(file: string) {
+  const paths = file.split('/')
+  const fileName = path.basename(file, path.extname(file))
+  let title = fileName === 'index' ? paths[paths.length - 2] : fileName
+  const maybeSeries = fileName === 'index' ? paths.at(-3) : paths.at(-2)
+  if (maybeSeries !== 'posts') {
+    title = `${maybeSeries}：${title}`
+  }
+  return title
+}
+
 function getMDXData(dir: string) {
   const mdxFiles = getMDXFiles(dir)
   return mdxFiles
     .map((file) => {
       const { metadata, content } = readMDXFile(file)
-      const title = path.basename(file, path.extname(file))
+      const title = getPostTitle(file)
       return {
         metadata,
         slug: metadata.slug,
