@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: #d8d02c;
+    --color-fill: rgb(0, 0, 0);
+    --color-text-base: rgb(255, 255, 255);
+    --color-text-muted: rgb(163, 163, 163);
+  }
+}
+
+body {
+  padding-left: calc(100vw - 100%);
+  background: var(--color-fill);
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: var(--color-text-base);
+
+  /* 滚动槽 */
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.06);
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.08);
+  }
+
+  /* 滚动条滑块 */
+  &::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background: var(--color-text-muted);
+    -webkit-box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+}

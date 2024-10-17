@@ -1,0 +1,3 @@
+pnpm commitlint --edit "$1"
+# 添加emoji前缀
+node "$(dirname -- "$0")/prefix-emoji.js" "$1"  
