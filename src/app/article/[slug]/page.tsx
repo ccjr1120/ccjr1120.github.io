@@ -1,9 +1,9 @@
-import { getBlogPosts } from '@/utils/posts'
+import { getArticles } from '@/utils/posts'
 import BeautifyMDXRemote from '@/app/components/BeautifyMDXRemote/index'
 import type { Metadata } from 'next'
 
 export function generateStaticParams() {
-  return getBlogPosts()
+  return getArticles()
 }
 export function generateMetadata({
   params: { slug }
@@ -11,7 +11,7 @@ export function generateMetadata({
   params: { slug: string }
 }): Metadata {
   const { metadata, title } =
-    getBlogPosts().find((post) => post.slug === slug) || {}
+    getArticles().find((post) => post.slug === slug) || {}
 
   return {
     title: title,
@@ -25,7 +25,7 @@ export default function Page({
   params: { slug: string; title: string }
 }) {
   const { metadata, title, content } =
-    getBlogPosts().find((post) => post.slug === slug) || {}
+    getArticles().find((post) => post.slug === slug) || {}
 
   return (
     <section className="mx-auto max-w-3xl">

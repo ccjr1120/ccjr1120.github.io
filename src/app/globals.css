@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --color-primary: #d8d02c;
+    --color-primary: #5e5691;
     --color-fill: rgb(0, 0, 0);
     --color-text-base: rgb(217, 217, 217);
     --color-text-muted: rgb(127, 127, 127);

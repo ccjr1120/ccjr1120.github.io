@@ -26,15 +26,19 @@ function Code({ className, ...other }: any) {
 const overrideComponents: MDXComponents = {
   p: P,
   code: Code,
+  h1: ({ children }) => (
+    <h1 className="center my-4 text-xl font-bold text-primary">{children}</h1>
+  ),
   h2: ({ children }) => (
-    <h2 className="center text-pri my-4 text-xl font-bold">{children}</h2>
+    <h2 className="center my-4 text-lg font-bold text-primary">{children}</h2>
   ),
   h3: ({ children }) => (
-    <h3 className="center text-pri my-4 text-lg font-bold">{children}</h3>
+    <h3 className="center my-4 text-base font-bold text-primary">{children}</h3>
   ),
   h4: ({ children }) => (
-    <h3 className="center text-pri my-4 text-base font-bold">{children}</h3>
+    <h4 className="center my-4 text-base font-bold text-primary">{children}</h4>
   ),
+  a: (props) => <a {...props} className="text-primary underline" />,
   img: (props) => {
     // https://raw.githubusercontent.com/ccjr1120/ccjr1120.github.io/refs/heads/main/posts/%F0%9F%93%B7/%E8%B0%88%E8%B0%88%E5%90%91%E6%97%A5%E8%91%B5/assets/full.jpg
     // https://raw.githubusercontent.com/ccjr1120/ccjr1120.github.io/refs/heads/main/posts/%F0%9F%93%B7/%E8%B0%88%E8%B0%88%E5%90%91%E6%97%A5%E8%91%B5/assets/full.jpg

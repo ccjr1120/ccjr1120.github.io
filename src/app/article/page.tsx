@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: '成长，生命，幸福还有我的朋友'
 }
 export default function Article() {
-  const allBlogs = getArticles()
+  const articles = getArticles()
   return (
     <main className="flex flex-col gap-12">
       <h2 className="text-base font-bold text-muted">
@@ -27,7 +27,7 @@ export default function Article() {
         <br />
         因为我真的很用心
       </h2>
-      {allBlogs.map(({ title, slug, metadata }) => (
+      {articles.map(({ title, slug, metadata }) => (
         <article key={slug} className="article-item">
           <Link key={slug} className="flex flex-col" href={`/article/${slug}`}>
             <h2 className="text-pri font-mono text-xl">{title}</h2>
