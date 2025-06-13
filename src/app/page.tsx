@@ -1,10 +1,10 @@
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="max-h-screen min-h-screen bg-white">
       {/* Responsive Container */}
       <div className="mx-auto max-w-[1440px] px-4 sm:px-8 md:px-12 lg:px-20">
         {/* Page Container */}
-        <div className="relative flex min-h-screen flex-col">
+        <div className="relative flex max-h-screen flex-col">
           {/* Header */}
           <header className="flex h-20 w-full flex-shrink-0 items-center border-b border-gray-300 sm:h-24 md:h-28 lg:h-[120px]">
             <div className="flex items-center gap-3 sm:gap-4 md:gap-6">
@@ -24,7 +24,7 @@ export default function Home() {
           </header>
 
           {/* Main Content */}
-          <main className="flex flex-1 items-center justify-center py-8 sm:py-12 md:py-16 lg:py-20">
+          <main className="flex flex-1 items-center justify-center py-4 sm:py-6 md:py-8 lg:py-10">
             {/* Content Group */}
             <div className="mx-auto w-full max-w-4xl">
               {/* Mobile Layout (< md) */}
