@@ -59,7 +59,7 @@ export default function Home() {
                       src="/images/background.png"
                       alt="Background"
                       width={400}
-                      height={533}
+                      height={433}
                       className="h-full w-full object-cover"
                     />
                   </div>
