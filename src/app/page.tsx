@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 export default function Home() {
   return (
     <div className="max-h-screen min-h-screen bg-white">
@@ -10,9 +12,11 @@ export default function Home() {
             <div className="flex items-center gap-3 sm:gap-4 md:gap-6">
               {/* Avatar */}
               <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-full bg-gray-200 sm:h-16 sm:w-16 md:h-18 md:w-18 lg:h-20 lg:w-20">
-                <img
+                <Image
                   src="/images/avatar.png"
                   alt="Avatar"
+                  width={80}
+                  height={80}
                   className="h-full w-full object-cover"
                 />
               </div>
@@ -32,9 +36,11 @@ export default function Home() {
                 <div className="flex flex-col items-center gap-6 sm:gap-8">
                   {/* Background Image */}
                   <div className="aspect-[3/4] w-full max-w-sm overflow-hidden rounded-lg bg-gray-200">
-                    <img
+                    <Image
                       src="/images/background.png"
                       alt="Background"
+                      width={400}
+                      height={533}
                       className="h-full w-full object-cover"
                     />
                   </div>
@@ -60,9 +66,11 @@ export default function Home() {
               <div className="hidden items-center justify-center gap-8 md:flex lg:gap-16">
                 {/* Background Image */}
                 <div className="aspect-[3/4] w-64 flex-shrink-0 overflow-hidden rounded-lg bg-gray-200 lg:w-80 xl:w-[459px]">
-                  <img
+                  <Image
                     src="/images/background.png"
                     alt="Background"
+                    width={459}
+                    height={612}
                     className="h-full w-full object-cover"
                   />
                 </div>
