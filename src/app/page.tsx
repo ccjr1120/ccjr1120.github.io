@@ -1,25 +1,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import BackgroundLines from '@/components/BackgroundLines'
 
 export default function Home() {
   return (
-    <div 
-      className="max-h-screen min-h-screen overflow-hidden bg-white"
-      style={{
-        backgroundImage: `
-          linear-gradient(90deg, transparent 0px, rgba(0, 0, 0, 0.015) 1px, transparent 150px),
-          linear-gradient(0deg, transparent 0px, rgba(0, 0, 0, 0.009) 1px, transparent 120px),
-          linear-gradient(90deg, transparent 0px, rgba(0, 0, 0, 0.008) 1px, transparent 300px),
-          linear-gradient(0deg, transparent 0px, rgba(0, 0, 0, 0.006) 1px, transparent 280px),
-          linear-gradient(90deg, transparent 0px, rgba(0, 0, 0, 0.006) 1px, transparent 450px),
-          linear-gradient(45deg, transparent 0px, rgba(0, 0, 0, 0.003) 1px, transparent 350px),
-          linear-gradient(-45deg, transparent 0px, rgba(0, 0, 0, 0.004) 1px, transparent 380px),
-          linear-gradient(30deg, transparent 0px, rgba(0, 0, 0, 0.002) 1px, transparent 500px)
-        `,
-        backgroundSize: '200px 200px, 180px 180px, 400px 400px, 350px 350px, 550px 550px, 450px 450px, 480px 480px, 600px 600px',
-        backgroundPosition: '0 0, 25px 15px, 80px 40px, 120px 70px, 200px 100px, 0 0, 150px 80px, 250px 120px'
-      }}
-    >
+    <BackgroundLines className="max-h-screen min-h-screen overflow-hidden">
       {/* Responsive Container */}
       <div className="mx-auto max-w-[1440px] px-4 sm:px-8 md:px-12 lg:px-20">
         {/* Page Container */}
@@ -42,7 +27,7 @@ export default function Home() {
                 匆匆孑然
               </h1>
             </div>
-            
+
             {/* Navigation */}
             <nav className="flex items-center">
               <Link
@@ -55,7 +40,7 @@ export default function Home() {
                   viewBox="0 0 24 24"
                   fill="currentColor"
                 >
-                  <path d="M12.51 13.214c.046-.8.438-1.506 1.03-2.006a3.424 3.424 0 0 1 2.212-.79c.85 0 1.631.3 2.211.79.592.5.983 1.206 1.03 2.006.047.8-.291 1.536-.846 2.06-.555.523-1.307.523-1.862 0-.556-.524-.893-1.26-.846-2.06m-9.679 0c.046-.8.438-1.506 1.03-2.006a3.424 3.424 0 0 1 2.212-.79c.85 0 1.631.3 2.211.79.592.5.984 1.206 1.03 2.006.047.8-.291 1.536-.846 2.06-.555.523-1.307.523-1.862 0-.556-.524-.893-1.26-.846-2.06M12 3.67c2.48 0 4.5 2.02 4.5 4.5s-2.02 4.5-4.5 4.5-4.5-2.02-4.5-4.5 2.02-4.5 4.5-4.5zM12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0z"/>
+                  <path d="M12.51 13.214c.046-.8.438-1.506 1.03-2.006a3.424 3.424 0 0 1 2.212-.79c.85 0 1.631.3 2.211.79.592.5.983 1.206 1.03 2.006.047.8-.291 1.536-.846 2.06-.555.523-1.307.523-1.862 0-.556-.524-.893-1.26-.846-2.06m-9.679 0c.046-.8.438-1.506 1.03-2.006a3.424 3.424 0 0 1 2.212-.79c.85 0 1.631.3 2.211.79.592.5.984 1.206 1.03 2.006.047.8-.291 1.536-.846 2.06-.555.523-1.307.523-1.862 0-.556-.524-.893-1.26-.846-2.06M12 3.67c2.48 0 4.5 2.02 4.5 4.5s-2.02 4.5-4.5 4.5-4.5-2.02-4.5-4.5 2.02-4.5 4.5-4.5zM12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0z" />
                 </svg>
                 <span className="hidden sm:inline">3D 模型</span>
               </Link>
@@ -129,6 +114,6 @@ export default function Home() {
           </main>
         </div>
       </div>
-    </div>
+    </BackgroundLines>
   )
 }
