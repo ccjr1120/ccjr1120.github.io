@@ -1,6 +1,7 @@
 {
   "name": "ccjr1120.github.io",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "node scripts/generate-models.mjs && next dev --turbopack",

@@ -21,7 +21,7 @@ export const MODELS: Model[] = [
     "path": "chair.glb",
     "size": "0.25 MB",
     "createdTime": "2025-05-25T04:42:54.592Z",
-    "lastModified": "2025-05-25T04:38:38.469Z"
+    "lastModified": "2025-05-25T16:08:40.189Z"
   }
 ];
 
