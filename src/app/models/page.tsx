@@ -5,6 +5,7 @@ import { OrbitControls, useGLTF } from '@react-three/drei'
 import { Suspense, useState, useEffect } from 'react'
 
 import { Model, getModels } from '../../../public/models/models-list'
+import Link from 'next/link'
 
 function ModelViewer({ modelUrl }: { modelUrl: string }) {
   const { scene } = useGLTF(modelUrl)
@@ -112,12 +113,14 @@ export default function ModelsPage() {
       <div className="flex h-full">
         {/* 左侧模型列表 */}
         <div className="flex w-80 flex-col border-r border-gray-200 bg-white">
-          <div className="border-b border-gray-200 p-4">
-            <h1 className="text-xl font-bold text-gray-800">3D 模型库</h1>
-            <p className="mt-1 text-sm text-gray-600">
-              共 {models.length} 个模型
-            </p>
-          </div>
+          <Link href="/">
+            <div className="border-b border-gray-200 p-4">
+              <h1 className="text-xl font-bold text-gray-800">3D 模型库</h1>
+              <p className="mt-1 text-sm text-gray-600">
+                共 {models.length} 个模型
+              </p>
+            </div>
+          </Link>
 
           <div className="flex-1 overflow-y-auto">
             {models.length === 0 ? (
