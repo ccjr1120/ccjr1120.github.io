@@ -4,7 +4,7 @@ import { Canvas } from '@react-three/fiber'
 import { OrbitControls, useGLTF } from '@react-three/drei'
 import { Suspense, useState, useEffect } from 'react'
 
-import { Model, getModels } from '../../../public/models/models-list'
+import { Model, getModels } from '../../../../public/models/models-list'
 import Link from 'next/link'
 
 function ModelViewer({ modelUrl }: { modelUrl: string }) {
@@ -113,14 +113,25 @@ export default function ModelsPage() {
       <div className="flex h-full">
         {/* 左侧模型列表 */}
         <div className="flex w-80 flex-col border-r border-gray-200 bg-white">
-          <Link href="/">
-            <div className="border-b border-gray-200 p-4">
-              <h1 className="text-xl font-bold text-gray-800">3D 模型库</h1>
-              <p className="mt-1 text-sm text-gray-600">
-                共 {models.length} 个模型
-              </p>
+          <div className="border-b border-gray-200 p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-xl font-bold text-gray-800">3D 模型库</h1>
+                <p className="mt-1 text-sm text-gray-600">
+                  共 {models.length} 个模型
+                </p>
+              </div>
+              <Link
+                href="/"
+                className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
+              >
+                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+                </svg>
+                返回首页
+              </Link>
             </div>
-          </Link>
+          </div>
 
           <div className="flex-1 overflow-y-auto">
             {models.length === 0 ? (
