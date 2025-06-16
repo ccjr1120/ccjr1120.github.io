@@ -1,14 +1,15 @@
-import InkDroplet from './InkDroplet'
-import TestDroplet from './TestDroplet'
 
 interface BackgroundLinesProps {
   children: React.ReactNode
   className?: string
 }
 
-export default function BackgroundLines({ children, className = '' }: BackgroundLinesProps) {
+export default function BackgroundLines({
+  children,
+  className = ''
+}: BackgroundLinesProps) {
   return (
-    <div 
+    <div
       className={`relative bg-white ${className}`}
       style={{
         backgroundImage: `
@@ -27,15 +28,7 @@ export default function BackgroundLines({ children, className = '' }: Background
           '0 0, 25px 15px, 80px 40px, 120px 70px, 200px 100px, 0 0, 150px 80px, 250px 120px'
       }}
     >
-      {/* 测试小球动画 */}
-      <TestDroplet />
-      
-      {/* 水墨小球动画 */}
-      <InkDroplet index={0} />
-      <InkDroplet index={1} />
-      <InkDroplet index={2} />
-      
       {children}
     </div>
   )
-} 
+}
