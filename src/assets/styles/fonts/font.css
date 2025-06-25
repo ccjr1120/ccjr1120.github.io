@@ -1,0 +1,49 @@
+/* LXGW WenKai 字体 */
+@font-face {
+  font-family: 'LXGW WenKai';
+  src: url('./lxgw-wenkai-v1.520/LXGWWenKai-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LXGW WenKai';
+  src: url('./lxgw-wenkai-v1.520/LXGWWenKai-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LXGW WenKai';
+  src: url('./lxgw-wenkai-v1.520/LXGWWenKai-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* LXGW WenKai Mono 等宽字体 */
+@font-face {
+  font-family: 'LXGW WenKai Mono';
+  src: url('./lxgw-wenkai-v1.520/LXGWWenKaiMono-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LXGW WenKai Mono';
+  src: url('./lxgw-wenkai-v1.520/LXGWWenKaiMono-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LXGW WenKai Mono';
+  src: url('./lxgw-wenkai-v1.520/LXGWWenKaiMono-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
