@@ -1,0 +1,57 @@
+.ex-md-heading__h1 {
+  height: 32px;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 32px;
+  margin: 0;
+  margin-bottom: 16px;
+  padding: 0;
+  width: 100%;
+  outline: none;
+  border: none;
+}
+
+.ex-md-heading__h2 {
+  height: 28px;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 28px;
+  margin: 0;
+  padding: 0;
+}
+
+.ex-md-heading__h3 {
+  height: 24px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  margin: 0;
+  padding: 0;
+}
+
+.ex-md-heading__h4 {
+  height: 20px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.ex-md-heading__h5 {
+  height: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 16px;
+  margin: 0;
+  padding: 0;
+}
+
+.ex-md-heading__h6 {
+  height: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 12px;
+  margin: 0;
+  padding: 0;
+}

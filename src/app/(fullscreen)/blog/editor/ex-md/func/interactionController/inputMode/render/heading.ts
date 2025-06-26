@@ -7,59 +7,162 @@ export function renderHeading(
   // 如果不是文本节点，无法处理
   if (startContainer.nodeType !== Node.TEXT_NODE) return
 
-  const textNode = startContainer as Text
-  const textContent = textNode.textContent || ''
-
-  // 找到行的开始位置
-  let lineStart = 0
-  for (let i = caretOffset - 1; i >= 0; i--) {
-    if (textContent[i] === '\n') {
-      lineStart = i + 1
-      break
-    }
+  // 检查当前是否已经在heading元素中
+  if (isInHeadingElement(startContainer)) {
+    return // 如果已经在heading元素中，不执行任何操作
   }
 
-  // 删除#符号和空格
-  const deleteRange = document.createRange()
-  deleteRange.setStart(startContainer, lineStart)
-  deleteRange.setEnd(startContainer, caretOffset + 1) // +1 删除空格
-  deleteRange.deleteContents()
+  // 获取当前行的完整内容并删除
+  const lineRange = getCurrentLineRange(startContainer, caretOffset)
+  if (!lineRange) return
 
-  // 创建标题元素
+  // 创建h1元素
+
   const heading = document.createElement(`h${headingLevel}`)
-  heading.style.fontSize = getHeadingFontSize(headingLevel)
-  heading.style.fontWeight = 'bold'
-  heading.style.margin = '0.67em 0'
-  heading.style.lineHeight = '1.2'
-  heading.contentEditable = 'true'
-  heading.textContent = '' // 开始时为空，让用户输入
+  heading.classList.add(`ex-md-heading__h${headingLevel}`)
 
-  // 插入标题元素
-  const insertRange = document.createRange()
-  insertRange.setStart(startContainer, lineStart)
-  insertRange.insertNode(heading)
+  // 删除当前行的所有内容并插入h1
+  lineRange.deleteContents()
+  lineRange.insertNode(heading)
 
-  // 将光标移动到标题内部
+  // 将光标移动到h1内部
   const selection = window.getSelection()
   if (selection) {
-    const newRange = document.createRange()
-    newRange.setStart(heading, 0)
-    newRange.collapse(true)
+    const range = document.createRange()
+    range.selectNodeContents(heading)
+    range.collapse(true)
     selection.removeAllRanges()
-    selection.addRange(newRange)
+    selection.addRange(range)
+    heading.focus()
   }
 }
 
-// 获取标题字体大小
-function getHeadingFontSize(level: number): string {
-  const fontSizes = {
-    1: '2em',
-    2: '1.5em',
-    3: '1.17em',
-    4: '1em',
-    5: '0.83em',
-    6: '0.67em'
+// 检查节点是否在heading元素中
+function isInHeadingElement(node: Node): boolean {
+  let currentNode: Node | null = node
+
+  // 向上遍历DOM树，检查是否有heading元素
+  while (currentNode) {
+    if (currentNode.nodeType === Node.ELEMENT_NODE) {
+      const element = currentNode as Element
+      const tagName = element.tagName
+      if (
+        tagName === 'H1' ||
+        tagName === 'H2' ||
+        tagName === 'H3' ||
+        tagName === 'H4' ||
+        tagName === 'H5' ||
+        tagName === 'H6'
+      ) {
+        return true
+      }
+    }
+    currentNode = currentNode.parentNode
   }
 
-  return fontSizes[level as keyof typeof fontSizes] || '1em'
+  return false
+}
+
+// 获取当前行的范围，包括所有空格和文本内容
+function getCurrentLineRange(
+  textNode: Node,
+  caretOffset: number
+): Range | null {
+  const range = document.createRange()
+
+  // 从光标位置开始，向前查找行开始位置
+  let startContainer = textNode
+  let startOffset = 0
+
+  // 检查当前文本节点的开头到光标位置
+  if (textNode.nodeType === Node.TEXT_NODE) {
+    const textContent = textNode.textContent || ''
+    // 向前查找换行符或到达文本开头
+    for (let i = caretOffset - 1; i >= 0; i--) {
+      if (textContent[i] === '\n') {
+        startOffset = i + 1
+        break
+      }
+    }
+  }
+
+  // 向前遍历兄弟节点查找行开始
+  let currentNode = textNode
+  while (currentNode.previousSibling) {
+    const prevSibling = currentNode.previousSibling
+    if (prevSibling.nodeType === Node.ELEMENT_NODE) {
+      const element = prevSibling as Element
+      if (
+        element.tagName === 'BR' ||
+        element.tagName === 'DIV' ||
+        element.tagName === 'P'
+      ) {
+        break
+      }
+    }
+    if (prevSibling.nodeType === Node.TEXT_NODE) {
+      const textContent = prevSibling.textContent || ''
+      const newlineIndex = textContent.lastIndexOf('\n')
+      if (newlineIndex !== -1) {
+        startContainer = prevSibling
+        startOffset = newlineIndex + 1
+        break
+      }
+    }
+    startContainer = prevSibling
+    startOffset = 0
+    currentNode = prevSibling
+  }
+
+  // 从光标位置开始，向后查找行结束位置
+  let endContainer = textNode
+  let endOffset = textNode.textContent?.length || 0
+
+  // 检查当前文本节点从光标位置到结尾
+  if (textNode.nodeType === Node.TEXT_NODE) {
+    const textContent = textNode.textContent || ''
+    for (let i = caretOffset; i < textContent.length; i++) {
+      if (textContent[i] === '\n') {
+        endOffset = i
+        break
+      }
+    }
+  }
+
+  // 向后遍历兄弟节点查找行结束
+  currentNode = textNode
+  while (currentNode.nextSibling) {
+    const nextSibling = currentNode.nextSibling
+    if (nextSibling.nodeType === Node.ELEMENT_NODE) {
+      const element = nextSibling as Element
+      if (
+        element.tagName === 'BR' ||
+        element.tagName === 'DIV' ||
+        element.tagName === 'P'
+      ) {
+        break
+      }
+    }
+    if (nextSibling.nodeType === Node.TEXT_NODE) {
+      const textContent = nextSibling.textContent || ''
+      const newlineIndex = textContent.indexOf('\n')
+      if (newlineIndex !== -1) {
+        endContainer = nextSibling
+        endOffset = newlineIndex
+        break
+      }
+    }
+    endContainer = nextSibling
+    endOffset = nextSibling.textContent?.length || 0
+    currentNode = nextSibling
+  }
+
+  try {
+    range.setStart(startContainer, startOffset)
+    range.setEnd(endContainer, endOffset)
+    return range
+  } catch (error) {
+    console.warn('Failed to create range:', error)
+    return null
+  }
 }

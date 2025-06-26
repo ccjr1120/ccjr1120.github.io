@@ -1,3 +1,4 @@
+import './index.css'
 import setupEl from './func/setupEl'
 import createStateManager, { type ExMdState } from './func/stateManager'
 import createInteractionController, {

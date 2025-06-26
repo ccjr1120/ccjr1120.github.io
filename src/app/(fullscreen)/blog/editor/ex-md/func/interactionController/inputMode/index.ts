@@ -1,9 +1,7 @@
-import { renderHeading } from './render/heading'
 import { getCurrentLineText } from '../textUtils'
+import { renderHeading } from './render/heading'
 
-type ModeResult = { type: 'normal' } | { type: 'heading'; level: number }
-
-function getMode(el: HTMLElement, event: KeyboardEvent): ModeResult {
+function getMode(el: HTMLElement, event: KeyboardEvent) {
   if (event.key === ' ') {
     // 获取当前选择范围
     const selection = window.getSelection()
@@ -19,6 +17,12 @@ function getMode(el: HTMLElement, event: KeyboardEvent): ModeResult {
       return { type: 'heading', level: 2 }
     } else if (currentLineText === '###') {
       return { type: 'heading', level: 3 }
+    } else if (currentLineText === '####') {
+      return { type: 'heading', level: 4 }
+    } else if (currentLineText === '#####') {
+      return { type: 'heading', level: 5 }
+    } else if (currentLineText === '######') {
+      return { type: 'heading', level: 6 }
     }
   }
 
@@ -37,6 +41,9 @@ export function handleInputMode(el: HTMLElement, event: KeyboardEvent) {
   const startContainer = range.startContainer
   const startOffset = range.startOffset
 
+  if (mode.type !== 'normal') {
+    event.preventDefault()
+  }
   if (mode.type === 'heading' && mode.level) {
     renderHeading(startContainer, startOffset, mode.level)
   }
