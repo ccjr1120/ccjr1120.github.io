@@ -3,32 +3,67 @@
 import { useRef, useEffect, useState } from 'react'
 import ExMd, { type ExMdState } from './ex-md'
 
+// localStorage 键名
+const EDITOR_CONTENT_KEY = 'blog-editor-content'
+
 export default function Editor() {
   const editorRef = useRef<HTMLDivElement>(null)
   const [editorState, setEditorState] = useState<ExMdState | null>(null)
+  const [isLoaded, setIsLoaded] = useState(false)
+
+  // 保存HTML内容到 localStorage
+  const saveContent = (htmlContent: string) => {
+    try {
+      localStorage.setItem(EDITOR_CONTENT_KEY, htmlContent)
+    } catch (error) {
+      console.error('保存编辑器内容失败:', error)
+    }
+  }
+
+  // 从 localStorage 加载HTML内容
+  const loadContent = (): string => {
+    try {
+      return localStorage.getItem(EDITOR_CONTENT_KEY) || ''
+    } catch (error) {
+      console.error('加载编辑器内容失败:', error)
+      return ''
+    }
+  }
 
   useEffect(() => {
-    if (editorRef.current) {
+    if (editorRef.current && !isLoaded) {
+      // 加载保存的HTML内容
+      const savedContent = loadContent()
+      if (savedContent) {
+        editorRef.current.innerHTML = savedContent
+      }
+
       const editor = ExMd({ el: editorRef.current })
 
       // 监听状态变化
       editor.onStateChange((state) => {
         setEditorState(state)
+        // 自动保存HTML内容（包含所有标签格式）
+        if (editorRef.current) {
+          saveContent(editorRef.current.innerHTML)
+        }
       })
+
+      setIsLoaded(true)
     }
-  }, [])
+  }, [isLoaded])
 
   return (
-    <div className="flex h-screen gap-4 p-[4rem]">
+    <div className="mx-auto flex h-screen w-[680px] gap-4">
       <div className="flex-1">
         <div
           ref={editorRef}
-          className="h-full overflow-auto rounded border border-gray-300 p-4"
+          className="mt-2 h-full overflow-auto rounded border border-t-0 border-b-0 border-gray-300 px-4 py-4 outline-none"
         ></div>
       </div>
 
       {/* 状态显示面板 */}
-      <div className="w-80 rounded bg-gray-50 p-4">
+      <div className="hidden w-80 rounded p-4">
         <h3 className="mb-4 font-bold">编辑器状态</h3>
         {editorState ? (
           <div className="space-y-2 text-sm">

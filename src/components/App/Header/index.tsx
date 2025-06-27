@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 export default function Header() {
   return (
-    <nav className="fixed top-0 mx-auto flex h-16 w-full items-center justify-between px-12">
+    <nav className="sticky top-0 z-[var(--app-nav-z-index)] flex h-[var(--app-nav-height)] w-full items-center justify-between bg-transparent px-36">
       <div>
         <Link href="/" className="flex items-center gap-4">
           <Image
@@ -14,6 +14,20 @@ export default function Header() {
             height={32}
           />
           <h2 className="!font-light">匆匆孑然</h2>
+        </Link>
+      </div>
+      <div className="flex items-center gap-8">
+        <Link
+          href="/blog"
+          className="text font-light transition-colors hover:text-gray-600"
+        >
+          博客
+        </Link>
+        <Link
+          href="/models"
+          className="text font-light transition-colors hover:text-gray-600"
+        >
+          模型
         </Link>
       </div>
     </nav>

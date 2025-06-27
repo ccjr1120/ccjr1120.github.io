@@ -12,8 +12,10 @@ body {
 }
 
 :root {
-  --background: #ffffff;
+  --background: #4f4c47;
   --foreground: #171717;
+  --app-nav-z-index: 100;
+  --app-nav-height: 64px;
 }
 
 @theme inline {
@@ -30,5 +32,6 @@ body {
 }
 
 body {
+  background-color: #ece6d8;
   font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
