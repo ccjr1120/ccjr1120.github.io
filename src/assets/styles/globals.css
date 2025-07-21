@@ -11,6 +11,10 @@ body {
   font-family: 'LXGW WenKai';
 }
 
+* {
+  box-sizing: border-box;
+}
+
 :root {
   --background: #4f4c47;
   --foreground: #171717;
