@@ -3,24 +3,28 @@
 @import "./preset.css";
 @import "./fonts/font.css";
 
-html,
-body {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'LXGW WenKai';
-}
-
 * {
   box-sizing: border-box;
 }
 
-:root {
-  --background: #4f4c47;
-  --foreground: #171717;
-  --app-nav-z-index: 100;
-  --app-nav-height: 64px;
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+  box-sizing: border-box;
+  font-family: 'LXGW WenKai';
 }
+
+
+body {
+  background: var(--color-background);
+  color: var(--color-content);
+}
+
+
 
 @theme inline {
   /* 基础颜色 */
@@ -36,6 +40,17 @@ body {
   --color-content: var(--color-content);
   --color-muted: var(--color-muted);
   --color-disabled: var(--color-disabled);
+
+  /* 背景色系 - 黑色主题 */
+  --color-bg-page: var(--color-bg-page);
+  --color-bg-card: var(--color-bg-card);
+  --color-bg-surface: var(--color-bg-surface);
+  --color-bg-elevated: var(--color-bg-elevated);
+
+  /* 边框色系 */
+  --color-border-subtle: var(--color-border-subtle);
+  --color-border-default: var(--color-border-default);
+  --color-border-strong: var(--color-border-strong);
 
   /* 字体大小 - 语义化 */
   --font-size-body: var(--text-body-font-size);
@@ -94,9 +109,4 @@ body {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
-
-body {
-  background-color: #ece6d8;
-  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }

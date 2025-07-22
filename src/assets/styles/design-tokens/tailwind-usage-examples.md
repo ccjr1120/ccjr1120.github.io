@@ -15,6 +15,23 @@
 <span className="text-disabled">禁用状态文字</span>
 ```
 
+### 背景色系 - 黑色主题
+```jsx
+{/* 页面和容器背景 */}
+<div className="bg-bg-page">页面主背景</div>
+<div className="bg-bg-card">卡片背景</div>
+<div className="bg-bg-surface">表面背景</div>
+<div className="bg-bg-elevated">悬浮/突出背景</div>
+```
+
+### 边框色系
+```jsx
+{/* 边框颜色 */}
+<div className="border border-border-subtle">细边框</div>
+<div className="border border-border-default">默认边框</div>
+<div className="border border-border-strong">强调边框</div>
+```
+
 ## ✍️ 字体类
 
 ### 语义化字体大小
@@ -85,6 +102,22 @@
 
 ## 🎯 组合使用示例
 
+### 完整的页面布局（黑色主题）
+```jsx
+<div className="bg-bg-page min-h-screen">
+  {/* 页面主背景 */}
+  <header className="bg-bg-card border-b border-border-subtle p-4">
+    <h1 className="text-heading-large font-heading-large text-content">
+      页面标题
+    </h1>
+  </header>
+  
+  <main className="p-6">
+    {/* 主要内容区域 */}
+  </main>
+</div>
+```
+
 ### 完整的按钮组件
 ```jsx
 <button className="
@@ -98,10 +131,10 @@
 </button>
 ```
 
-### 完整的卡片组件
+### 完整的卡片组件（黑色主题）
 ```jsx
 <div className="
-  bg-white
+  bg-bg-card border border-border-subtle
   rounded-card shadow-card hover:shadow-card-hover
   z-card
   p-6 transition-shadow duration-200
@@ -115,29 +148,87 @@
 </div>
 ```
 
-### 完整的输入框组件
+### 完整的输入框组件（黑色主题）
 ```jsx
 <input 
   className="
     w-full
+    bg-bg-surface border border-border-default focus:border-primary
     rounded-input shadow-input focus:shadow-input-focus
     text-body font-body leading-body text-content
-    border border-gray-300 focus:border-primary
     z-input
     px-3 py-2 transition-all duration-200
+    placeholder:text-muted
   "
   placeholder="请输入内容"
 />
 ```
 
+### 模态框组件（黑色主题）
+```jsx
+<div className="fixed inset-0 bg-black bg-opacity-50 z-modal flex items-center justify-center">
+  <div className="
+    bg-bg-card border border-border-default
+    rounded-modal shadow-modal
+    max-w-md w-full mx-4 p-6
+  ">
+    <h3 className="text-heading-small font-heading-small text-content mb-4">
+      模态框标题
+    </h3>
+    <p className="text-body text-muted mb-6">
+      模态框内容描述
+    </p>
+    <div className="flex gap-3 justify-end">
+      <button className="
+        bg-bg-surface hover:bg-bg-elevated
+        text-content border border-border-default
+        rounded-button px-4 py-2
+      ">
+        取消
+      </button>
+      <button className="
+        bg-primary hover:bg-primary-hover
+        text-white rounded-button px-4 py-2
+      ">
+        确认
+      </button>
+    </div>
+  </div>
+</div>
+```
+
+## 🌙 黑色主题设计层级
+
+### 背景色层级（从深到浅）
+1. `bg-bg-page` - 页面主背景（最深）
+2. `bg-bg-card` - 卡片容器背景  
+3. `bg-bg-surface` - 表面元素背景
+4. `bg-bg-elevated` - 悬浮/突出背景（最浅）
+
+### 边框色层级
+1. `border-border-subtle` - 细分割线（最浅）
+2. `border-border-default` - 默认边框
+3. `border-border-strong` - 强调边框（最深）
+
+### 文字颜色搭配
+- 在深色背景上使用浅色文字：`text-content`（白色/浅色）
+- 次要信息使用：`text-muted`（中等灰色）
+- 禁用状态使用：`text-disabled`（深灰色）
+
 ## 📖 语义化命名说明
 
-### 文字颜色优化
-- `text-content` - 主要内容文字（之前的 text-primary）
-- `text-muted` - 次要/描述文字（之前的 text-secondary）  
-- `text-disabled` - 禁用状态文字
+### 背景色优化
+- `bg-bg-page` - 页面级背景
+- `bg-bg-card` - 卡片级背景  
+- `bg-bg-surface` - 表面级背景
+- `bg-bg-elevated` - 悬浮级背景
+
+### 边框色优化
+- `border-border-subtle` - 细微边框
+- `border-border-default` - 默认边框
+- `border-border-strong` - 强调边框
 
 这样的命名更加：
-- **简洁**: 避免了 `text-text-*` 的冗余
-- **语义化**: `content`、`muted`、`disabled` 更直观
-- **通用**: 符合业界常用的设计系统命名规范 
+- **分层明确**: 背景色有清晰的深浅层级
+- **语义化**: 名称直观表达用途
+- **主题友好**: 适配黑色/深色主题设计 
