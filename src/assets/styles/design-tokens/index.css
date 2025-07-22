@@ -1,2 +1,5 @@
-@import './color.css';
-@import './typography.css';
+/* 导入全局基础设计token */
+@import './global/index.css';
+
+/* 导入语义化design token */
+@import './common/index.css';

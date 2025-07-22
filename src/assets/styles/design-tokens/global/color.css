@@ -1,0 +1,30 @@
+:root {
+  /* 基础颜色 */
+  --color-white: hsl(0, 0%, 100%);
+  --color-black: hsl(0, 0%, 0%);
+
+  /* 灰色系 */
+  --color-gray-50: hsl(210, 20%, 98%);
+  --color-gray-100: hsl(220, 14%, 96%);
+  --color-gray-200: hsl(220, 13%, 91%);
+  --color-gray-300: hsl(216, 12%, 84%);
+  --color-gray-400: hsl(218, 11%, 65%);
+  --color-gray-500: hsl(220, 9%, 46%);
+  --color-gray-600: hsl(215, 14%, 34%);
+  --color-gray-700: hsl(217, 19%, 27%);
+  --color-gray-800: hsl(215, 28%, 17%);
+  --color-gray-900: hsl(221, 39%, 11%);
+
+  /* 紫色系 (稍微偏粉紫色，色相调整为290度左右) */
+  --color-purple-50: hsl(290, 100%, 98%);
+  --color-purple-100: hsl(289, 100%, 95%);
+  --color-purple-200: hsl(289, 100%, 89%);
+  --color-purple-300: hsl(288, 100%, 81%);
+  --color-purple-400: hsl(287, 100%, 70%);
+  --color-purple-500: hsl(286, 100%, 58%);
+  --color-purple-600: hsl(285, 100%, 47%);
+  --color-purple-700: hsl(284, 100%, 38%);
+  --color-purple-800: hsl(283, 100%, 30%);
+  --color-purple-900: hsl(282, 100%, 23%);
+
+}

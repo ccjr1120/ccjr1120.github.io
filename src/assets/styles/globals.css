@@ -23,8 +23,69 @@ body {
 }
 
 @theme inline {
+  /* 基础颜色 */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
+  /* 主色系 - 紫色 */
+  --color-primary: var(--color-primary-default);
+  --color-primary-hover: var(--color-primary-hover);
+  --color-primary-active: var(--color-primary-active);
+
+  /* 文字颜色 - 优化后的命名 */
+  --color-content: var(--color-content);
+  --color-muted: var(--color-muted);
+  --color-disabled: var(--color-disabled);
+
+  /* 字体大小 - 语义化 */
+  --font-size-body: var(--text-body-font-size);
+  --font-size-description: var(--text-description-font-size);
+  --font-size-heading-large: var(--text-heading-large-font-size);
+  --font-size-heading-small: var(--text-heading-small-font-size);
+
+  /* 行高 - 语义化 */
+  --line-height-body: var(--text-body-line-height);
+  --line-height-description: var(--text-description-line-height);
+  --line-height-heading-large: var(--text-heading-large-line-height);
+  --line-height-heading-small: var(--text-heading-small-line-height);
+
+  /* 字重 - 语义化 */
+  --font-weight-body: var(--text-body-font-weight);
+  --font-weight-description: var(--text-description-font-weight);
+  --font-weight-heading-large: var(--text-heading-large-font-weight);
+  --font-weight-heading-small: var(--text-heading-small-font-weight);
+
+  /* 圆角 - 容器语义化 */
+  --border-radius-button: var(--container-button-radius);
+  --border-radius-card: var(--container-card-radius);
+  --border-radius-modal: var(--container-modal-radius);
+  --border-radius-dropdown: var(--container-dropdown-radius);
+  --border-radius-tooltip: var(--container-tooltip-radius);
+  --border-radius-input: var(--container-input-radius);
+  --border-radius-floating: var(--container-floating-radius);
+
+  /* 阴影 - 容器语义化 */
+  --box-shadow-button: var(--container-button-shadow);
+  --box-shadow-button-hover: var(--container-button-shadow-hover);
+  --box-shadow-card: var(--container-card-shadow);
+  --box-shadow-card-hover: var(--container-card-shadow-hover);
+  --box-shadow-modal: var(--container-modal-shadow);
+  --box-shadow-dropdown: var(--container-dropdown-shadow);
+  --box-shadow-tooltip: var(--container-tooltip-shadow);
+  --box-shadow-input: var(--container-input-shadow);
+  --box-shadow-input-focus: var(--container-input-shadow-focus);
+  --box-shadow-floating: var(--container-floating-shadow);
+
+  /* 层级 - 容器语义化 */
+  --z-index-button: var(--container-button-z-index);
+  --z-index-card: var(--container-card-z-index);
+  --z-index-modal: var(--container-modal-z-index);
+  --z-index-dropdown: var(--container-dropdown-z-index);
+  --z-index-tooltip: var(--container-tooltip-z-index);
+  --z-index-input: var(--container-input-z-index);
+  --z-index-floating: var(--container-floating-z-index);
+
+  /* 字体族 */
   --font-sans: var(--font-inter);
 }
 
