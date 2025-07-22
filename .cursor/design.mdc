@@ -1,0 +1,219 @@
+---
+alwaysApply: true
+---
+
+# Cursor Rules - 设计系统优先原则
+
+## 🎨 设计系统优先级规则
+
+在编写页面和组件时，必须优先使用项目的语义化design token，而不是Tailwind CSS的默认类名。
+
+## 📋 具体规则
+
+### 1. 颜色使用规则
+
+**✅ 优先使用（语义化token）：**
+
+```jsx
+// 文字颜色
+className = 'text-content' // 主要内容文字
+className = 'text-muted' // 次要/描述文字
+className = 'text-disabled' // 禁用状态文字
+
+// 主色系
+className = 'bg-primary' // 主色背景
+className = 'bg-primary-hover' // 主色悬停
+className = 'bg-primary-active' // 主色激活
+```
+
+**❌ 避免使用（Tailwind默认）：**
+
+```jsx
+// 不要直接使用这些
+className = 'text-black'
+className = 'text-gray-600'
+className = 'text-gray-400'
+className = 'bg-purple-500'
+className = 'bg-purple-600'
+```
+
+### 2. 字体排版规则
+
+**✅ 优先使用（语义化token）：**
+
+```jsx
+// 字体大小
+className = 'text-body' // 正文文字
+className = 'text-description' // 描述文字
+className = 'text-heading-large' // 大标题
+className = 'text-heading-small' // 小标题
+
+// 行高
+className = 'leading-body'
+className = 'leading-heading-large'
+
+// 字重
+className = 'font-body'
+className = 'font-heading-large'
+```
+
+**❌ 避免使用（Tailwind默认）：**
+
+```jsx
+// 不要直接使用这些
+className = 'text-base text-lg text-xl text-2xl'
+className = 'leading-normal leading-tight'
+className = 'font-normal font-bold'
+```
+
+### 3. 圆角使用规则
+
+**✅ 优先使用（语义化token）：**
+
+```jsx
+// 根据容器类型选择对应圆角
+className = 'rounded-button' // 按钮
+className = 'rounded-card' // 卡片
+className = 'rounded-modal' // 模态框
+className = 'rounded-input' // 输入框
+className = 'rounded-tooltip' // 工具提示
+className = 'rounded-dropdown' // 下拉菜单
+className = 'rounded-floating' // 浮动容器
+```
+
+**❌ 避免使用（Tailwind默认）：**
+
+```jsx
+// 不要直接使用这些
+className = 'rounded-sm rounded-md rounded-lg'
+```
+
+### 4. 阴影使用规则
+
+**✅ 优先使用（语义化token）：**
+
+```jsx
+// 根据容器类型和状态选择阴影
+className = 'shadow-button'
+className = 'shadow-button-hover'
+className = 'shadow-card'
+className = 'shadow-card-hover'
+className = 'shadow-modal'
+className = 'shadow-input-focus'
+```
+
+**❌ 避免使用（Tailwind默认）：**
+
+```jsx
+// 不要直接使用这些
+className = 'shadow-sm shadow-md shadow-lg'
+```
+
+### 5. 层级使用规则
+
+**✅ 优先使用（语义化token）：**
+
+```jsx
+// 根据容器类型选择层级
+className = 'z-button'
+className = 'z-card'
+className = 'z-modal'
+className = 'z-dropdown'
+className = 'z-tooltip'
+```
+
+**❌ 避免使用（Tailwind默认）：**
+
+```jsx
+// 不要直接使用这些
+className = 'z-10 z-20 z-50'
+```
+
+## 🎯 组件编写指南
+
+### 按钮组件示例
+
+```jsx
+// ✅ 正确的语义化写法
+<button className="
+  bg-primary hover:bg-primary-hover active:bg-primary-active
+  text-white text-body font-body leading-body
+  rounded-button shadow-button hover:shadow-button-hover
+  z-button
+  px-4 py-2 transition-all duration-200
+">
+  语义化按钮
+</button>
+
+// ❌ 错误的直接使用Tailwind默认类
+<button className="
+  bg-purple-500 hover:bg-purple-600 active:bg-purple-700
+  text-white text-base font-normal leading-normal
+  rounded-sm shadow-sm hover:shadow-md
+  z-10
+  px-4 py-2
+">
+  普通按钮
+</button>
+```
+
+### 卡片组件示例
+
+```jsx
+// ✅ 正确的语义化写法
+<div className="rounded-card shadow-card hover:shadow-card-hover z-card bg-white p-6">
+  <h2 className="text-heading-small font-heading-small leading-heading-small text-content mb-2">
+    卡片标题
+  </h2>
+  <p className="text-body font-body leading-body text-muted">卡片内容</p>
+</div>
+```
+
+## 🔧 开发工作流建议
+
+1. **设计阶段**：先确定组件的语义类型（按钮、卡片、输入框等）
+2. **选择token**：根据语义类型选择对应的design token
+3. **组合使用**：将语义化token与Tailwind的布局、间距类组合使用
+4. **状态变体**：使用对应的hover、active、focus等状态变体
+
+## 📖 可以正常使用的Tailwind类
+
+以下Tailwind类可以正常使用，因为它们不在我们的设计系统覆盖范围内：
+
+```jsx
+// 布局和定位
+className = 'flex flex-col items-center justify-center'
+className = 'grid grid-cols-2 gap-4'
+className = 'absolute relative fixed'
+className = 'w-full h-screen max-w-lg'
+
+// 间距
+className = 'p-4 px-6 py-2 m-4 mx-auto'
+className = 'space-x-4 space-y-2'
+
+// 响应式
+className = 'sm:text-lg md:grid-cols-3 lg:px-8'
+
+// 状态修饰符（与我们的token结合使用）
+className = 'hover:shadow-card-hover focus:border-primary'
+
+// 过渡动画
+className = 'transition-all duration-200 ease-in-out'
+```
+
+## ⚠️ 注意事项
+
+1. **一致性优先**：始终优先考虑设计系统的一致性
+2. **语义化命名**：选择最符合组件语义的token
+3. **渐进增强**：可以在语义化token基础上添加其他Tailwind类
+4. **团队协作**：确保团队成员都遵循这些规则
+
+## 🔄 设计token路径
+
+设计系统位置：`src/assets/styles/design-tokens/`
+
+- `global/` - 基础token（颜色、字体、圆角等）
+- `common/` - 语义化token（主色、文字、容器等）
+- `tailwind-usage-examples.md` - 详细使用示例
+
+遵循这些规则，确保项目的设计一致性和可维护性！
