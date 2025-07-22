@@ -1,219 +1,141 @@
----
-alwaysApply: true
----
 
-# Cursor Rules - 设计系统优先原则
+# Cursor Rules - HeroUI颜色系统优先原则
 
-## 🎨 设计系统优先级规则
+## 🎨 颜色系统优先级规则
 
-在编写页面和组件时，必须优先使用项目的语义化design token，而不是Tailwind CSS的默认类名。
+在编写页面和组件时，必须优先使用项目的语义化颜色token，基于HeroUI主题系统，而不是Tailwind CSS的默认颜色类名。
 
-## 📋 具体规则
+## 📋 颜色使用规则
 
-### 1. 颜色使用规则
-
-**✅ 优先使用（语义化token）：**
+### ✅ 优先使用（HeroUI语义化颜色）：
 
 ```jsx
+// 基础颜色
+className = 'bg-background text-foreground' // 页面背景和前景色
+className = 'bg-content1 text-content1-foreground' // 主要内容区域
+className = 'bg-content2 text-content2-foreground' // 次要内容区域
+className = 'bg-content3 text-content3-foreground' // 三级内容区域
+className = 'bg-content4 text-content4-foreground' // 四级内容区域
+
+// 语义化颜色系统
+className = 'bg-primary text-primary-foreground' // 主色
+className = 'bg-secondary text-secondary-foreground' // 副色
+className = 'bg-success text-success-foreground' // 成功状态
+className = 'bg-warning text-warning-foreground' // 警告状态
+className = 'bg-danger text-danger-foreground' // 危险状态
+className = 'bg-default text-default-foreground' // 默认状态
+
+// 色阶变体（50-900）
+className = 'bg-primary-50 bg-primary-100 bg-primary-200' // 浅色调
+className = 'bg-primary-300 bg-primary-400 bg-primary-500' // 中色调
+className = 'bg-primary-600 bg-primary-700 bg-primary-800 bg-primary-900' // 深色调
+
 // 文字颜色
-className = 'text-content' // 主要内容文字
-className = 'text-muted' // 次要/描述文字
-className = 'text-disabled' // 禁用状态文字
+className = 'text-primary text-secondary text-success text-warning text-danger'
+className = 'text-primary-500 text-secondary-600 text-success-700'
 
-// 主色系
-className = 'bg-primary' // 主色背景
-className = 'bg-primary-hover' // 主色悬停
-className = 'bg-primary-active' // 主色激活
+// 边框颜色
+className = 'border-primary border-secondary border-success border-warning border-danger'
+className = 'border-content1 border-content2 border-content3 border-content4'
+
+// 特殊颜色
+className = 'ring-focus' // 焦点状态
+className = 'bg-overlay' // 遮罩层
 ```
 
-**❌ 避免使用（Tailwind默认）：**
+### ❌ 避免使用（Tailwind默认颜色）：
 
 ```jsx
 // 不要直接使用这些
-className = 'text-black'
-className = 'text-gray-600'
-className = 'text-gray-400'
-className = 'bg-purple-500'
-className = 'bg-purple-600'
+className = 'text-black text-white'
+className = 'text-gray-600 text-gray-400'
+className = 'bg-purple-500 bg-blue-600'
+className = 'bg-green-500 bg-red-500'
+className = 'border-gray-300 border-blue-500'
 ```
 
-### 2. 字体排版规则
+## 🎯 颜色状态变体
 
-**✅ 优先使用（语义化token）：**
+### 按钮颜色状态
 
 ```jsx
-// 字体大小
-className = 'text-body' // 正文文字
-className = 'text-description' // 描述文字
-className = 'text-heading-large' // 大标题
-className = 'text-heading-small' // 小标题
+// 主要按钮
+className = 'bg-primary hover:bg-primary-600 active:bg-primary-700'
 
-// 行高
-className = 'leading-body'
-className = 'leading-heading-large'
+// 次要按钮
+className = 'bg-secondary hover:bg-secondary-600 active:bg-secondary-700'
 
-// 字重
-className = 'font-body'
-className = 'font-heading-large'
+// 成功按钮
+className = 'bg-success hover:bg-success-600 active:bg-success-700'
+
+// 警告按钮
+className = 'bg-warning hover:bg-warning-600 active:bg-warning-700'
+
+// 危险按钮
+className = 'bg-danger hover:bg-danger-600 active:bg-danger-700'
+
+// 默认按钮
+className = 'bg-default hover:bg-default-600 active:bg-default-700'
 ```
 
-**❌ 避免使用（Tailwind默认）：**
+### 内容层级颜色
 
 ```jsx
-// 不要直接使用这些
-className = 'text-base text-lg text-xl text-2xl'
-className = 'leading-normal leading-tight'
-className = 'font-normal font-bold'
+// 内容区域悬停效果
+className = 'bg-content1 hover:bg-content2'
+className = 'bg-content2 hover:bg-content3'
+className = 'bg-content3 hover:bg-content4'
 ```
 
-### 3. 圆角使用规则
-
-**✅ 优先使用（语义化token）：**
+### 状态消息颜色
 
 ```jsx
-// 根据容器类型选择对应圆角
-className = 'rounded-button' // 按钮
-className = 'rounded-card' // 卡片
-className = 'rounded-modal' // 模态框
-className = 'rounded-input' // 输入框
-className = 'rounded-tooltip' // 工具提示
-className = 'rounded-dropdown' // 下拉菜单
-className = 'rounded-floating' // 浮动容器
+// 成功消息
+className = 'bg-success-50 border-success-200 text-success-800'
+
+// 警告消息
+className = 'bg-warning-50 border-warning-200 text-warning-800'
+
+// 错误消息
+className = 'bg-danger-50 border-danger-200 text-danger-800'
+
+// 信息消息
+className = 'bg-primary-50 border-primary-200 text-primary-800'
 ```
 
-**❌ 避免使用（Tailwind默认）：**
+## 🔧 颜色使用指南
 
-```jsx
-// 不要直接使用这些
-className = 'rounded-sm rounded-md rounded-lg'
-```
+1. **语义优先**：根据组件功能选择对应的语义颜色
+2. **层级清晰**：使用content1-4构建清晰的视觉层级
+3. **状态完整**：确保hover、active、focus状态都有适当的颜色反馈
+4. **无障碍友好**：使用focus颜色确保键盘导航的可见性
 
-### 4. 阴影使用规则
+## ⚠️ HeroUI颜色特性
 
-**✅ 优先使用（语义化token）：**
+1. **自动暗色模式**：系统已配置媒体查询自动切换暗色模式，无需手动处理
+2. **颜色对比度**：每个颜色都配有对应的foreground颜色，确保良好的对比度
+3. **色阶使用**：
+   - 50-200：极浅色调，用于背景和强调
+   - 300-500：中等色调，用于边框和次要元素
+   - 600-900：深色调，用于悬停和激活状态
+4. **内容层级**：content1（最前）> content2 > content3 > content4（最后）
 
-```jsx
-// 根据容器类型和状态选择阴影
-className = 'shadow-button'
-className = 'shadow-button-hover'
-className = 'shadow-card'
-className = 'shadow-card-hover'
-className = 'shadow-modal'
-className = 'shadow-input-focus'
-```
+## 🎨 HeroUI颜色系统总览
 
-**❌ 避免使用（Tailwind默认）：**
+### 主色系
+- **primary**: 紫色调主色 (#b600ff)
+- **secondary**: 蓝紫色调副色 (#593fff)
 
-```jsx
-// 不要直接使用这些
-className = 'shadow-sm shadow-md shadow-lg'
-```
+### 状态色系
+- **success**: 绿色调成功色 (#17c964)
+- **warning**: 橙色调警告色 (#f5a524)
+- **danger**: 红色调危险色 (#f31260)
+- **default**: 灰色调默认色 (#d4d4d8)
 
-### 5. 层级使用规则
+### 内容层级
+- **content1**: 主要内容背景（白色/深灰）
+- **content2**: 次要内容背景
+- **content3**: 三级内容背景
+- **content4**: 四级内容背景
 
-**✅ 优先使用（语义化token）：**
-
-```jsx
-// 根据容器类型选择层级
-className = 'z-button'
-className = 'z-card'
-className = 'z-modal'
-className = 'z-dropdown'
-className = 'z-tooltip'
-```
-
-**❌ 避免使用（Tailwind默认）：**
-
-```jsx
-// 不要直接使用这些
-className = 'z-10 z-20 z-50'
-```
-
-## 🎯 组件编写指南
-
-### 按钮组件示例
-
-```jsx
-// ✅ 正确的语义化写法
-<button className="
-  bg-primary hover:bg-primary-hover active:bg-primary-active
-  text-white text-body font-body leading-body
-  rounded-button shadow-button hover:shadow-button-hover
-  z-button
-  px-4 py-2 transition-all duration-200
-">
-  语义化按钮
-</button>
-
-// ❌ 错误的直接使用Tailwind默认类
-<button className="
-  bg-purple-500 hover:bg-purple-600 active:bg-purple-700
-  text-white text-base font-normal leading-normal
-  rounded-sm shadow-sm hover:shadow-md
-  z-10
-  px-4 py-2
-">
-  普通按钮
-</button>
-```
-
-### 卡片组件示例
-
-```jsx
-// ✅ 正确的语义化写法
-<div className="rounded-card shadow-card hover:shadow-card-hover z-card bg-white p-6">
-  <h2 className="text-heading-small font-heading-small leading-heading-small text-content mb-2">
-    卡片标题
-  </h2>
-  <p className="text-body font-body leading-body text-muted">卡片内容</p>
-</div>
-```
-
-## 🔧 开发工作流建议
-
-1. **设计阶段**：先确定组件的语义类型（按钮、卡片、输入框等）
-2. **选择token**：根据语义类型选择对应的design token
-3. **组合使用**：将语义化token与Tailwind的布局、间距类组合使用
-4. **状态变体**：使用对应的hover、active、focus等状态变体
-
-## 📖 可以正常使用的Tailwind类
-
-以下Tailwind类可以正常使用，因为它们不在我们的设计系统覆盖范围内：
-
-```jsx
-// 布局和定位
-className = 'flex flex-col items-center justify-center'
-className = 'grid grid-cols-2 gap-4'
-className = 'absolute relative fixed'
-className = 'w-full h-screen max-w-lg'
-
-// 间距
-className = 'p-4 px-6 py-2 m-4 mx-auto'
-className = 'space-x-4 space-y-2'
-
-// 响应式
-className = 'sm:text-lg md:grid-cols-3 lg:px-8'
-
-// 状态修饰符（与我们的token结合使用）
-className = 'hover:shadow-card-hover focus:border-primary'
-
-// 过渡动画
-className = 'transition-all duration-200 ease-in-out'
-```
-
-## ⚠️ 注意事项
-
-1. **一致性优先**：始终优先考虑设计系统的一致性
-2. **语义化命名**：选择最符合组件语义的token
-3. **渐进增强**：可以在语义化token基础上添加其他Tailwind类
-4. **团队协作**：确保团队成员都遵循这些规则
-
-## 🔄 设计token路径
-
-设计系统位置：`src/assets/styles/design-tokens/`
-
-- `global/` - 基础token（颜色、字体、圆角等）
-- `common/` - 语义化token（主色、文字、容器等）
-- `tailwind-usage-examples.md` - 详细使用示例
-
-遵循这些规则，确保项目的设计一致性和可维护性！
+遵循这些HeroUI颜色规则，确保项目的设计一致性和现代化体验！

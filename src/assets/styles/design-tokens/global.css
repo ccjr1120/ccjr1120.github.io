@@ -1,0 +1,216 @@
+/* 全局颜色变量 - 基于heroui主题配置 */
+
+/* 亮色主题 */
+:root {
+  /* Default Color Scale */
+  --color-default-50: #fafafa;
+  --color-default-100: #f2f2f3;
+  --color-default-200: #ebebec;
+  --color-default-300: #e3e3e6;
+  --color-default-400: #dcdcdf;
+  --color-default-500: #d4d4d8;
+  --color-default-600: #afafb2;
+  --color-default-700: #8a8a8c;
+  --color-default-800: #656567;
+  --color-default-900: #404041;
+  --color-default: #d4d4d8;
+  --color-default-foreground: #000;
+
+  /* Primary Color Scale */
+  --color-primary-50: #f6dfff;
+  --color-primary-100: #e9b3ff;
+  --color-primary-200: #dc86ff;
+  --color-primary-300: #d059ff;
+  --color-primary-400: #c32dff;
+  --color-primary-500: #b600ff;
+  --color-primary-600: #9600d2;
+  --color-primary-700: #7600a6;
+  --color-primary-800: #560079;
+  --color-primary-900: #37004d;
+  --color-primary: #b600ff;
+  --color-primary-foreground: #fff;
+
+  /* Secondary Color Scale */
+  --color-secondary-50: #eae7ff;
+  --color-secondary-100: #cdc5ff;
+  --color-secondary-200: #b0a4ff;
+  --color-secondary-300: #9382ff;
+  --color-secondary-400: #7661ff;
+  --color-secondary-500: #593fff;
+  --color-secondary-600: #4934d2;
+  --color-secondary-700: #3a29a6;
+  --color-secondary-800: #2a1e79;
+  --color-secondary-900: #1b134d;
+  --color-secondary: #593fff;
+  --color-secondary-foreground: #fff;
+
+  /* Success Color Scale */
+  --color-success-50: #e2f8ec;
+  --color-success-100: #b9efd1;
+  --color-success-200: #91e5b5;
+  --color-success-300: #68dc9a;
+  --color-success-400: #40d27f;
+  --color-success-500: #17c964;
+  --color-success-600: #13a653;
+  --color-success-700: #0f8341;
+  --color-success-800: #0b5f30;
+  --color-success-900: #073c1e;
+  --color-success: #17c964;
+  --color-success-foreground: #000;
+
+  /* Warning Color Scale */
+  --color-warning-50: #fef4e4;
+  --color-warning-100: #fce4bd;
+  --color-warning-200: #fad497;
+  --color-warning-300: #f9c571;
+  --color-warning-400: #f7b54a;
+  --color-warning-500: #f5a524;
+  --color-warning-600: #ca881e;
+  --color-warning-700: #9f6b17;
+  --color-warning-800: #744e11;
+  --color-warning-900: #4a320b;
+  --color-warning: #f5a524;
+  --color-warning-foreground: #000;
+
+  /* Danger Color Scale */
+  --color-danger-50: #fee1eb;
+  --color-danger-100: #fbb8cf;
+  --color-danger-200: #f98eb3;
+  --color-danger-300: #f76598;
+  --color-danger-400: #f53b7c;
+  --color-danger-500: #f31260;
+  --color-danger-600: #c80f4f;
+  --color-danger-700: #9e0c3e;
+  --color-danger-800: #73092e;
+  --color-danger-900: #49051d;
+  --color-danger: #f31260;
+  --color-danger-foreground: #000;
+
+  /* Base Colors */
+  --color-background: #ffffff;
+  --color-foreground: #000000;
+
+  /* Content Colors */
+  --color-content1: #ffffff;
+  --color-content1-foreground: #000;
+  --color-content2: #f4f4f5;
+  --color-content2-foreground: #000;
+  --color-content3: #e4e4e7;
+  --color-content3-foreground: #000;
+  --color-content4: #d4d4d8;
+  --color-content4-foreground: #000;
+
+  /* Special Colors */
+  --color-focus: #006FEE;
+  --color-overlay: #000000;
+
+  /* Layout */
+  --disabled-opacity: 0.5;
+}
+
+/* 暗色主题 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Default Color Scale */
+    --color-default-50: #0d0d0e;
+    --color-default-100: #19191c;
+    --color-default-200: #26262a;
+    --color-default-300: #323238;
+    --color-default-400: #3f3f46;
+    --color-default-500: #65656b;
+    --color-default-600: #8c8c90;
+    --color-default-700: #b2b2b5;
+    --color-default-800: #d9d9da;
+    --color-default-900: #ffffff;
+    --color-default: #3f3f46;
+    --color-default-foreground: #fff;
+
+    /* Primary Color Scale */
+    --color-primary-50: #37004d;
+    --color-primary-100: #560079;
+    --color-primary-200: #7600a6;
+    --color-primary-300: #9600d2;
+    --color-primary-400: #b600ff;
+    --color-primary-500: #c32dff;
+    --color-primary-600: #d059ff;
+    --color-primary-700: #dc86ff;
+    --color-primary-800: #e9b3ff;
+    --color-primary-900: #f6dfff;
+    --color-primary: #b600ff;
+    --color-primary-foreground: #fff;
+
+    /* Secondary Color Scale */
+    --color-secondary-50: #1b134d;
+    --color-secondary-100: #2a1e79;
+    --color-secondary-200: #3a29a6;
+    --color-secondary-300: #4934d2;
+    --color-secondary-400: #593fff;
+    --color-secondary-500: #7661ff;
+    --color-secondary-600: #9382ff;
+    --color-secondary-700: #b0a4ff;
+    --color-secondary-800: #cdc5ff;
+    --color-secondary-900: #eae7ff;
+    --color-secondary: #593fff;
+    --color-secondary-foreground: #fff;
+
+    /* Success Color Scale */
+    --color-success-50: #073c1e;
+    --color-success-100: #0b5f30;
+    --color-success-200: #0f8341;
+    --color-success-300: #13a653;
+    --color-success-400: #17c964;
+    --color-success-500: #40d27f;
+    --color-success-600: #68dc9a;
+    --color-success-700: #91e5b5;
+    --color-success-800: #b9efd1;
+    --color-success-900: #e2f8ec;
+    --color-success: #17c964;
+    --color-success-foreground: #000;
+
+    /* Warning Color Scale */
+    --color-warning-50: #4a320b;
+    --color-warning-100: #744e11;
+    --color-warning-200: #9f6b17;
+    --color-warning-300: #ca881e;
+    --color-warning-400: #f5a524;
+    --color-warning-500: #f7b54a;
+    --color-warning-600: #f9c571;
+    --color-warning-700: #fad497;
+    --color-warning-800: #fce4bd;
+    --color-warning-900: #fef4e4;
+    --color-warning: #f5a524;
+    --color-warning-foreground: #000;
+
+    /* Danger Color Scale */
+    --color-danger-50: #49051d;
+    --color-danger-100: #73092e;
+    --color-danger-200: #9e0c3e;
+    --color-danger-300: #c80f4f;
+    --color-danger-400: #f31260;
+    --color-danger-500: #f53b7c;
+    --color-danger-600: #f76598;
+    --color-danger-700: #f98eb3;
+    --color-danger-800: #fbb8cf;
+    --color-danger-900: #fee1eb;
+    --color-danger: #f31260;
+    --color-danger-foreground: #000;
+
+    /* Base Colors */
+    --color-background: #000000;
+    --color-foreground: #ffffff;
+
+    /* Content Colors */
+    --color-content1: #18181b;
+    --color-content1-foreground: #fff;
+    --color-content2: #27272a;
+    --color-content2-foreground: #fff;
+    --color-content3: #3f3f46;
+    --color-content3-foreground: #fff;
+    --color-content4: #52525b;
+    --color-content4-foreground: #fff;
+
+    /* Special Colors */
+    --color-focus: #006FEE;
+    --color-overlay: #ffffff;
+  }
+} 

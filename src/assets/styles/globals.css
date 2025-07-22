@@ -1,6 +1,5 @@
 @import "tailwindcss";
 @import "./design-tokens/index.css";
-@import "./preset.css";
 @import "./fonts/font.css";
 
 * {
@@ -21,92 +20,104 @@ body {
 
 body {
   background: var(--color-background);
-  color: var(--color-content);
+  color: var(--color-foreground);
 }
 
 
 
-@theme inline {
-  /* 基础颜色 */
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+@theme {
+  /* Color System - 基于heroui主题配置 */
+  --color-default-50: var(--color-default-50);
+  --color-default-100: var(--color-default-100);
+  --color-default-200: var(--color-default-200);
+  --color-default-300: var(--color-default-300);
+  --color-default-400: var(--color-default-400);
+  --color-default-500: var(--color-default-500);
+  --color-default-600: var(--color-default-600);
+  --color-default-700: var(--color-default-700);
+  --color-default-800: var(--color-default-800);
+  --color-default-900: var(--color-default-900);
+  --color-default: var(--color-default);
 
-  /* 主色系 - 紫色 */
-  --color-primary: var(--color-primary-default);
-  --color-primary-hover: var(--color-primary-hover);
-  --color-primary-active: var(--color-primary-active);
+  --color-primary-50: var(--color-primary-50);
+  --color-primary-100: var(--color-primary-100);
+  --color-primary-200: var(--color-primary-200);
+  --color-primary-300: var(--color-primary-300);
+  --color-primary-400: var(--color-primary-400);
+  --color-primary-500: var(--color-primary-500);
+  --color-primary-600: var(--color-primary-600);
+  --color-primary-700: var(--color-primary-700);
+  --color-primary-800: var(--color-primary-800);
+  --color-primary-900: var(--color-primary-900);
+  --color-primary: var(--color-primary);
 
-  /* 文字颜色 - 优化后的命名 */
-  --color-content: var(--color-content);
-  --color-muted: var(--color-muted);
-  --color-disabled: var(--color-disabled);
+  --color-secondary-50: var(--color-secondary-50);
+  --color-secondary-100: var(--color-secondary-100);
+  --color-secondary-200: var(--color-secondary-200);
+  --color-secondary-300: var(--color-secondary-300);
+  --color-secondary-400: var(--color-secondary-400);
+  --color-secondary-500: var(--color-secondary-500);
+  --color-secondary-600: var(--color-secondary-600);
+  --color-secondary-700: var(--color-secondary-700);
+  --color-secondary-800: var(--color-secondary-800);
+  --color-secondary-900: var(--color-secondary-900);
+  --color-secondary: var(--color-secondary);
 
-  /* 背景色系 - 黑色主题 */
-  --color-bg-page: var(--color-bg-page);
-  --color-bg-card: var(--color-bg-card);
-  --color-bg-surface: var(--color-bg-surface);
-  --color-bg-elevated: var(--color-bg-elevated);
+  --color-success-50: var(--color-success-50);
+  --color-success-100: var(--color-success-100);
+  --color-success-200: var(--color-success-200);
+  --color-success-300: var(--color-success-300);
+  --color-success-400: var(--color-success-400);
+  --color-success-500: var(--color-success-500);
+  --color-success-600: var(--color-success-600);
+  --color-success-700: var(--color-success-700);
+  --color-success-800: var(--color-success-800);
+  --color-success-900: var(--color-success-900);
+  --color-success: var(--color-success);
 
-  /* 边框色系 */
-  --color-border-subtle: var(--color-border-subtle);
-  --color-border-default: var(--color-border-default);
-  --color-border-strong: var(--color-border-strong);
+  --color-warning-50: var(--color-warning-50);
+  --color-warning-100: var(--color-warning-100);
+  --color-warning-200: var(--color-warning-200);
+  --color-warning-300: var(--color-warning-300);
+  --color-warning-400: var(--color-warning-400);
+  --color-warning-500: var(--color-warning-500);
+  --color-warning-600: var(--color-warning-600);
+  --color-warning-700: var(--color-warning-700);
+  --color-warning-800: var(--color-warning-800);
+  --color-warning-900: var(--color-warning-900);
+  --color-warning: var(--color-warning);
 
-  /* 字体大小 - 语义化 */
-  --font-size-body: var(--text-body-font-size);
-  --font-size-description: var(--text-description-font-size);
-  --font-size-heading-large: var(--text-heading-large-font-size);
-  --font-size-heading-small: var(--text-heading-small-font-size);
+  --color-danger-50: var(--color-danger-50);
+  --color-danger-100: var(--color-danger-100);
+  --color-danger-200: var(--color-danger-200);
+  --color-danger-300: var(--color-danger-300);
+  --color-danger-400: var(--color-danger-400);
+  --color-danger-500: var(--color-danger-500);
+  --color-danger-600: var(--color-danger-600);
+  --color-danger-700: var(--color-danger-700);
+  --color-danger-800: var(--color-danger-800);
+  --color-danger-900: var(--color-danger-900);
+  --color-danger: var(--color-danger);
 
-  /* 行高 - 语义化 */
-  --line-height-body: var(--text-body-line-height);
-  --line-height-description: var(--text-description-line-height);
-  --line-height-heading-large: var(--text-heading-large-line-height);
-  --line-height-heading-small: var(--text-heading-small-line-height);
+  /* Base Colors */
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-foreground);
 
-  /* 字重 - 语义化 */
-  --font-weight-body: var(--text-body-font-weight);
-  --font-weight-description: var(--text-description-font-weight);
-  --font-weight-heading-large: var(--text-heading-large-font-weight);
-  --font-weight-heading-small: var(--text-heading-small-font-weight);
+  /* Content Colors */
+  --color-content1: var(--color-content1);
+  --color-content2: var(--color-content2);
+  --color-content3: var(--color-content3);
+  --color-content4: var(--color-content4);
 
-  /* 圆角 - 容器语义化 */
-  --border-radius-button: var(--container-button-radius);
-  --border-radius-card: var(--container-card-radius);
-  --border-radius-modal: var(--container-modal-radius);
-  --border-radius-dropdown: var(--container-dropdown-radius);
-  --border-radius-tooltip: var(--container-tooltip-radius);
-  --border-radius-input: var(--container-input-radius);
-  --border-radius-floating: var(--container-floating-radius);
-
-  /* 阴影 - 容器语义化 */
-  --box-shadow-button: var(--container-button-shadow);
-  --box-shadow-button-hover: var(--container-button-shadow-hover);
-  --box-shadow-card: var(--container-card-shadow);
-  --box-shadow-card-hover: var(--container-card-shadow-hover);
-  --box-shadow-modal: var(--container-modal-shadow);
-  --box-shadow-dropdown: var(--container-dropdown-shadow);
-  --box-shadow-tooltip: var(--container-tooltip-shadow);
-  --box-shadow-input: var(--container-input-shadow);
-  --box-shadow-input-focus: var(--container-input-shadow-focus);
-  --box-shadow-floating: var(--container-floating-shadow);
-
-  /* 层级 - 容器语义化 */
-  --z-index-button: var(--container-button-z-index);
-  --z-index-card: var(--container-card-z-index);
-  --z-index-modal: var(--container-modal-z-index);
-  --z-index-dropdown: var(--container-dropdown-z-index);
-  --z-index-tooltip: var(--container-tooltip-z-index);
-  --z-index-input: var(--container-input-z-index);
-  --z-index-floating: var(--container-floating-z-index);
+  /* Special Colors */
+  --color-focus: var(--color-focus);
+  --color-overlay: var(--color-overlay);
 
   /* 字体族 */
-  --font-sans: var(--font-inter);
+  --font-family-sans: 'LXGW WenKai', ui-sans-serif, system-ui, sans-serif;
+
+  /* 不透明度 */
+  --opacity-disabled: var(--disabled-opacity);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* 暗色主题已在 design-tokens/global.css 中定义 */

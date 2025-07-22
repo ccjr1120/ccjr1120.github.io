@@ -1,5 +1,3 @@
-/* 导入全局基础设计token */
-@import './global/index.css';
+/* Design Tokens - 主入口文件 */
 
-/* 导入语义化design token */
-@import './common/index.css';
+@import "./global.css"; 
