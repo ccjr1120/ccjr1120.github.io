@@ -1,11 +1,15 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
+/**
+ * @type {import('next').NextConfig}
+ */
 const nextConfig: NextConfig = {
   /* config options here */
-  output: "export",
+  output: 'export',
+  pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
   images: {
-    unoptimized: true,
-  },
-};
+    unoptimized: true
+  }
+}
 
-export default nextConfig;
+export default nextConfig
