@@ -8,102 +8,85 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 function createArticle(slug, title, tags = []) {
-  const articlesDir = path.join(__dirname, '../src/app/articles')
-  const articleDir = path.join(articlesDir, slug)
-  const dataPath = path.join(articleDir, 'article.json')
-  const componentPath = path.join(articleDir, 'component.tsx')
-  
-  // 确保articles目录存在
+  const articlesDir = path.join(__dirname, '../src/app/articles/content')
+  const articlePath = path.join(articlesDir, `${slug}.mdx`)
+
+  // 确保content目录存在
   if (!fs.existsSync(articlesDir)) {
     fs.mkdirSync(articlesDir, { recursive: true })
   }
-  
-  // 创建文章目录
-  if (!fs.existsSync(articleDir)) {
-    fs.mkdirSync(articleDir, { recursive: true })
-  }
-  
+
   // 检查文章是否已存在
-  if (fs.existsSync(dataPath) || fs.existsSync(componentPath)) {
+  if (fs.existsSync(articlePath)) {
     console.error(`❌ 文章 "${slug}" 已存在！`)
     process.exit(1)
   }
-  
+
   // 生成当前日期
   const today = new Date().toISOString().split('T')[0]
-  
-  // 创建文章数据文件
-  const articleData = {
-    title: title,
-    excerpt: '请在此处添加文章摘要...',
-    date: today,
-    author: '匆匆孑然',
-    tags: tags,
-    slug: slug
-  }
-  
-  // 创建React组件模板
-  const componentTemplate = `export default function ${toPascalCase(slug)}Article() {
-  return (
-    <div className="prose prose-lg mx-auto max-w-4xl">
-      <h1>${title}</h1>
-      
-      <h2>前言</h2>
-      <p>
-        请在此处开始编写你的文章内容...
-      </p>
-      
-      <h2>主要内容</h2>
-      
-      <h3>小标题1</h3>
-      <p>
-        你的内容...
-      </p>
-      
-      <h3>小标题2</h3>
-      <p>
-        你的内容...
-      </p>
-      
-      <h2>代码示例</h2>
-      <pre className="bg-gray-100 p-4 rounded-lg overflow-x-auto">
-        <code>{\`// 在这里添加代码示例
+
+  // 创建Markdown文件模板
+  const markdownTemplate = `---
+title: "${title}"
+excerpt: "请在此处添加文章摘要..."
+date: "${today}"
+author: "匆匆孑然"
+tags: [${tags.map((tag) => `"${tag}"`).join(', ')}]
+---
+
+# ${title}
+
+## 前言
+
+请在此处开始编写你的文章内容...
+
+## 主要内容
+
+### 小标题1
+
+你的内容...
+
+### 小标题2
+
+你的内容...
+
+## 代码示例
+
+\`\`\`javascript
+// 在这里添加代码示例
 function example() {
   console.log('Hello World!');
-}\`}</code>
-      </pre>
-      
-      <h2>总结</h2>
-      <p>
-        总结你的文章要点...
-      </p>
-    </div>
-  );
-}`
+}
+\`\`\`
+
+## 总结
+
+总结你的文章要点...
+`
 
   // 写入文件
-  fs.writeFileSync(dataPath, JSON.stringify(articleData, null, 2), 'utf8')
-  fs.writeFileSync(componentPath, componentTemplate, 'utf8')
-  
+  fs.writeFileSync(articlePath, markdownTemplate, 'utf8')
+
   console.log(`✅ 成功创建文章: ${slug}`)
-  console.log(`📁 数据文件: ${dataPath}`)
-  console.log(`📁 组件文件: ${componentPath}`)
-  console.log(`📝 请编辑数据文件更新摘要，并在组件文件中编写文章内容`)
+  console.log(`📁 文件路径: ${articlePath}`)
+  console.log(`📝 请编辑文件内容和 frontmatter 元数据`)
 }
 
-// 将kebab-case转换为PascalCase
-function toPascalCase(str) {
-  return str
+// 将kebab-case转换为标题格式
+function slugToTitle(slug) {
+  return slug
     .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join('')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ')
 }
 
 // 验证slug格式
 function validateSlug(slug) {
   const slugRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
   if (!slugRegex.test(slug)) {
-    console.error('❌ slug格式错误！slug只能包含小写字母、数字和连字符，且不能以连字符开头或结尾')
+    console.error(
+      '❌ slug格式错误！slug只能包含小写字母、数字和连字符，且不能以连字符开头或结尾'
+    )
     process.exit(1)
   }
 }
@@ -116,27 +99,26 @@ if (args.length === 0) {
 📝 文章创建工具
 
 用法:
-  npm run create-article <slug> <title> [tags]
+  npm run create-article <slug> [title] [tags]
 
 参数:
   slug   文章URL标识符（只能包含小写字母、数字和连字符）
-  title  文章标题
-  tags   标签列表，用逗号分隔（可选）
+  title  文章标题（可选，默认基于slug生成）
+  tags   标签列表，用逗号分隔（可选，默认为空）
 
 示例:
+  npm run create-article "react-hooks"
+  npm run create-article "react-hooks" "React Hooks 深度解析"
   npm run create-article "react-hooks" "React Hooks 深度解析" "React,JavaScript,前端"
-  npm run create-article "typescript-tips" "TypeScript 实用技巧" "TypeScript,编程"
 `)
   process.exit(0)
 }
 
-if (args.length < 2) {
-  console.error('❌ 参数不足！请提供slug和title')
-  process.exit(1)
-}
+const [slug, titleArg, tagsString] = args
 
-const [slug, title, tagsString] = args
-const tags = tagsString ? tagsString.split(',').map(tag => tag.trim()) : []
+// 生成默认标题（如果没有提供）
+const title = titleArg || slugToTitle(slug)
+const tags = tagsString ? tagsString.split(',').map((tag) => tag.trim()) : []
 
 validateSlug(slug)
-createArticle(slug, title, tags) 
+createArticle(slug, title, tags)

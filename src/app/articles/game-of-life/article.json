@@ -1,8 +1,0 @@
-{
-  "title": "生命游戏算法实现",
-  "excerpt": "探索康威生命游戏的算法原理和JavaScript实现方式，了解细胞自动机的基本概念...",
-  "date": "2024-01-15",
-  "author": "匆匆孑然",
-  "tags": ["算法", "JavaScript", "游戏开发"],
-  "slug": "game-of-life"
-} 
