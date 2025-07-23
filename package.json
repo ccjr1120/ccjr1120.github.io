@@ -16,14 +16,21 @@
     "generate-models": "node scripts/generate-models.mjs"
   },
   "dependencies": {
+    "@mdx-js/loader": "^3.1.0",
+    "@mdx-js/react": "^3.1.0",
+    "@next/mdx": "^15.4.3",
     "@react-three/drei": "^10.0.8",
     "@react-three/fiber": "^9.1.2",
+    "@tailwindcss/typography": "^0.5.16",
     "@types/three": "^0.176.0",
     "@webgpu/types": "^0.1.64",
     "framer-motion": "^12.17.3",
+    "gray-matter": "^4.0.3",
     "next": "^15.4.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "remark-frontmatter": "^5.0.0",
+    "remark-mdx-frontmatter": "^5.2.0",
     "three": "^0.176.0"
   },
   "devDependencies": {

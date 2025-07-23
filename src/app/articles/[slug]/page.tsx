@@ -1,95 +1,88 @@
 import { notFound } from 'next/navigation'
-import { getArticleContent, getAllArticles } from '@/lib/articles'
-import dynamic from 'next/dynamic'
+import { getAllMDXSlugs, getMDXData } from '@/lib/mdx-utils'
 
 interface ArticlePageProps {
-  params: {
-    slug: string
-  }
+  params: Promise<{ slug: string }>
 }
 
 // 生成静态路径
 export async function generateStaticParams() {
-  const articles = getAllArticles()
-  return articles.map((article) => ({
-    slug: article.slug,
+  const slugs = getAllMDXSlugs()
+  return slugs.map((slug) => ({
+    slug: slug
   }))
 }
 
 // 生成元数据
 export async function generateMetadata({ params }: ArticlePageProps) {
-  const result = getArticleContent(params.slug)
-  
-  if (!result) {
+  const { slug } = await params
+  const mdxData = getMDXData(slug)
+
+  if (!mdxData) {
     return {
       title: '文章未找到',
       description: '您访问的文章不存在'
     }
   }
 
-  const { article } = result
+  const { frontmatter } = mdxData
 
   return {
-    title: article.title,
-    description: article.excerpt,
-    authors: [{ name: article.author }],
-    keywords: article.tags,
+    title: frontmatter.title,
+    description: frontmatter.excerpt,
+    authors: [{ name: frontmatter.author }],
+    keywords: frontmatter.tags,
     openGraph: {
-      title: article.title,
-      description: article.excerpt,
+      title: frontmatter.title,
+      description: frontmatter.excerpt,
       type: 'article',
-      publishedTime: article.date,
-      authors: [article.author],
-      tags: article.tags,
-    },
+      publishedTime: frontmatter.date,
+      authors: [frontmatter.author],
+      tags: frontmatter.tags
+    }
   }
 }
 
-export default function ArticlePage({ params }: ArticlePageProps) {
-  const result = getArticleContent(params.slug)
-  
-  if (!result) {
+// 强制静态渲染
+export const dynamic = 'force-static'
+
+export default async function ArticlePage({ params }: ArticlePageProps) {
+  const { slug } = await params
+  const mdxData = getMDXData(slug)
+
+  if (!mdxData) {
     notFound()
   }
 
-  const { article } = result
+  const { frontmatter } = mdxData
 
-  // 动态导入文章组件
-  const ArticleComponent = dynamic(() => import(`../${params.slug}/component`), {
-    loading: () => (
-      <div className="flex items-center justify-center py-16">
-        <div className="text-lg">加载中...</div>
-      </div>
-    ),
-    ssr: true,
-  })
+  // 动态导入MDX文件
+  let MDXContent
+  try {
+    const mdxModule = await import(`../content/${slug}.mdx`)
+    MDXContent = mdxModule.default
+  } catch (error) {
+    console.error(`Failed to import MDX file: ${slug}`, error)
+    notFound()
+  }
 
   return (
     <div className="mx-auto max-w-4xl px-6 py-8">
       {/* 文章头部信息 */}
-      <header className="mb-8 border-b pb-8">
-        <h1 className="mb-4 text-4xl font-bold leading-tight">{article.title}</h1>
-        
+      <header className="pb-8">
+        <h1 className="mb-4 text-4xl leading-tight font-bold">
+          {frontmatter.title}
+        </h1>
+
         <div className="mb-4 flex flex-wrap items-center gap-4 text-sm text-gray-600">
-          <span>作者：{article.author}</span>
-          <span>发布时间：{formatDate(article.date)}</span>
-        </div>
-        
-        <div className="flex flex-wrap gap-2">
-          {article.tags.map((tag) => (
-            <span
-              key={tag}
-              className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-800"
-            >
-              {tag}
-            </span>
-          ))}
+          <span>作者：{frontmatter.author}</span>
+          <span>发布时间：{formatDate(frontmatter.date)}</span>
         </div>
       </header>
 
-      {/* 文章内容 */}
-      <main>
-        <ArticleComponent />
+      {/* MDX文章内容 */}
+      <main className="prose prose-lg prose-gray dark:prose-invert max-w-none">
+        <MDXContent />
       </main>
     </div>
   )
@@ -101,6 +94,6 @@ function formatDate(dateString: string): string {
   return date.toLocaleDateString('zh-CN', {
     year: 'numeric',
     month: 'long',
-    day: 'numeric',
+    day: 'numeric'
   })
-} 
+}
