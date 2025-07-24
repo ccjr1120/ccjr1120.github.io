@@ -59,7 +59,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   // 动态导入MDX文件
   let MDXContent
   try {
-    const mdxModule = await import(`../content/${slug}.mdx`)
+    const mdxModule = await import(`../content/${slug}/index.mdx`)
     MDXContent = mdxModule.default
   } catch (error) {
     console.error(`Failed to import MDX file: ${slug}`, error)
@@ -69,7 +69,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   return (
     <div className="mx-auto max-w-4xl px-6 py-8">
       {/* 文章头部信息 */}
-      <header className="pb-8">
+      <header className="mb-8 pb-8">
         <h1 className="mb-4 text-4xl leading-tight font-bold">
           {frontmatter.title}
         </h1>

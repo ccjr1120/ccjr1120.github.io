@@ -9,18 +9,22 @@ const __dirname = path.dirname(__filename)
 
 function createArticle(slug, title, tags = []) {
   const articlesDir = path.join(__dirname, '../src/app/articles/content')
-  const articlePath = path.join(articlesDir, `${slug}.mdx`)
+  const articleFolderPath = path.join(articlesDir, slug)
+  const articleFilePath = path.join(articleFolderPath, 'index.mdx')
 
   // 确保content目录存在
   if (!fs.existsSync(articlesDir)) {
     fs.mkdirSync(articlesDir, { recursive: true })
   }
 
-  // 检查文章是否已存在
-  if (fs.existsSync(articlePath)) {
+  // 检查文章文件夹是否已存在
+  if (fs.existsSync(articleFolderPath)) {
     console.error(`❌ 文章 "${slug}" 已存在！`)
     process.exit(1)
   }
+
+  // 创建文章文件夹
+  fs.mkdirSync(articleFolderPath, { recursive: true })
 
   // 生成当前日期
   const today = new Date().toISOString().split('T')[0]
@@ -65,10 +69,11 @@ function example() {
 `
 
   // 写入文件
-  fs.writeFileSync(articlePath, markdownTemplate, 'utf8')
+  fs.writeFileSync(articleFilePath, markdownTemplate, 'utf8')
 
   console.log(`✅ 成功创建文章: ${slug}`)
-  console.log(`📁 文件路径: ${articlePath}`)
+  console.log(`📁 文件夹路径: ${articleFolderPath}`)
+  console.log(`📄 文件路径: ${articleFilePath}`)
   console.log(`📝 请编辑文件内容和 frontmatter 元数据`)
 }
 
