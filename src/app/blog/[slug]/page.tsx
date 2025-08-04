@@ -8,7 +8,6 @@ import TableOfContents from '@/components/TableOfContents'
 
 interface ArticlePageProps {
   params: Promise<{ slug: string }>
-  searchParams?: Promise<{ dir?: string }>
 }
 
 // 生成静态路径
@@ -20,14 +19,9 @@ export async function generateStaticParams() {
 }
 
 // 生成元数据
-export async function generateMetadata({
-  params,
-  searchParams
-}: ArticlePageProps) {
+export async function generateMetadata({ params }: ArticlePageProps) {
   const { slug } = await params
-  const searchParamsResolved = await searchParams
-  const contentDir = searchParamsResolved?.dir
-  const mdxData = getMDXData(slug, contentDir)
+  const mdxData = getMDXData(slug)
 
   if (!mdxData) {
     return {
@@ -57,14 +51,9 @@ export async function generateMetadata({
 // 强制静态渲染
 export const dynamic = 'force-static'
 
-export default async function ArticlePage({
-  params,
-  searchParams
-}: ArticlePageProps) {
+export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params
-  const searchParamsResolved = await searchParams
-  const contentDir = searchParamsResolved?.dir
-  const mdxData = getMDXData(slug, contentDir)
+  const mdxData = getMDXData(slug)
 
   if (!mdxData) {
     notFound()
@@ -75,25 +64,12 @@ export default async function ArticlePage({
   // 提取目录
   const tocItems = extractTableOfContents(content)
 
-  // 动态导入MDX文件 - 使用预定义的映射
+  // 动态导入MDX文件 - 根据slug自动查找
   let MDXContent
   try {
-    if (contentDir) {
-      // 如果指定了自定义目录，这里可以扩展支持
-      throw new Error(`Custom directory import not implemented: ${contentDir}`)
-    } else {
-      // 默认从blog/content目录导入
-      switch (slug) {
-        case 'game-of-life':
-          const gameOfLifeModule = await import(
-            '../content/game-of-life/index.mdx'
-          )
-          MDXContent = gameOfLifeModule.default
-          break
-        default:
-          throw new Error(`Article not found: ${slug}`)
-      }
-    }
+    // 尝试从 blog/content/{slug}/index.mdx 导入
+    const mdxModule = await import(`../content/${slug}/index.mdx`)
+    MDXContent = mdxModule.default
   } catch (error) {
     console.error(`Failed to import MDX file: ${slug}`, error)
     notFound()
@@ -106,7 +82,7 @@ export default async function ArticlePage({
         <TableOfContents items={tocItems} />
 
         {/* 主要内容区域 */}
-        <div className="w-full max-w-4xl mx-auto">
+        <div className="mx-auto w-full max-w-4xl">
           <div className="w-full">
             {/* 文章头部信息 */}
             <header className="mb-8 pb-8">
@@ -120,7 +96,6 @@ export default async function ArticlePage({
               >
                 <span>作者：{frontmatter.author}</span>
                 <span>发布时间：{formatDate(frontmatter.date)}</span>
-                {contentDir && <span>目录：{contentDir}</span>}
               </div>
             </header>
 
