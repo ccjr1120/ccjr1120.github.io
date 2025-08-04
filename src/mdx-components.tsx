@@ -36,7 +36,7 @@ const overrideComponents = {
     // 内联代码
     return (
       <code
-        className="bg-content2 text-foreground border-content3 rounded border px-1.5 py-0.5 font-mono text-sm"
+        className="not-prose bg-content2 text-foreground border-content3 rounded border px-1.5 py-0.5 font-mono text-sm"
         {...props}
       >
         {children}
