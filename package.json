@@ -21,6 +21,7 @@
     "@next/mdx": "^15.4.3",
     "@react-three/drei": "^10.0.8",
     "@react-three/fiber": "^9.1.2",
+    "@shikijs/rehype": "^3.9.1",
     "@tailwindcss/typography": "^0.5.16",
     "@types/three": "^0.176.0",
     "@webgpu/types": "^0.1.64",
@@ -31,6 +32,7 @@
     "react-dom": "^19.1.0",
     "remark-frontmatter": "^5.0.0",
     "remark-mdx-frontmatter": "^5.2.0",
+    "shiki": "^3.9.1",
     "three": "^0.176.0"
   },
   "devDependencies": {
