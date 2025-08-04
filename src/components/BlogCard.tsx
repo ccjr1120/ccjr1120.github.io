@@ -16,7 +16,7 @@ const formatDate = (dateString: string) => {
 }
 
 export default function BlogCard({ article }: BlogCardProps) {
-  const routePath = `/articles/${article.slug}`
+  const routePath = `/blog/${article.slug}`
   return (
     <article
       className="group relative overflow-hidden rounded-2xl transition-all duration-300 hover:scale-[1.01]"

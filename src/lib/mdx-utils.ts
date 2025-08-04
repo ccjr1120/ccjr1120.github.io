@@ -2,13 +2,16 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 
-const contentDirectory = path.join(process.cwd(), 'src/app/articles/content')
+// 默认content目录
+const defaultContentDirectory = path.join(process.cwd(), 'src/app/blog/content')
 
 // 获取所有MDX和MD文件的slug
-export function getAllMDXSlugs(): string[] {
+export function getAllMDXSlugs(contentDir?: string): string[] {
+  const contentDirectory = contentDir ? path.join(process.cwd(), contentDir) : defaultContentDirectory
+  
   try {
     if (!fs.existsSync(contentDirectory)) {
-      console.warn('Content directory does not exist')
+      console.warn(`Content directory does not exist: ${contentDirectory}`)
       return []
     }
 
@@ -40,7 +43,9 @@ export function getAllMDXSlugs(): string[] {
 }
 
 // 获取MDX/MD文件的frontmatter数据
-export function getMDXData(slug: string) {
+export function getMDXData(slug: string, contentDir?: string) {
+  const contentDirectory = contentDir ? path.join(process.cwd(), contentDir) : defaultContentDirectory
+  
   try {
     // 首先尝试从文件夹中读取 index.mdx
     let fullPath = path.join(contentDirectory, slug, 'index.mdx')
@@ -85,13 +90,50 @@ export function getMDXData(slug: string) {
 }
 
 // 获取所有MDX/MD文章的元数据
-export function getAllMDXData() {
-  const slugs = getAllMDXSlugs()
+export function getAllMDXData(contentDir?: string) {
+  const slugs = getAllMDXSlugs(contentDir)
   return slugs
-    .map(slug => getMDXData(slug))
+    .map(slug => getMDXData(slug, contentDir))
     .filter(Boolean)
     .sort((a, b) => {
       if (!a || !b) return 0
       return new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime()
     })
+}
+
+// 目录项接口
+export interface TocItem {
+  id: string
+  title: string
+  level: number
+}
+
+// 从markdown内容中提取标题生成目录
+export function extractTableOfContents(content: string): TocItem[] {
+  const toc: TocItem[] = []
+  
+  // 匹配markdown标题的正则表达式
+  const headingRegex = /^(#{1,6})\s+(.+)$/gm
+  let match
+  
+  while ((match = headingRegex.exec(content)) !== null) {
+    const level = match[1].length // #的数量表示标题级别
+    const title = match[2].trim()
+    
+    // 生成锚点ID：将标题转换为URL友好的格式
+    const id = title
+      .toLowerCase()
+      .replace(/[^\u4e00-\u9fa5a-z0-9\s-]/g, '') // 保留中文、英文、数字、空格、连字符
+      .replace(/\s+/g, '-') // 将空格替换为连字符
+      .replace(/-+/g, '-') // 合并多个连字符
+      .replace(/^-|-$/g, '') // 移除首尾连字符
+    
+    toc.push({
+      id,
+      title,
+      level
+    })
+  }
+  
+  return toc
 } 

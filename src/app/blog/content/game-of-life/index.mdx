@@ -1,0 +1,51 @@
+---
+title: 'WebGPU实现Game Of Life'
+excerpt: '使用WebGPU API 实现Game Of Life，了解WebGPU API的概念以及使用方法'
+date: '2025-07-23'
+author: '匆匆孑然'
+tags: [WebGPU]
+---
+
+
+## Conway's Game of Life
+
+import Demo from './demo'
+
+<Demo />
+##  WebGPU渲染步骤
+&emsp;&emsp;就像Google的教程[你的第一个 WebGPU 应用
+](https://codelabs.developers.google.com/your-first-webgpu-app?hl=zh-cn#0)一样，我会先使用一个简单的三角形来认识GPU的渲染步骤，了解适配器，渲染管道，Uniform等等概念
+### 创建GPU上下文
+```ts
+if (!navigator.gpu) {
+    console.error('WebGPU 不支持')
+    return
+}
+const adapter = await navigator.gpu.requestAdapter()
+if (!adapter) {
+    console.error('无法获取 WebGPU 适配器')
+    return
+}
+const device = await adapter.requestDevice()
+const canvas = canvasRef.current!
+const context = canvas.getContext('webgpu')
+if (!context) {
+    console.error('无法获取 WebGPU 上下文')
+    return
+}
+const canvasFormat = navigator.gpu.getPreferredCanvasFormat()
+context.configure({
+    device: device,
+    format: canvasFormat
+})
+
+```
+#### 检查WebGPU支持
+### 创建GPU设备
+### 创建GPU缓冲区
+### 创建GPU纹理
+### 创建GPU着色器
+### 创建GPU渲染管线
+### 创建GPU渲染通道
+### 创建GPU渲染命令
+### 创建GPU渲染队列
