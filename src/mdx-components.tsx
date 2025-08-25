@@ -24,6 +24,13 @@ const overrideComponents = {
       {children}
     </a>
   ),
+  p: ({ children, ...props }: { children: React.ReactNode }) => {
+    return (
+      <p className="indent-[2rem]" {...props}>
+        {children}
+      </p>
+    )
+  },
   code: ({ children, className, ...props }: CodeProps) => {
     // 检查是否在 pre 标签内（代码块）
     const isCodeBlock =

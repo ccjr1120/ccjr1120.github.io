@@ -12,6 +12,13 @@ const nextConfig: NextConfig = {
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
   images: {
     unoptimized: true
+  },
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.wgsl$/,
+      use: 'raw-loader'
+    })
+    return config
   }
 }
 
@@ -19,8 +26,8 @@ const withMDX = createMDX({
   // MDX配置选项
   options: {
     remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
-    rehypePlugins: [],
-  },
+    rehypePlugins: []
+  }
 })
 
 export default withMDX(nextConfig)

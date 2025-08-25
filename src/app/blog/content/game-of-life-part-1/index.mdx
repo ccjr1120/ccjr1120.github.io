@@ -1,0 +1,168 @@
+---
+title: 'WebGPU实现Game Of Life（1）：渲染一个正方形'
+excerpt: '本篇是《使用WebGPU API 实现Game Of Life》系列的第一篇，主要介绍如何去使用WebGPU渲染一个正方形'
+date: '2025-07-23'
+author: '匆匆孑然'
+tags: [WebGPU]
+---
+## 前言
+本来想写一篇使用WebGPU渲染Game Of Life游戏的文章，谁知道越写越多，只能将它们拆成三部分了。这是这个系列的第一部分，它主要介绍如何使用WebGPU去渲染一个正方形以及一些WebGPU的API。   
+
+这篇文章内容本质上是和Google的教程[你的第一个 WebGPU 应用
+](https://codelabs.developers.google.com/your-first-webgpu-app?hl=zh-cn#0)一样的，事实上，Google的这篇会更加详细。只不过我还需要一个地方来记录自身的理解，所以就有了这篇文章。
+## WebGPU渲染步骤
+在WebGPU渲染一个正方形，和使用Canvas 2D渲染一个正方形，大流程是一样的。只不过需要提供的东西，修改的设置更多一些。我会将其分成四个小节，分别是`创建GPU上下文`、`创建顶点数据并传递给WebGPU`、`声明着色器`、`调动WebGPU渲染`。然后在每个小节中会增加详细的说明。
+
+### 创建GPU上下文
+```ts
+if (!navigator.gpu) {
+    console.error('WebGPU 不支持')
+    return
+}
+const adapter = await navigator.gpu.requestAdapter()
+if (!adapter) {
+    console.error('无法获取 WebGPU 适配器')
+    return
+}
+const device = await adapter.requestDevice()
+const canvas = canvasRef.current!
+const context = canvas.getContext('webgpu')
+if (!context) {
+    console.error('无法获取 WebGPU 上下文')
+    return
+}
+const canvasFormat = navigator.gpu.getPreferredCanvasFormat()
+context.configure({
+    device: device,
+    format: canvasFormat
+})
+```
+在创建上下文这里，我一共需要为WebGPU做四件事：`检查浏览器是否支持WebGPU`，`获取GPU适配器`，`获取WebGpu上下文`，`配置WebGpu上下文`。比起熟悉的2D和GL，WebGPU在这里多做了两件事：`获取GPU适配器`和`指定CanvasFormat`。
+
+如果你熟悉WebGL，那你就会知道在WebGL中，用户在用哪一个设备是跟开发者无关的，开发人员只能被动接受。但在WebGPU中，开发者可以在`navigator.gpu.requestAdapter()`中传入一些参数来获取最适合你的GPU。比如：`navigator.gpu.requestAdapter({powerPreference: 'high-performance'})`，这样就会优先选择性能更好的GPU。
+
+至于`CanvasFormat`，我现在对它的了解也不是很清晰。它指的是像素和纹理数据的存储格式。简而言之就是它描述你屏幕中每个点的色彩的存储格式。比起WebGL，WebGPU更希望明确这些格式，来更好的预测渲染结果，从而更好的进行优化。返回值通常是`bgra8unorm`，它表示每个像素使用8位无符号整数来存储蓝、绿、红和透明度四个通道。
+
+WebGPU有一个设计理念：`一切都要显式配置`。这就是为什么比WebGL多了一些配置的原因。这个设计理念是为了更好的优化以达成极致的性能。
+
+### 创建顶点数据并传递给WebGPU
+众所周知，大部分人是不知道你在屏幕上看到的东西都是由或大或小的三角形组成的。所以如果我们想要渲染一个正方形，就要遵循这个规则，提供两个三角形的顶点让它们拼接成一个正方形。所以我们需要定义一个坐标数组：
+```ts
+const vertices = new Float32Array([
+    -0.8, -0.8, // 三角形1
+    0.8, -0.8,
+    0.8, 0.8,
+    -0.8, -0.8, // 三角形2
+    0.8, 0.8,
+    0.8, -0.8,
+])
+```
+`什么是Float32Array？如果你有这个问题可以了解一下typedArray`   
+
+由于GPU是不能直接使用JS的数据的，比创建这些点更关键的是，我们如何将这些点传递给GPU。传递给GPU的过程很像我们将`定义`与`赋值`拆开来。首先通过`device.createBuffer()`在WebGPU中开辟一个内存，然后通过`device.queue.writeBuffer()`将数据写入。
+```ts
+const vertexBuffer = device.createBuffer({
+  // 变量名
+  label: "Cell vertices",
+  // 所需要的内存大小，并不意味着要与顶点数据相同，只是我们只用到这些。
+  size: vertices.byteLength, 
+  // 缓冲区的用法，不详解，这里是指该缓冲区用于顶点数据同时数据可以复制到其中
+  usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST, 
+});
+device.queue.writeBuffer(vertexBuffer, /*写入时的起始位置*/0, vertices);
+```
+### 声明着色器
+在WebGPU中，着色器使用WGSL语言，分为`顶点着色器`、`片元着色器`、`计算着色器`。目前，我们只需要使用必须的`顶点着色器`和`片元着色器`。 顶点着色器负责处理顶点，然后输出给下一阶段使用。片元着色器就是顶点着色器的下一阶段。它接受顶点着色器的输出，并决定屏幕中每个像素点要渲染什么颜色。
+
+我不会在这里讲述着色器的语法，这部分会放到渲染Game Of Life中。因为在正方形的渲染中，我们只需要极其简单的着色器代码就能完成渲染。
+
+```bash
+@vertex
+fn vertexMain(@location(0) pos: vec2f) ->
+    @builtin(position) vec4f {
+    return vec4f(pos, 0, 1);
+}
+      
+@fragment
+fn fragmentMain() -> @location(0) vec4f {
+  return vec4f(0,0,1,1);
+}
+```
+- `@vertex`标明这是一个顶点着色器，接受一个2位float类型的数据，然后输出一个4位float类型的数据。
+- `@fragment`标明这是一个片元着色器，然后输出一个4位float类型的数据，颜色为蓝色。
+### 调动WebGPU渲染
+在这一节中，我将会根据GPU的渲染流程完成渲染。
+#### 创建一个渲染流水线
+```ts
+const cellPipeline = device.createRenderPipeline({
+  label: 'Cell pipeline',
+  layout: 'auto',
+  vertex: {
+    module: device.createShaderModule({
+      label: 'Vertex shader',
+      code: `@vertex
+            fn vertexMain(@location(0) pos: vec2f) ->
+                @builtin(position) vec4f {
+                return vec4f(pos, 0, 1);
+            }`
+    }),
+    entryPoint: 'vertexMain',
+    buffers: [
+      {
+        arrayStride: 8,
+        attributes: [
+          {
+            format: 'float32x2',
+            offset: 0,
+            shaderLocation: 0
+          }
+        ]
+      }
+    ]
+  },
+  fragment: {
+    module: device.createShaderModule({
+      label: 'Fragment shader',
+      code: `@fragment
+            fn fragmentMain() -> @location(0) vec4f {
+              return vec4f(0,0,1,1);
+            }`
+    }),
+    entryPoint: 'fragmentMain',
+    targets: [
+      {
+        format: canvasFormat
+      }
+    ]
+  }
+})
+```
+这是一段平平无奇的创建WebGPU渲染流水线的代码。除了这些模板代码，唯一值得提的就是这里没有`vertexBuffer`的身影。只在`vertex.buffers`仿佛存在。事实上，的确是这里。在上文中，我们创建了`vertexBuffer`，然后通过`device.queue.writeBuffer()`将数据写入。而它对应着`vertex.buffers`数组中的第一位。而在`buffers`里，主要是为了标识顶点数据的数据类型等信息。
+接下来，添加下方的模板代码完成渲染。
+```ts
+// 创建一个GPUCommandEncoder，以提供用于记录 GPU 命令的接口。
+const encoder = device.createCommandEncoder();
+// 开始一个渲染通道，并设置相关参数
+const pass = encoder.beginRenderPass({
+  colorAttachments: [{
+     view: context.getCurrentTexture().createView(),
+     loadOp: "clear",
+     storeOp: "store",
+  }]
+});
+// 设置渲染流水线
+pass.setPipeline(cellPipeline);
+// 设置顶点缓冲区
+pass.setVertexBuffer(0, vertexBuffer);
+// 绘制
+pass.draw(vertices.length / 2); // 6 vertices
+// 结束渲染通道
+pass.end()
+// 完成渲染通道，并返回一个命令缓冲区
+const commandBuffer = encoder.finish();
+device.queue.submit([commandBuffer]);
+```
+### 效果展示
+import Demo from './demo'
+
+<Demo />
