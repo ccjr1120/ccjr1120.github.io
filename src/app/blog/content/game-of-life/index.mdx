@@ -1,0 +1,493 @@
+---
+title: 'WebGPU实现Game Of Life'
+excerpt: '通过学习WebGPU的渲染流水线，着色器实现Game Of Life'
+date: '2025-08-26'
+author: '匆匆孑然'
+tags: [WebGPU]
+---
+## 效果展示
+import Demo from './demo'
+
+<Demo />
+## 前言
+本篇可以看作教程[《您的第一个 WebGPU 应用》](https://codelabs.developers.google.com/your-first-webgpu-app?hl=zh-cn#7)的总结。在此教程的基础之上，总结WebGPU渲染的知识点，快速完成一个Game Of Life游戏。
+
+这篇文章一共会分为以下几个章节：`数据`,`着色器`,`渲染流水线`。每章都会简单介绍下基本概念，具体用法，达成的目标。最后再将这些知识点合并到Game Of Life的代码实现中
+
+## 数据
+数据是一切的基础，在使用WebGPU渲染中，我们需要知道如何将TS中的数据传递给WebGPU以及WebGPU如何使用。但是在这之前，先让我们了解一下有哪些数据需要传输。
+### 类型
+#### 顶点数据
+在介绍顶点数据之前，我很想先介绍一下`TypedArray`，因为不管WebGPU有哪些数据类型，在JS中，他们都是一个`TypedArray`。不过这样太费章节，内容也会变的越来越死板。如果你了解它，那最好；如果不了解，它只是一个数据类型而已，就像`String、Array`一样。
+
+众所周知，你在屏幕上看到的众多东西都是由三角形组成的。即使你想渲染一个正方形，也是通过提供两个三角形的顶点坐标，从而形成一个正方形。在JS中，他就是一个平铺`x,y`的坐标数组。同时，GPU的坐标系是[-1,1]，所以下方提供的坐标不会超过这个值。
+
+```ts
+const vertices = new Float32Array([
+        -0.8, -0.8, 0.8, -0.8, 0.8, 0.8, -0.8, -0.8, 0.8, 0.8, -0.8, 0.8
+])
+```
+
+为什么没有z？因为用不到。
+#### Uniform和Storage
+Uniform和Storage是两个有趣的东西，除了顶点坐标之外，目前我知道的就只有这两个负责从JS传输到GPU了。仍然，它们在JS中的表现都是`TypedArray`。但是它们在着色器中的表现有点不一样。
+
+Uniform是一段限定内存，需要在着色器中指定大小的数组。他们没办法被着色器修改，只能被着色器读取。但是由于这诸多不便，一般它们在GPU中会拥有额外的性能加成。
+
+Storage就是自由，方便的代表，想存就存，想改就改。
+
+### 传输
+传输真的很麻烦，跨越了JS以及着色器，它们几乎都要按以下的流程去操作：
+```ts
+// 1.声明一个buffer
+const uniformBuffer = device.createBuffer({
+        label: 'Grid Uniforms',
+        size: uniformArray.byteLength,
+        usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST
+})
+// 2.将数据写入buffer
+device.queue.writeBuffer(uniformBuffer, 0, uniformArray)
+// 3.如果想要在不同的着色器中共享buffer，还需要为它创建对应的createPipelineLayout
+  const bindGroupLayout = device.createBindGroupLayout({
+        label: 'Cell Bind Group Layout',
+        entries: [
+          {
+            binding: 0,
+            visibility:
+              GPUShaderStage.VERTEX |
+              GPUShaderStage.COMPUTE |
+              GPUShaderStage.FRAGMENT,
+            buffer: {} // Grid uniform buffer
+          }
+        ]
+      })
+      const bindGroups = [
+        device.createBindGroup({
+          label: 'Cell renderer bind group A',
+          layout: bindGroupLayout, // Updated Line
+          entries: [
+            {
+              binding: 0,
+              resource: { buffer: uniformBuffer }
+            }
+          ]
+        }),
+        device.createBindGroup({
+          label: 'Cell renderer bind group B',
+          layout: bindGroupLayout, // Updated Line
+          entries: [
+            {
+              binding: 0,
+              resource: { buffer: uniformBuffer }
+            }
+          ]
+        })
+      ]
+      const pipelineLayout = device.createPipelineLayout({
+        label: 'Cell Pipeline Layout',
+        bindGroupLayouts: [bindGroupLayout]
+      })
+// 4. 最后，在着色器中这样使用它
+`@group(0) @binding(0) var<uniform> grid : vec2f;`
+```
+
+至此才结束，如果再加上StorageBuffer，那么这一段的代码量就很多了。但是当你理解的时候，它们就像一条流水线一样做下来就可以了。大部分人看到这个的人可能看不懂这里的代码，希望你早日能在别的地方看懂。
+
+## 着色器
+如果喜欢困难的人，那么这里就是最有意思的一节。着色器是一门单独的语言——`WGSL`。由于其声明都要指定类型，所以它给我的感觉很像那些高级语言——原始又严谨。着色器分为三种：`顶点着色器，片元着色器，计算着色器`。
+
+顶点着色器负责处理顶点数据，片元着色器负责计算颜色。计算着色器则单纯很多，为开发者提供了一个并行计算的入口。毕竟顶点着色器和片元着色器都是要在渲染流水线里工作的。
+
+## 渲染流水线
+渲染流水线与数据的传输以及着色器就简单很多，它的目的是将我们前期准备好的数据以及着色器传递到GPU中进行运行。流程主要是：
+```ts
+// 1.根据之前准备好的数据，创建一个渲染流水线
+const cellPipeline = device.createRenderPipeline({
+  label: 'Cell pipeline',
+  layout: 'auto',
+  vertex: {
+    module: device.createShaderModule({
+      label: 'Vertex shader',
+      code: vert
+    }),
+    entryPoint: 'vertexMain',
+    buffers: [
+      {
+        arrayStride: 8,
+        attributes: [
+          {
+            format: 'float32x2',
+            offset: 0,
+            shaderLocation: 0
+          }
+        ]
+      }
+    ]
+  },
+  fragment: {
+    module: device.createShaderModule({
+      label: 'Fragment shader',
+      code: `@fragment
+            fn fragmentMain() -> @location(0) vec4f {
+              return vec4f(0,0,0.8,1);
+            }`
+    }),
+    entryPoint: 'fragmentMain',
+    targets: [
+      {
+        format: canvasFormat
+      }
+    ]
+  }
+})
+
+// 2.创建一个渲染通道，并设置相关参数
+const pass = encoder.beginRenderPass({
+  colorAttachments: [
+    {
+      view: ctx!.getCurrentTexture().createView(),
+      loadOp: 'clear',
+      clearValue: { r: 0, g: 0, b: 0.4, a: 1.0 },
+      storeOp: 'store'
+    }
+  ]
+})
+// 3.设置渲染流水线
+pass.setPipeline(cellPipeline)
+// 4.设置绑定组
+pass.setBindGroup(0, bindGroups[step % 2])
+// 5.设置顶点缓冲区
+pass.setVertexBuffer(0, vertexBuffer)
+// 6.绘制
+pass.draw(vertices.length / 2, GRID_SIZE * GRID_SIZE) // 6 vertices
+// 7.结束渲染通道
+pass.end()
+// 8.完成渲染通道
+const commandBuffer = encoder.finish()
+// 9.提交渲染通道
+device.queue.submit([commandBuffer])
+```
+看起来好像挺草率的样子👀。
+## 代码实现Game Of Life
+
+### 再次演示
+
+<Demo />
+
+### 完整代码
+#### demo.tsx
+```ts
+'use client'
+
+import { useLayoutEffect, useRef } from 'react'
+// @ts-expect-error: TypeScript cannot resolve .wgsl files, but this is handled by the build system.
+import shaderString from './shader.wgsl'
+// @ts-expect-error: TypeScript cannot resolve .wgsl files, but this is handled by the build system.
+import computedShaderString from './computed.wgsl'
+
+export default function DemoRect() {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useLayoutEffect(() => {
+    if (!canvasRef.current) return
+    const init = async () => {
+      const canvas = canvasRef.current!
+      const ctx = canvas.getContext('webgpu')
+      if (!ctx) return
+      const adapter = await navigator.gpu.requestAdapter()
+      const device = await adapter!.requestDevice()
+      const canvasFormat = navigator.gpu.getPreferredCanvasFormat()
+      ctx.configure({
+        device: device,
+        format: canvasFormat
+      })
+
+      const GRID_SIZE = 32
+      let step = 0
+      const UPDATE_INTERVAL = 20
+      const vertices = new Float32Array([
+        -0.8, -0.8, 0.8, -0.8, 0.8, 0.8, -0.8, -0.8, 0.8, 0.8, -0.8, 0.8
+      ])
+      const vertexBuffer = device.createBuffer({
+        // 变量名
+        label: 'Cell vertices',
+        // 所需要的内存大小，并不意味着要与顶点数据相同，只是我们只用到这些。
+        size: vertices.byteLength,
+        // 缓冲区的用法，不详解，这里是指该缓冲区用于顶点数据同时数据可以复制到其中
+        usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST
+      })
+
+      device.queue.writeBuffer(vertexBuffer, /*bufferOffset=*/ 0, vertices)
+
+      const uniformArray = new Float32Array([GRID_SIZE, GRID_SIZE])
+      const uniformBuffer = device.createBuffer({
+        label: 'Grid Uniforms',
+        size: uniformArray.byteLength,
+        usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST
+      })
+      device.queue.writeBuffer(uniformBuffer, 0, uniformArray)
+
+      const shader = device.createShaderModule({
+        label: 'Shader',
+        code: shaderString
+      })
+      const cellStateArray = new Uint32Array(GRID_SIZE * GRID_SIZE)
+      const cellStateStorage = [
+        device.createBuffer({
+          label: 'Cell State A',
+          size: cellStateArray.byteLength,
+          usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST
+        }),
+        device.createBuffer({
+          label: 'Cell State B',
+          size: cellStateArray.byteLength,
+          usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST
+        })
+      ]
+      for (let i = 0; i < cellStateArray.length; ++i) {
+        cellStateArray[i] = Math.random() > 0.6 ? 1 : 0
+      }
+      device.queue.writeBuffer(cellStateStorage[0], 0, cellStateArray)
+      for (let i = 0; i < cellStateArray.length; i++) {
+        cellStateArray[i] = i % 2
+      }
+      device.queue.writeBuffer(cellStateStorage[1], 0, cellStateArray)
+      // Create a bind group to pass the grid uniforms into the pipeline
+      const bindGroupLayout = device.createBindGroupLayout({
+        label: 'Cell Bind Group Layout',
+        entries: [
+          {
+            binding: 0,
+            visibility:
+              GPUShaderStage.VERTEX |
+              GPUShaderStage.COMPUTE |
+              GPUShaderStage.FRAGMENT,
+            buffer: {} // Grid uniform buffer
+          },
+          {
+            binding: 1,
+            visibility: GPUShaderStage.VERTEX | GPUShaderStage.COMPUTE,
+            buffer: { type: 'read-only-storage' } // Cell state input buffer
+          },
+          {
+            binding: 2,
+            visibility: GPUShaderStage.COMPUTE,
+            buffer: { type: 'storage' } // Cell state output buffer
+          }
+        ]
+      })
+      const bindGroups = [
+        device.createBindGroup({
+          label: 'Cell renderer bind group A',
+          layout: bindGroupLayout, // Updated Line
+          entries: [
+            {
+              binding: 0,
+              resource: { buffer: uniformBuffer }
+            },
+            {
+              binding: 1,
+              resource: { buffer: cellStateStorage[0] }
+            },
+            {
+              binding: 2, // New Entry
+              resource: { buffer: cellStateStorage[1] }
+            }
+          ]
+        }),
+        device.createBindGroup({
+          label: 'Cell renderer bind group B',
+          layout: bindGroupLayout, // Updated Line
+
+          entries: [
+            {
+              binding: 0,
+              resource: { buffer: uniformBuffer }
+            },
+            {
+              binding: 1,
+              resource: { buffer: cellStateStorage[1] }
+            },
+            {
+              binding: 2, // New Entry
+              resource: { buffer: cellStateStorage[0] }
+            }
+          ]
+        })
+      ]
+      const simulationShaderModule = device.createShaderModule({
+        label: 'Game of Life simulation shader',
+        code: computedShaderString
+      })
+      const pipelineLayout = device.createPipelineLayout({
+        label: 'Cell Pipeline Layout',
+        bindGroupLayouts: [bindGroupLayout]
+      })
+      // Create a compute pipeline that updates the game state.
+      const simulationPipeline = device.createComputePipeline({
+        label: 'Simulation pipeline',
+        layout: pipelineLayout,
+        compute: {
+          module: simulationShaderModule,
+          entryPoint: 'computeMain'
+        }
+      })
+      const cellPipeline = device.createRenderPipeline({
+        label: 'Cell pipeline',
+        layout: pipelineLayout,
+        vertex: {
+          module: shader,
+          entryPoint: 'vertexMain',
+          buffers: [
+            {
+              arrayStride: 8,
+              attributes: [
+                {
+                  format: 'float32x2',
+                  offset: 0,
+                  shaderLocation: 0
+                }
+              ]
+            }
+          ]
+        },
+        fragment: {
+          module: shader,
+          entryPoint: 'fragmentMain',
+          targets: [
+            {
+              format: canvasFormat
+            }
+          ]
+        }
+      })
+      step++
+      function updateGrid() {
+        step++
+        const encoder = device.createCommandEncoder()
+        const computePass = encoder.beginComputePass()
+        computePass.setPipeline(simulationPipeline)
+        computePass.setBindGroup(0, bindGroups[step % 2])
+        const workgroupCount = Math.ceil(GRID_SIZE / 8)
+        computePass.dispatchWorkgroups(workgroupCount, workgroupCount)
+        computePass.end()
+        const pass = encoder.beginRenderPass({
+          colorAttachments: [
+            {
+              view: ctx!.getCurrentTexture().createView(),
+              loadOp: 'clear',
+              clearValue: { r: 0, g: 0, b: 0.4, a: 1.0 },
+              storeOp: 'store'
+            }
+          ]
+        })
+        pass.setPipeline(cellPipeline)
+        pass.setBindGroup(0, bindGroups[step % 2])
+        pass.setVertexBuffer(0, vertexBuffer)
+        pass.draw(vertices.length / 2, GRID_SIZE * GRID_SIZE) // 6 vertices
+        pass.end()
+        const commandBuffer = encoder.finish()
+        device.queue.submit([commandBuffer])
+      }
+      updateGrid()
+      setInterval(updateGrid, UPDATE_INTERVAL)
+    }
+    init()
+  })
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '60vh',
+        padding: '20px'
+      }}
+    >
+      <canvas ref={canvasRef} width={400} height={400} style={{}} />
+    </div>
+  )
+}
+```
+#### shader.wgsl
+```ts
+struct VertexInput {
+  @location(0) pos : vec2f,
+  @builtin(instance_index) instance : u32,
+};
+
+struct VertexOutput {
+  @builtin(position) pos : vec4f,
+  @location(0) cell : vec2f,//New line!
+};
+
+@group(0) @binding(0) var<uniform> grid : vec2f;
+@group(0) @binding(1) var<storage> cellState: array<u32>;
+@vertex
+fn vertexMain(@location(0) pos: vec2f,
+              @builtin(instance_index) instance: u32) -> VertexOutput {
+  let i = f32(instance);
+  let cell = vec2f(i % grid.x, floor(i / grid.x));
+  let state = f32(cellState[instance]); // New line!
+
+  let cellOffset = cell / grid * 2;
+  // New: Scale the position by the cell's active state.
+  let gridPos = (pos*state+1) / grid - 1 + cellOffset;
+
+  var output: VertexOutput;
+  output.pos = vec4f(gridPos, 0, 1);
+  output.cell = cell;
+  return output;
+}
+
+@fragment
+fn fragmentMain(input : VertexOutput) -> @location(0) vec4f {
+  let c = input.cell / grid;
+  return vec4f(c, 1 - c.x, 1);
+}
+```
+#### computed.wgsl
+```ts
+@group(0) @binding(0) var<uniform> grid : vec2f;
+
+@group(0) @binding(1) var<storage> cellStateIn : array<u32>;
+@group(0) @binding(2) var<storage, read_write> cellStateOut : array<u32>;
+
+fn cellIndex(cell : vec2u) -> u32 {
+  return (cell.y % u32(grid.y)) * u32(grid.x) +
+  (cell.x % u32(grid.x));
+}
+
+fn cellActive(x : u32, y : u32) -> u32 {
+  return cellStateIn[cellIndex(vec2(x, y))];
+}
+
+@compute @workgroup_size(8, 8)
+fn computeMain(@builtin(global_invocation_id) cell : vec3u)
+{
+  let activeNeighbors = cellActive(cell.x + 1, cell.y + 1) +
+  cellActive(cell.x + 1, cell.y) +
+  cellActive(cell.x + 1, cell.y - 1) +
+  cellActive(cell.x, cell.y - 1) +
+  cellActive(cell.x - 1, cell.y - 1) +
+  cellActive(cell.x - 1, cell.y) +
+  cellActive(cell.x - 1, cell.y + 1) +
+  cellActive(cell.x, cell.y + 1);
+  
+  let i = cellIndex(cell.xy);
+
+      //Conway's game of life rules:
+  switch activeNeighbors {
+    case 2 : {
+      cellStateOut[i] = cellStateIn[i];
+    }
+    case 3 : {
+      cellStateOut[i] = 1;
+    }
+    default : {
+      cellStateOut[i] = 0;
+    }
+  }
+}
+```

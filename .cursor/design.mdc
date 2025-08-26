@@ -1,0 +1,141 @@
+
+# Cursor Rules - HeroUI颜色系统优先原则
+
+## 🎨 颜色系统优先级规则
+
+在编写页面和组件时，必须优先使用项目的语义化颜色token，基于HeroUI主题系统，而不是Tailwind CSS的默认颜色类名。
+
+## 📋 颜色使用规则
+
+### ✅ 优先使用（HeroUI语义化颜色）：
+
+```jsx
+// 基础颜色
+className = 'bg-background text-foreground' // 页面背景和前景色
+className = 'bg-content1 text-content1-foreground' // 主要内容区域
+className = 'bg-content2 text-content2-foreground' // 次要内容区域
+className = 'bg-content3 text-content3-foreground' // 三级内容区域
+className = 'bg-content4 text-content4-foreground' // 四级内容区域
+
+// 语义化颜色系统
+className = 'bg-primary text-primary-foreground' // 主色
+className = 'bg-secondary text-secondary-foreground' // 副色
+className = 'bg-success text-success-foreground' // 成功状态
+className = 'bg-warning text-warning-foreground' // 警告状态
+className = 'bg-danger text-danger-foreground' // 危险状态
+className = 'bg-default text-default-foreground' // 默认状态
+
+// 色阶变体（50-900）
+className = 'bg-primary-50 bg-primary-100 bg-primary-200' // 浅色调
+className = 'bg-primary-300 bg-primary-400 bg-primary-500' // 中色调
+className = 'bg-primary-600 bg-primary-700 bg-primary-800 bg-primary-900' // 深色调
+
+// 文字颜色
+className = 'text-primary text-secondary text-success text-warning text-danger'
+className = 'text-primary-500 text-secondary-600 text-success-700'
+
+// 边框颜色
+className = 'border-primary border-secondary border-success border-warning border-danger'
+className = 'border-content1 border-content2 border-content3 border-content4'
+
+// 特殊颜色
+className = 'ring-focus' // 焦点状态
+className = 'bg-overlay' // 遮罩层
+```
+
+### ❌ 避免使用（Tailwind默认颜色）：
+
+```jsx
+// 不要直接使用这些
+className = 'text-black text-white'
+className = 'text-gray-600 text-gray-400'
+className = 'bg-purple-500 bg-blue-600'
+className = 'bg-green-500 bg-red-500'
+className = 'border-gray-300 border-blue-500'
+```
+
+## 🎯 颜色状态变体
+
+### 按钮颜色状态
+
+```jsx
+// 主要按钮
+className = 'bg-primary hover:bg-primary-600 active:bg-primary-700'
+
+// 次要按钮
+className = 'bg-secondary hover:bg-secondary-600 active:bg-secondary-700'
+
+// 成功按钮
+className = 'bg-success hover:bg-success-600 active:bg-success-700'
+
+// 警告按钮
+className = 'bg-warning hover:bg-warning-600 active:bg-warning-700'
+
+// 危险按钮
+className = 'bg-danger hover:bg-danger-600 active:bg-danger-700'
+
+// 默认按钮
+className = 'bg-default hover:bg-default-600 active:bg-default-700'
+```
+
+### 内容层级颜色
+
+```jsx
+// 内容区域悬停效果
+className = 'bg-content1 hover:bg-content2'
+className = 'bg-content2 hover:bg-content3'
+className = 'bg-content3 hover:bg-content4'
+```
+
+### 状态消息颜色
+
+```jsx
+// 成功消息
+className = 'bg-success-50 border-success-200 text-success-800'
+
+// 警告消息
+className = 'bg-warning-50 border-warning-200 text-warning-800'
+
+// 错误消息
+className = 'bg-danger-50 border-danger-200 text-danger-800'
+
+// 信息消息
+className = 'bg-primary-50 border-primary-200 text-primary-800'
+```
+
+## 🔧 颜色使用指南
+
+1. **语义优先**：根据组件功能选择对应的语义颜色
+2. **层级清晰**：使用content1-4构建清晰的视觉层级
+3. **状态完整**：确保hover、active、focus状态都有适当的颜色反馈
+4. **无障碍友好**：使用focus颜色确保键盘导航的可见性
+
+## ⚠️ HeroUI颜色特性
+
+1. **自动暗色模式**：系统已配置媒体查询自动切换暗色模式，无需手动处理
+2. **颜色对比度**：每个颜色都配有对应的foreground颜色，确保良好的对比度
+3. **色阶使用**：
+   - 50-200：极浅色调，用于背景和强调
+   - 300-500：中等色调，用于边框和次要元素
+   - 600-900：深色调，用于悬停和激活状态
+4. **内容层级**：content1（最前）> content2 > content3 > content4（最后）
+
+## 🎨 HeroUI颜色系统总览
+
+### 主色系
+- **primary**: 紫色调主色 (#b600ff)
+- **secondary**: 蓝紫色调副色 (#593fff)
+
+### 状态色系
+- **success**: 绿色调成功色 (#17c964)
+- **warning**: 橙色调警告色 (#f5a524)
+- **danger**: 红色调危险色 (#f31260)
+- **default**: 灰色调默认色 (#d4d4d8)
+
+### 内容层级
+- **content1**: 主要内容背景（白色/深灰）
+- **content2**: 次要内容背景
+- **content3**: 三级内容背景
+- **content4**: 四级内容背景
+
+遵循这些HeroUI颜色规则，确保项目的设计一致性和现代化体验！

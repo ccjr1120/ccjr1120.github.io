@@ -1,0 +1,124 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@import "./design-tokens/index.css";
+@import "./fonts/font.css";
+
+* {
+  box-sizing: border-box;
+}
+
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+  box-sizing: border-box;
+  font-family: 'LXGW WenKai';
+}
+
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+}
+
+
+
+@theme {
+  /* Color System - 基于heroui主题配置 */
+  --color-default-50: var(--color-default-50);
+  --color-default-100: var(--color-default-100);
+  --color-default-200: var(--color-default-200);
+  --color-default-300: var(--color-default-300);
+  --color-default-400: var(--color-default-400);
+  --color-default-500: var(--color-default-500);
+  --color-default-600: var(--color-default-600);
+  --color-default-700: var(--color-default-700);
+  --color-default-800: var(--color-default-800);
+  --color-default-900: var(--color-default-900);
+  --color-default: var(--color-default);
+
+  --color-primary-50: var(--color-primary-50);
+  --color-primary-100: var(--color-primary-100);
+  --color-primary-200: var(--color-primary-200);
+  --color-primary-300: var(--color-primary-300);
+  --color-primary-400: var(--color-primary-400);
+  --color-primary-500: var(--color-primary-500);
+  --color-primary-600: var(--color-primary-600);
+  --color-primary-700: var(--color-primary-700);
+  --color-primary-800: var(--color-primary-800);
+  --color-primary-900: var(--color-primary-900);
+  --color-primary: var(--color-primary);
+
+  --color-secondary-50: var(--color-secondary-50);
+  --color-secondary-100: var(--color-secondary-100);
+  --color-secondary-200: var(--color-secondary-200);
+  --color-secondary-300: var(--color-secondary-300);
+  --color-secondary-400: var(--color-secondary-400);
+  --color-secondary-500: var(--color-secondary-500);
+  --color-secondary-600: var(--color-secondary-600);
+  --color-secondary-700: var(--color-secondary-700);
+  --color-secondary-800: var(--color-secondary-800);
+  --color-secondary-900: var(--color-secondary-900);
+  --color-secondary: var(--color-secondary);
+
+  --color-success-50: var(--color-success-50);
+  --color-success-100: var(--color-success-100);
+  --color-success-200: var(--color-success-200);
+  --color-success-300: var(--color-success-300);
+  --color-success-400: var(--color-success-400);
+  --color-success-500: var(--color-success-500);
+  --color-success-600: var(--color-success-600);
+  --color-success-700: var(--color-success-700);
+  --color-success-800: var(--color-success-800);
+  --color-success-900: var(--color-success-900);
+  --color-success: var(--color-success);
+
+  --color-warning-50: var(--color-warning-50);
+  --color-warning-100: var(--color-warning-100);
+  --color-warning-200: var(--color-warning-200);
+  --color-warning-300: var(--color-warning-300);
+  --color-warning-400: var(--color-warning-400);
+  --color-warning-500: var(--color-warning-500);
+  --color-warning-600: var(--color-warning-600);
+  --color-warning-700: var(--color-warning-700);
+  --color-warning-800: var(--color-warning-800);
+  --color-warning-900: var(--color-warning-900);
+  --color-warning: var(--color-warning);
+
+  --color-danger-50: var(--color-danger-50);
+  --color-danger-100: var(--color-danger-100);
+  --color-danger-200: var(--color-danger-200);
+  --color-danger-300: var(--color-danger-300);
+  --color-danger-400: var(--color-danger-400);
+  --color-danger-500: var(--color-danger-500);
+  --color-danger-600: var(--color-danger-600);
+  --color-danger-700: var(--color-danger-700);
+  --color-danger-800: var(--color-danger-800);
+  --color-danger-900: var(--color-danger-900);
+  --color-danger: var(--color-danger);
+
+  /* Base Colors */
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-foreground);
+
+  /* Content Colors */
+  --color-content1: var(--color-content1);
+  --color-content2: var(--color-content2);
+  --color-content3: var(--color-content3);
+  --color-content4: var(--color-content4);
+
+  /* Special Colors */
+  --color-focus: var(--color-focus);
+  --color-overlay: var(--color-overlay);
+
+  /* 字体族 */
+  --font-family-sans: 'LXGW WenKai', ui-sans-serif, system-ui, sans-serif;
+
+  /* 不透明度 */
+  --opacity-disabled: var(--disabled-opacity);
+}
+
+/* 暗色主题已在 design-tokens/global.css 中定义 */
