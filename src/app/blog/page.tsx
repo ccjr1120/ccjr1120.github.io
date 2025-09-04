@@ -10,11 +10,11 @@ export default function Blog() {
     .filter((article) => article !== null)
     .map((article) => ({
       id: article.slug,
-      title: article.frontmatter.title,
-      excerpt: article.frontmatter.excerpt,
-      date: article.frontmatter.date,
-      author: article.frontmatter.author,
-      tags: article.frontmatter.tags,
+      title: String(article.frontmatter.title),
+      excerpt: String(article.frontmatter.excerpt),
+      date: String(article.frontmatter.date),
+      author: String(article.frontmatter.author),
+      tags: Array.isArray(article.frontmatter.tags) ? article.frontmatter.tags : [],
       slug: article.slug
     }))
 

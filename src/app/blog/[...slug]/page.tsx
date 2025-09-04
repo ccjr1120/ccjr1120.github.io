@@ -1,27 +1,26 @@
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import {
-  getAllMDXSlugs,
-  getMDXData,
-  extractTableOfContents
+  getAllArticleSlugs,
+  resolveArticleByDisplaySlug,
+  extractTableOfContents,
+  isCategoryPath
 } from '@/lib/mdx-utils'
 import TableOfContents from '@/components/TableOfContents'
 
 interface ArticlePageProps {
-  params: Promise<{ slug: string }>
+  params: Promise<{ slug: string[] }>
 }
 
 // 生成静态路径
 export async function generateStaticParams() {
-  const slugs = getAllMDXSlugs()
-  return slugs.map((slug) => ({
-    slug: slug
-  }))
+  const slugs = getAllArticleSlugs()
+  return slugs.map((slug) => ({ slug }))
 }
 
 // 生成元数据
 export async function generateMetadata({ params }: ArticlePageProps) {
   const { slug } = await params
-  const mdxData = getMDXData(slug)
+  const mdxData = resolveArticleByDisplaySlug(slug)
 
   if (!mdxData) {
     return {
@@ -33,17 +32,17 @@ export async function generateMetadata({ params }: ArticlePageProps) {
   const { frontmatter } = mdxData
 
   return {
-    title: frontmatter.title,
-    description: frontmatter.excerpt,
-    authors: [{ name: frontmatter.author }],
-    keywords: frontmatter.tags,
+    title: String(frontmatter.title),
+    description: String(frontmatter.excerpt),
+    authors: [{ name: String(frontmatter.author) }],
+    keywords: Array.isArray(frontmatter.tags) ? frontmatter.tags : [],
     openGraph: {
-      title: frontmatter.title,
-      description: frontmatter.excerpt,
+      title: String(frontmatter.title),
+      description: String(frontmatter.excerpt),
       type: 'article',
-      publishedTime: frontmatter.date,
-      authors: [frontmatter.author],
-      tags: frontmatter.tags
+      publishedTime: String(frontmatter.date),
+      authors: [String(frontmatter.author)],
+      tags: Array.isArray(frontmatter.tags) ? frontmatter.tags : []
     }
   }
 }
@@ -53,7 +52,19 @@ export const dynamic = 'force-static'
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params
-  const mdxData = getMDXData(slug)
+
+  // 如果是分类路径：
+  const cat = isCategoryPath(slug)
+  if (cat.isCategory) {
+    if (cat.hasIndex) {
+      // 有 index.mdx 时按文章渲染（落到 下面 resolve）
+    } else {
+      // 没有 index.mdx 时返回到 /blog 列表
+      redirect('/blog')
+    }
+  }
+
+  const mdxData = resolveArticleByDisplaySlug(slug)
 
   if (!mdxData) {
     notFound()
@@ -64,14 +75,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   // 提取目录
   const tocItems = extractTableOfContents(content)
 
-  // 动态导入MDX文件 - 根据slug自动查找
+  // 动态导入MDX文件 - 根据真实路径自动查找
   let MDXContent
   try {
-    // 尝试从 blog/content/{slug}/index.mdx 导入
-    const mdxModule = await import(`../content/${slug}/index.mdx`)
+    const mdxModule = await import(`../content/${mdxData.realPathRelative}`)
     MDXContent = mdxModule.default
   } catch (error) {
-    console.error(`Failed to import MDX file: ${slug}`, error)
+    console.error(`Failed to import MDX file: ${slug?.join('/')}`, error)
     notFound()
   }
 
@@ -87,15 +97,15 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             {/* 文章头部信息 */}
             <header className="mb-8 pb-8">
               <h1 className="mb-4 text-4xl leading-tight font-bold">
-                {frontmatter.title}
+                {String(frontmatter.title)}
               </h1>
 
               <div
                 className="mb-4 flex flex-wrap items-center gap-4 text-sm"
                 style={{ color: 'var(--color-default-600)' }}
               >
-                <span>作者：{frontmatter.author}</span>
-                <span>发布时间：{formatDate(frontmatter.date)}</span>
+                <span>作者：{String(frontmatter.author)}</span>
+                <span>发布时间：{formatDate(String(frontmatter.date))}</span>
               </div>
             </header>
 
