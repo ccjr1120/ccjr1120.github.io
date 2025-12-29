@@ -1,6 +1,6 @@
 const meta = {
   type: 'category',
-  description: 'AI相关文章'
+  description: '工程类相关'
 }
 
 export default meta
