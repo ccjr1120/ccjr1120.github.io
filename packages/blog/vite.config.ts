@@ -14,4 +14,6 @@ export default defineConfig({
     alias: { '@': path.resolve(__dirname, 'src') },
   },
   assetsInclude: ['**/*.md'],
+  server: { port: 8000, strictPort: true },
+  preview: { port: 8000, strictPort: true },
 })

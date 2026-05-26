@@ -38,6 +38,8 @@ export default defineConfig({
       alias: {
         '@': resolve(__dirname, 'src/renderer')
       }
-    }
+    },
+    server: { port: 8001, strictPort: true },
+    preview: { port: 8001, strictPort: true }
   }
 })
