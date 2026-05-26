@@ -1,0 +1,14 @@
+- generic [ref=e3]:
+  - button "Hide sidebar" [ref=e7] [cursor=pointer]:
+    - img [ref=e8]
+  - generic [ref=e12]:
+    - complementary [ref=e13]:
+      - generic [ref=e14]:
+        - generic [ref=e15]:
+          - generic [ref=e16]: CONTENT
+          - button "New file" [ref=e17] [cursor=pointer]: +
+        - paragraph [ref=e19]: No files yet.
+    - main [ref=e20]:
+      - generic [ref=e21]:
+        - paragraph [ref=e22]: 从左侧选择一篇文章开始编辑
+        - paragraph [ref=e23]: ⌘B 收起 / 展开侧边栏

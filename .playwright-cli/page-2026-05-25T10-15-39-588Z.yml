@@ -1,0 +1,71 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - link "CCJR" [ref=e6] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e7]:
+        - link "首页" [ref=e8] [cursor=pointer]:
+          - /url: /
+        - link "博客" [ref=e9] [cursor=pointer]:
+          - /url: /blog
+        - link "项目" [ref=e10] [cursor=pointer]:
+          - /url: /projects
+        - link "关于" [ref=e11] [cursor=pointer]:
+          - /url: /about
+        - button "切换到亮色模式" [ref=e12]:
+          - img [ref=e13]
+  - main [ref=e19]:
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - heading "Hi, I'm CCJR" [level=1] [ref=e22]
+        - paragraph [ref=e23]: 欢迎来到我的博客。这里记录着我的技术探索、项目经验和思考。
+        - generic [ref=e24]:
+          - link "阅读博客" [ref=e25] [cursor=pointer]:
+            - /url: /blog
+          - link "了解更多" [ref=e26] [cursor=pointer]:
+            - /url: /about
+      - generic [ref=e27]:
+        - heading "最新文章" [level=2] [ref=e28]
+        - generic [ref=e29]:
+          - 'link "2026-05-25 Hello World 我的第一篇博客文章，欢迎来到这里！ #blog #入门" [ref=e30] [cursor=pointer]':
+            - /url: /blog/hello-world
+            - time [ref=e31]: 2026-05-25
+            - heading "Hello World" [level=3] [ref=e32]
+            - paragraph [ref=e33]: 我的第一篇博客文章，欢迎来到这里！
+            - generic [ref=e34]:
+              - link "#blog" [ref=e35]:
+                - /url: /tags?tag=blog
+              - link "#入门" [ref=e36]:
+                - /url: /tags?tag=%E5%85%A5%E9%97%A8
+          - 'link "2026-05-24 使用 TanStack Router 构建 SPA 介绍如何使用 TanStack Router 构建现代单页应用。 #React #TypeScript #教程" [ref=e37] [cursor=pointer]':
+            - /url: /blog/tanstack-router-guide
+            - time [ref=e38]: 2026-05-24
+            - heading "使用 TanStack Router 构建 SPA" [level=3] [ref=e39]
+            - paragraph [ref=e40]: 介绍如何使用 TanStack Router 构建现代单页应用。
+            - generic [ref=e41]:
+              - link "#React" [ref=e42]:
+                - /url: /tags?tag=React
+              - link "#TypeScript" [ref=e43]:
+                - /url: /tags?tag=TypeScript
+              - link "#教程" [ref=e44]:
+                - /url: /tags?tag=%E6%95%99%E7%A8%8B
+          - 'link "2026-05-23 Tailwind CSS v4 的新特性 探索 Tailwind CSS v4 带来的重大变化和新功能。 #CSS #前端 #教程" [ref=e45] [cursor=pointer]':
+            - /url: /blog/tailwind-v4
+            - time [ref=e46]: 2026-05-23
+            - heading "Tailwind CSS v4 的新特性" [level=3] [ref=e47]
+            - paragraph [ref=e48]: 探索 Tailwind CSS v4 带来的重大变化和新功能。
+            - generic [ref=e49]:
+              - link "#CSS" [ref=e50]:
+                - /url: /tags?tag=CSS
+              - link "#前端" [ref=e51]:
+                - /url: /tags?tag=%E5%89%8D%E7%AB%AF
+              - link "#教程" [ref=e52]:
+                - /url: /tags?tag=%E6%95%99%E7%A8%8B
+  - contentinfo [ref=e53]:
+    - generic [ref=e54]:
+      - paragraph [ref=e55]: © 2026 CCJR. All rights reserved.
+      - generic [ref=e56]:
+        - link "GitHub" [ref=e57] [cursor=pointer]:
+          - /url: https://github.com/ccjr1120
+        - link "RSS" [ref=e58] [cursor=pointer]:
+          - /url: /feed.xml

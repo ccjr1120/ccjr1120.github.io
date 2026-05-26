@@ -1,0 +1,22 @@
+- generic [ref=e3]:
+  - button "Show sidebar" [active] [ref=e50] [cursor=pointer]:
+    - img [ref=e8]
+  - main [ref=e27]:
+    - textbox [ref=e35]:
+      - heading "Hello world" [level=1] [ref=e36]
+      - paragraph [ref=e37]:
+        - text: This is
+        - strong [ref=e38]: markdown
+        - text: content.
+      - list [ref=e39]:
+        - listitem [ref=e40]:
+          - paragraph [ref=e41]: one
+        - listitem [ref=e42]:
+          - paragraph [ref=e43]: two
+        - listitem [ref=e44]:
+          - paragraph [ref=e45]: three
+      - paragraph [ref=e46]:
+        - code [ref=e47]: code
+        - text: inline.
+      - blockquote [ref=e48]:
+        - paragraph [ref=e49]: A quoted line.

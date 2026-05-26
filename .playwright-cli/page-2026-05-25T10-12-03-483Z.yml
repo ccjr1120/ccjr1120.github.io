@@ -1,0 +1,14 @@
+- generic [ref=e3]:
+  - generic [ref=e4]: "[plugin:vite:import-analysis] Failed to resolve import \"yaml\" from \"src/lib/posts.ts\". Does the file exist?"
+  - generic [ref=e5]: /Users/ccjr/development/self/ccjr1120.github.io/src/lib/posts.ts:1:35
+  - generic [ref=e6]: "1 | ...ck-router-guide.md?raw\";import { parse as parseYaml } from \"yaml\"; | ^ 2 | const postFiles = /* #__PURE__ */ Object.assign({\"/content/hello-world.md\": __vite_glob_0_0,\"/content/tailwind-v4.md\"... 3 |"
+  - generic [ref=e7]: at TransformPluginContext._formatLog (file:///Users/ccjr/development/self/ccjr1120.github.io/node_modules/vite/dist/node/chunks/node.js:30488:39) at TransformPluginContext.error (file:///Users/ccjr/development/self/ccjr1120.github.io/node_modules/vite/dist/node/chunks/node.js:30485:14) at normalizeUrl (file:///Users/ccjr/development/self/ccjr1120.github.io/node_modules/vite/dist/node/chunks/node.js:27728:18) at async file:///Users/ccjr/development/self/ccjr1120.github.io/node_modules/vite/dist/node/chunks/node.js:27791:30 at async Promise.all (index 3) at async TransformPluginContext.transform (file:///Users/ccjr/development/self/ccjr1120.github.io/node_modules/vite/dist/node/chunks/node.js:27759:4) at async EnvironmentPluginContainer.transform (file:///Users/ccjr/development/self/ccjr1120.github.io/node_modules/vite/dist/node/chunks/node.js:30273:14) at async loadAndTransform (file:///Users/ccjr/development/self/ccjr1120.github.io/node_modules/vite/dist/node/chunks/node.js:24532:26) at async viteTransformMiddleware (file:///Users/ccjr/development/self/ccjr1120.github.io/node_modules/vite/dist/node/chunks/node.js:24326:20)
+  - generic [ref=e8]:
+    - text: Click outside, press Esc key, or fix the code to dismiss.
+    - text: You can also disable this overlay by setting
+    - code [ref=e9]: server.hmr.overlay
+    - text: to
+    - code [ref=e10]: "false"
+    - text: in
+    - code [ref=e11]: vite.config.ts
+    - text: .

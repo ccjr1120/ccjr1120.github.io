@@ -1,0 +1,67 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - link "CCJR" [ref=e6] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e7]:
+        - link "首页" [ref=e8] [cursor=pointer]:
+          - /url: /
+        - link "博客" [ref=e9] [cursor=pointer]:
+          - /url: /blog
+        - link "项目" [ref=e10] [cursor=pointer]:
+          - /url: /projects
+        - link "关于" [ref=e11] [cursor=pointer]:
+          - /url: /about
+        - button "切换到亮色模式" [active] [ref=e54]:
+          - img [ref=e13]
+  - main [ref=e15]:
+    - article [ref=e16]:
+      - link "← 返回博客" [ref=e17] [cursor=pointer]:
+        - /url: /blog
+      - generic [ref=e18]:
+        - time [ref=e19]: 2026-05-25
+        - heading "Hello World" [level=1] [ref=e20]
+        - paragraph [ref=e21]: 我的第一篇博客文章，欢迎来到这里！
+        - generic [ref=e22]:
+          - link "#blog" [ref=e23] [cursor=pointer]:
+            - /url: /tags?tag=blog
+          - link "#入门" [ref=e24] [cursor=pointer]:
+            - /url: /tags?tag=%E5%85%A5%E9%97%A8
+      - generic [ref=e25]:
+        - heading "你好，世界！" [level=2] [ref=e26]
+        - paragraph [ref=e27]: 这是我的第一篇博客文章。我使用 React + TanStack Router + Tailwind CSS 搭建了这个博客。
+        - heading "技术栈" [level=3] [ref=e28]
+        - list [ref=e29]:
+          - listitem [ref=e30]:
+            - strong [ref=e31]: Vite
+            - text: — 极速的开发体验
+          - listitem [ref=e32]:
+            - strong [ref=e33]: React
+            - text: — UI 框架
+          - listitem [ref=e34]:
+            - strong [ref=e35]: TanStack Router
+            - text: — 类型安全的路由
+          - listitem [ref=e36]:
+            - strong [ref=e37]: Tailwind CSS
+            - text: — 原子化 CSS
+        - heading "代码示例" [level=3] [ref=e38]
+        - code [ref=e40]:
+          - text: function greet(
+          - generic [ref=e41]: "name: string"
+          - text: "): string { return"
+          - generic [ref=e42]: "`Hello, ${name}!`"
+          - text: "; } console.log(greet('World'));"
+        - paragraph [ref=e43]: 希望这个博客能记录我的成长历程。感谢阅读！
+      - navigation [ref=e44]:
+        - link "← 上一篇 使用 TanStack Router 构建 SPA" [ref=e45] [cursor=pointer]:
+          - /url: /blog/tanstack-router-guide
+          - text: ← 上一篇
+          - paragraph [ref=e46]: 使用 TanStack Router 构建 SPA
+  - contentinfo [ref=e48]:
+    - generic [ref=e49]:
+      - paragraph [ref=e50]: © 2026 CCJR. All rights reserved.
+      - generic [ref=e51]:
+        - link "GitHub" [ref=e52] [cursor=pointer]:
+          - /url: https://github.com/ccjr1120
+        - link "RSS" [ref=e53] [cursor=pointer]:
+          - /url: /feed.xml
