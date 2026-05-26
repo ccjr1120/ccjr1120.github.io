@@ -277,22 +277,52 @@ button {
 .milkdown .ProseMirror h4 {
   font-weight: 700;
   color: var(--text-primary);
-  line-height: 1.25;
-  margin-top: 0.8em;
+  line-height: 1.4;
   margin-bottom: 0;
+  position: relative;
 }
-.milkdown .ProseMirror h1 { font-size: 1.7em; margin-top: 0.9em; }
-.milkdown .ProseMirror h2 { font-size: 1.4em; margin-top: 0.85em; }
-.milkdown .ProseMirror h3 { font-size: 1.2em; }
-.milkdown .ProseMirror h4 { font-size: 1.05em; }
+.milkdown .ProseMirror h1 { font-size: 1.5em; margin-top: 1em; }
+.milkdown .ProseMirror h2 { font-size: 1.2em; margin-top: 0.85em; }
+.milkdown .ProseMirror h3 { font-size: 1.1em; margin-top: 0.75em; }
+.milkdown .ProseMirror h4 { font-size: 1em;   margin-top: 0.7em; }
+
+.milkdown .ProseMirror h1 + :not(:is(h1, h2, h3, h4, h5, h6)) { margin-top: 0.8em; }
+.milkdown .ProseMirror h2 + :not(:is(h1, h2, h3, h4, h5, h6)) { margin-top: 0.65em; }
+.milkdown .ProseMirror h3 + :not(:is(h1, h2, h3, h4, h5, h6)) { margin-top: 0.55em; }
+.milkdown .ProseMirror h4 + :not(:is(h1, h2, h3, h4, h5, h6)) { margin-top: 0.5em; }
 
 .milkdown .ProseMirror :is(h1, h2, h3, h4) + :is(h1, h2, h3, h4) {
-  margin-top: 0.35em;
+  margin-top: 0.4em;
 }
 
 .milkdown .ProseMirror :is(h1, h2, h3, h4):first-child {
   margin-top: 0;
 }
+
+.milkdown .ProseMirror :is(h1, h2, h3, h4, h5, h6).is-current-heading::before {
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-right: 0.6em;
+  padding: 1px 6px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: var(--text-muted);
+  background-color: var(--bg-elevated);
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  pointer-events: none;
+  user-select: none;
+}
+.milkdown .ProseMirror h1.is-current-heading::before { content: 'H1'; }
+.milkdown .ProseMirror h2.is-current-heading::before { content: 'H2'; }
+.milkdown .ProseMirror h3.is-current-heading::before { content: 'H3'; }
+.milkdown .ProseMirror h4.is-current-heading::before { content: 'H4'; }
+.milkdown .ProseMirror h5.is-current-heading::before { content: 'H5'; }
+.milkdown .ProseMirror h6.is-current-heading::before { content: 'H6'; }
 
 .milkdown .ProseMirror a {
   color: var(--accent);

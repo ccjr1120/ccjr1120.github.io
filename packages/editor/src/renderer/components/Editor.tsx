@@ -4,6 +4,9 @@ import { gfm } from '@milkdown/preset-gfm'
 import { listener, listenerCtx } from '@milkdown/plugin-listener'
 import { Milkdown, MilkdownProvider, useEditor } from '@milkdown/react'
 import { nord } from '@milkdown/theme-nord'
+import { headingExitPlugin } from './headingExitPlugin'
+import { headingMarkerPlugin } from './headingMarkerPlugin'
+import { tabIndentPlugin } from './tabIndentPlugin'
 
 interface EditorProps {
   content: string
@@ -23,7 +26,10 @@ function MilkdownEditor({ content, onChange }: EditorProps) {
       .config(nord)
       .use(commonmark)
       .use(gfm)
-      .use(listener),
+      .use(listener)
+      .use(headingExitPlugin)
+      .use(headingMarkerPlugin)
+      .use(tabIndentPlugin),
   )
 
   return <Milkdown />
