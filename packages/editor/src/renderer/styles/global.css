@@ -264,7 +264,7 @@ button {
 }
 
 .milkdown .ProseMirror > * + * {
-  margin-top: 0.85em;
+  margin-top: 0.6em;
 }
 
 .milkdown .ProseMirror p {
@@ -277,13 +277,22 @@ button {
 .milkdown .ProseMirror h4 {
   font-weight: 700;
   color: var(--text-primary);
-  line-height: 1.3;
-  margin-top: 1.6em;
+  line-height: 1.25;
+  margin-top: 0.8em;
+  margin-bottom: 0;
 }
-.milkdown .ProseMirror h1 { font-size: 1.9em; }
-.milkdown .ProseMirror h2 { font-size: 1.5em; }
-.milkdown .ProseMirror h3 { font-size: 1.25em; }
+.milkdown .ProseMirror h1 { font-size: 1.7em; margin-top: 0.9em; }
+.milkdown .ProseMirror h2 { font-size: 1.4em; margin-top: 0.85em; }
+.milkdown .ProseMirror h3 { font-size: 1.2em; }
 .milkdown .ProseMirror h4 { font-size: 1.05em; }
+
+.milkdown .ProseMirror :is(h1, h2, h3, h4) + :is(h1, h2, h3, h4) {
+  margin-top: 0.35em;
+}
+
+.milkdown .ProseMirror :is(h1, h2, h3, h4):first-child {
+  margin-top: 0;
+}
 
 .milkdown .ProseMirror a {
   color: var(--accent);
