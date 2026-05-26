@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.tanstack/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor / IDE local files
+.vscode/
+.idea/
+*.swp
+
+# Local tooling / AI configs
+.agents/
+.claude/
+.playwright-cli/
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
