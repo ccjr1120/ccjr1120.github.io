@@ -22,13 +22,14 @@ export function Header() {
           CCJR
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="hidden md:flex items-center gap-1">
           {navItems.map((item) => (
             <Link
               key={item.to}
               to={item.to}
-              className="rounded-md text-sm font-medium text-text-muted transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-4"
-              activeProps={{ className: 'rounded-md text-sm font-medium text-primary' }}
+              activeOptions={item.to === '/' ? { exact: true } : undefined}
+              className="inline-flex items-center rounded-lg px-3 py-1.5 text-sm font-medium text-text-muted transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+              activeProps={{ className: 'inline-flex items-center rounded-lg px-3 py-1.5 text-sm font-semibold text-primary bg-primary/10' }}
             >
               {item.label}
             </Link>
@@ -61,8 +62,9 @@ export function Header() {
             <Link
               key={item.to}
               to={item.to}
+              activeOptions={item.to === '/' ? { exact: true } : undefined}
               className="inline-flex min-h-11 items-center rounded-lg px-3 text-base font-medium text-text-muted transition-colors hover:bg-surface-muted hover:text-primary focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
-              activeProps={{ className: 'inline-flex min-h-11 items-center rounded-lg px-3 text-base font-medium text-primary bg-primary/5' }}
+              activeProps={{ className: 'inline-flex min-h-11 items-center rounded-lg px-3 text-base font-semibold text-primary bg-primary/10' }}
               onClick={() => setMenuOpen(false)}
             >
               {item.label}
