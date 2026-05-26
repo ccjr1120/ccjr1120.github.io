@@ -3,6 +3,7 @@ import { FileInfo } from '../../preload/index'
 
 interface FileTreeProps {
   files: FileInfo[]
+  draftFiles: FileInfo[]
   selectedFile: string | null
   contentDir: string
   onFileSelect: (filePath: string) => void
@@ -63,7 +64,7 @@ function FileTreeItem({ file, level, selectedFile, onFileSelect }: FileTreeItemP
   )
 }
 
-export default function FileTree({ files, selectedFile, onFileSelect, onFileCreate }: FileTreeProps) {
+export default function FileTree({ files, draftFiles, selectedFile, onFileSelect, onFileCreate }: FileTreeProps) {
   const [isCreating, setIsCreating] = useState(false)
   const [newFileName, setNewFileName] = useState('')
 
@@ -82,7 +83,7 @@ export default function FileTree({ files, selectedFile, onFileSelect, onFileCrea
   return (
     <div className="filetree py-3">
       <div className="filetree__header px-4">
-        <span className="filetree__title">CONTENT</span>
+        <span className="filetree__title">DRAFT</span>
         <button
           type="button"
           className="filetree__new-btn"
@@ -114,8 +115,27 @@ export default function FileTree({ files, selectedFile, onFileSelect, onFileCrea
         </div>
       )}
       <div className="filetree__list">
+        {draftFiles.length === 0 ? (
+          <p className="filetree__empty px-4 py-3 text-xs">No drafts yet.</p>
+        ) : (
+          draftFiles.map((file) => (
+            <FileTreeItem
+              key={file.path}
+              file={file}
+              level={0}
+              selectedFile={selectedFile}
+              onFileSelect={onFileSelect}
+            />
+          ))
+        )}
+      </div>
+
+      <div className="filetree__header px-4 mt-4">
+        <span className="filetree__title">CONTENT</span>
+      </div>
+      <div className="filetree__list">
         {files.length === 0 ? (
-          <p className="filetree__empty px-4 py-3 text-xs">No files yet.</p>
+          <p className="filetree__empty px-4 py-3 text-xs">No posts yet.</p>
         ) : (
           files.map((file) => (
             <FileTreeItem

@@ -5,7 +5,9 @@ import { FileInfo } from '../preload/index'
 
 export default function App() {
   const [files, setFiles] = useState<FileInfo[]>([])
+  const [draftFiles, setDraftFiles] = useState<FileInfo[]>([])
   const [contentDir, setContentDir] = useState<string>('')
+  const [draftContentDir, setDraftContentDir] = useState<string>('')
   const [selectedFile, setSelectedFile] = useState<string | null>(null)
   const [content, setContent] = useState<string>('')
   const [isDirty, setIsDirty] = useState(false)
@@ -13,9 +15,13 @@ export default function App() {
 
   const loadFiles = useCallback(async () => {
     const dir = await window.electronAPI.getContentDir()
+    const draftDir = await window.electronAPI.getDraftContentDir()
     setContentDir(dir)
+    setDraftContentDir(draftDir)
     const fileList = await window.electronAPI.readDirectory()
+    const draftList = await window.electronAPI.readDraftDirectory()
     setFiles(fileList)
+    setDraftFiles(draftList)
   }, [])
 
   useEffect(() => {
@@ -64,6 +70,29 @@ export default function App() {
     [contentDir, loadFiles],
   )
 
+  const handleFilePublish = useCallback(
+    async (filePath: string) => {
+      const result = await window.electronAPI.publishFile(filePath)
+      if (result.success) {
+        await loadFiles()
+        if (selectedFile === filePath) {
+          setSelectedFile(result.newPath || null)
+        }
+        alert('发布成功！')
+      } else {
+        alert(`发布失败: ${result.error}`)
+      }
+    },
+    [loadFiles, selectedFile],
+  )
+
+  const handlePublish = useCallback(async () => {
+    if (!selectedFile) return
+    if (confirm('发布这篇文章？发布后将移动到 content 目录。')) {
+      await handleFilePublish(selectedFile)
+    }
+  }, [selectedFile, handleFilePublish])
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const mod = e.metaKey || e.ctrlKey
@@ -80,6 +109,7 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [handleSave])
 
+  const isDraft = selectedFile?.startsWith(draftContentDir) ?? false
   const dragStyle = { WebkitAppRegion: 'drag' } as React.CSSProperties
   const noDragStyle = { WebkitAppRegion: 'no-drag' } as React.CSSProperties
 
@@ -102,7 +132,19 @@ export default function App() {
           >
             <SidebarIcon open={sidebarOpen} />
           </button>
-          <span className={`titlebar__dirty ${isDirty ? 'is-on' : ''}`} aria-hidden />
+          <div className="flex items-center gap-2">
+            <span className={`titlebar__dirty ${isDirty ? 'is-on' : ''}`} aria-hidden />
+            {selectedFile && isDraft && (
+              <button
+                type="button"
+                className="titlebar__publish-btn"
+                onClick={handlePublish}
+                title="Publish"
+              >
+                <PublishIcon />
+              </button>
+            )}
+          </div>
         </div>
       </div>
       <div className="flex min-h-0 flex-1">
@@ -110,6 +152,7 @@ export default function App() {
           <aside className="sidebar w-60 flex-shrink-0 overflow-y-auto">
             <FileTree
               files={files}
+              draftFiles={draftFiles}
               selectedFile={selectedFile}
               contentDir={contentDir}
               onFileSelect={handleFileSelect}
@@ -157,6 +200,15 @@ function SidebarIcon({ open }: { open: boolean }) {
         strokeWidth="1.2"
       />
       {open && <rect x="2" y="3" width="4" height="10" fill="currentColor" opacity="0.35" />}
+    </svg>
+  )
+}
+
+function PublishIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M12 19V5" />
+      <path d="M5 12l7-7 7 7" />
     </svg>
   )
 }

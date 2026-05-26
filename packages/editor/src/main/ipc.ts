@@ -1,6 +1,6 @@
 import { ipcMain, app, dialog, BrowserWindow } from 'electron'
-import { readdir, readFile, writeFile, stat, mkdir } from 'fs/promises'
-import { join, extname, basename, resolve } from 'path'
+import { readdir, readFile, writeFile, stat, mkdir, rename, rm } from 'fs/promises'
+import { join, extname, basename, resolve, relative, dirname } from 'path'
 import { existsSync } from 'fs'
 
 interface FileInfo {
@@ -39,6 +39,7 @@ async function readDirectory(dirPath: string): Promise<FileInfo[]> {
 }
 
 let contentDir: string = ''
+let draftContentDir: string = ''
 
 function getContentDir(): string {
   if (!contentDir) {
@@ -58,9 +59,21 @@ function getContentDir(): string {
   return contentDir
 }
 
+function getDraftContentDir(): string {
+  if (!draftContentDir) {
+    const contentPath = getContentDir()
+    draftContentDir = join(contentPath, '../draft-content')
+  }
+  return draftContentDir
+}
+
 export function setupFileIPC(): void {
   ipcMain.handle('get-content-dir', () => {
     return getContentDir()
+  })
+
+  ipcMain.handle('get-draft-content-dir', () => {
+    return getDraftContentDir()
   })
 
   ipcMain.handle('set-content-dir', async () => {
@@ -70,6 +83,7 @@ export function setupFileIPC(): void {
     })
     if (!result.canceled && result.filePaths.length > 0) {
       contentDir = result.filePaths[0]
+      draftContentDir = '' // Reset draft dir when content dir changes
       const userDataDir = app.getPath('userData')
       const configPath = join(userDataDir, 'config.json')
       require('fs').writeFileSync(configPath, JSON.stringify({ contentDir }))
@@ -86,6 +100,14 @@ export function setupFileIPC(): void {
     return readDirectory(targetDir)
   })
 
+  ipcMain.handle('read-draft-directory', async () => {
+    const draftDir = getDraftContentDir()
+    if (!existsSync(draftDir)) {
+      await mkdir(draftDir, { recursive: true })
+    }
+    return readDirectory(draftDir)
+  })
+
   ipcMain.handle('read-file', async (_event, filePath: string) => {
     const content = await readFile(filePath, 'utf-8')
     return content
@@ -97,11 +119,59 @@ export function setupFileIPC(): void {
   })
 
   ipcMain.handle('create-file', async (_event, dirPath: string, fileName: string) => {
-    const filePath = join(dirPath, fileName)
+    // Always create new files in draft-content directory
+    const draftDir = getDraftContentDir()
+    const relativePath = relative(getContentDir(), dirPath)
+    const targetDir = join(draftDir, relativePath)
+    if (!existsSync(targetDir)) {
+      await mkdir(targetDir, { recursive: true })
+    }
+    const filePath = join(targetDir, fileName)
     if (!existsSync(filePath)) {
       await writeFile(filePath, '', 'utf-8')
     }
     return filePath
+  })
+
+  ipcMain.handle('publish-file', async (_event, filePath: string) => {
+    const draftDir = getDraftContentDir()
+    const contentPath = getContentDir()
+
+    // Check if file is in draft directory
+    if (!filePath.startsWith(draftDir)) {
+      return { success: false, error: 'File is not in draft directory' }
+    }
+
+    // Calculate relative path and target path
+    const relativePath = relative(draftDir, filePath)
+    const targetPath = join(contentPath, relativePath)
+    const targetDir = join(contentPath, dirname(relativePath))
+
+    // Create target directory if needed
+    if (!existsSync(targetDir)) {
+      await mkdir(targetDir, { recursive: true })
+    }
+
+    // Check if target file already exists
+    if (existsSync(targetPath)) {
+      return { success: false, error: 'File already exists in content directory' }
+    }
+
+    // Move file from draft to content
+    await rename(filePath, targetPath)
+
+    // Clean up empty directories in draft
+    const draftSubDir = dirname(filePath)
+    if (draftSubDir !== draftDir) {
+      try {
+        const entries = await readdir(draftSubDir)
+        if (entries.length === 0) {
+          await rm(draftSubDir, { recursive: true })
+        }
+      } catch {}
+    }
+
+    return { success: true, newPath: targetPath }
   })
 
   ipcMain.handle('get-file-info', async (_event, filePath: string) => {

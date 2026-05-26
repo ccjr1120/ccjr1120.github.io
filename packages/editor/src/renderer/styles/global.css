@@ -400,3 +400,23 @@ button {
   color: var(--text-secondary);
   font-weight: 600;
 }
+
+/* ─── Titlebar publish button ────────────────────────────────────── */
+
+.titlebar__publish-btn {
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  color: var(--text-muted);
+  opacity: 0.7;
+  transition: background-color 0.12s ease, color 0.12s ease, opacity 0.12s ease;
+}
+
+.titlebar__publish-btn:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  opacity: 1;
+}

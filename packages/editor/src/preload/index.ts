@@ -11,11 +11,17 @@ const electronAPI = {
   getContentDir: (): Promise<string> => {
     return ipcRenderer.invoke('get-content-dir')
   },
+  getDraftContentDir: (): Promise<string> => {
+    return ipcRenderer.invoke('get-draft-content-dir')
+  },
   setContentDir: (): Promise<string | null> => {
     return ipcRenderer.invoke('set-content-dir')
   },
   readDirectory: (dirPath?: string): Promise<FileInfo[]> => {
     return ipcRenderer.invoke('read-directory', dirPath)
+  },
+  readDraftDirectory: (): Promise<FileInfo[]> => {
+    return ipcRenderer.invoke('read-draft-directory')
   },
   readFile: (filePath: string): Promise<string> => {
     return ipcRenderer.invoke('read-file', filePath)
@@ -25,6 +31,9 @@ const electronAPI = {
   },
   createFile: (dirPath: string, fileName: string): Promise<string> => {
     return ipcRenderer.invoke('create-file', dirPath, fileName)
+  },
+  publishFile: (filePath: string): Promise<{ success: boolean; newPath?: string; error?: string }> => {
+    return ipcRenderer.invoke('publish-file', filePath)
   },
   getFileInfo: (filePath: string): Promise<{
     name: string
