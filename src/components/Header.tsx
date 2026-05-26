@@ -13,7 +13,7 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 bg-surface/80 backdrop-blur-lg border-b border-border">
+    <header className="sticky top-0 z-50 bg-surface/80 backdrop-blur-lg">
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
         <Link
           to="/"
@@ -28,8 +28,8 @@ export function Header() {
               key={item.to}
               to={item.to}
               activeOptions={item.to === '/' ? { exact: true } : undefined}
-              className="inline-flex items-center rounded-lg px-3 py-1.5 text-sm font-medium text-text-muted transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
-              activeProps={{ className: 'inline-flex items-center rounded-lg px-3 py-1.5 text-sm font-semibold text-primary bg-primary/10' }}
+              className="relative inline-flex items-center rounded-lg px-3 py-1.5 text-sm font-medium text-text-muted transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+              activeProps={{ className: "relative inline-flex items-center rounded-lg px-3 py-1.5 text-sm font-semibold text-primary after:absolute after:left-3 after:right-3 after:-bottom-0.5 after:h-0.5 after:rounded-full after:bg-primary after:content-['']" }}
             >
               {item.label}
             </Link>
@@ -63,8 +63,8 @@ export function Header() {
               key={item.to}
               to={item.to}
               activeOptions={item.to === '/' ? { exact: true } : undefined}
-              className="inline-flex min-h-11 items-center rounded-lg px-3 text-base font-medium text-text-muted transition-colors hover:bg-surface-muted hover:text-primary focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
-              activeProps={{ className: 'inline-flex min-h-11 items-center rounded-lg px-3 text-base font-semibold text-primary bg-primary/10' }}
+              className="relative inline-flex min-h-11 items-center rounded-lg px-3 text-base font-medium text-text-muted transition-colors hover:bg-surface-muted hover:text-primary focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+              activeProps={{ className: "relative inline-flex min-h-11 items-center rounded-lg px-3 text-base font-semibold text-primary before:absolute before:left-0 before:top-2 before:bottom-2 before:w-0.5 before:rounded-full before:bg-primary before:content-['']" }}
               onClick={() => setMenuOpen(false)}
             >
               {item.label}
