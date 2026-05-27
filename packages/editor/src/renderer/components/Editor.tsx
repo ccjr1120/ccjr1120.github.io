@@ -38,7 +38,7 @@ function MilkdownEditor({ content, onChange }: EditorProps) {
 export default function Editor({ content, onChange }: EditorProps) {
   return (
     <div className="editor-scroll flex-1 overflow-y-auto">
-      <div className="editor-page w-full max-w-[920px] pl-10 pr-6 pb-16 pt-2">
+      <div className="editor-page mx-auto w-full max-w-[1100px] px-12 pb-16 pt-2">
         <MilkdownProvider>
           <MilkdownEditor content={content} onChange={onChange} />
         </MilkdownProvider>
