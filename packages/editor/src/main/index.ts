@@ -15,7 +15,7 @@ function createWindow(): void {
       sandbox: false
     },
     titleBarStyle: 'hiddenInset',
-    trafficLightPosition: { x: 15, y: 14 }
+    trafficLightPosition: { x: 15, y: 12 }
   })
 
   const rendererUrl = process.env['ELECTRON_RENDERER_URL']
