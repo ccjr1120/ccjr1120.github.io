@@ -264,7 +264,7 @@ button {
 }
 
 .milkdown .ProseMirror > * + * {
-  margin-top: 0.6em;
+  margin-top: 1em;
 }
 
 .milkdown .ProseMirror p {

@@ -119,7 +119,7 @@ export default function App() {
         {sidebarOpen && <div className="titlebar__side w-60 flex-shrink-0" />}
         <div
           className={`titlebar__main flex flex-1 items-center justify-between pr-3 ${
-            sidebarOpen ? 'pl-3' : 'pl-20'
+            sidebarOpen ? 'pl-3' : 'pl-[76px]'
           }`}
         >
           <button
