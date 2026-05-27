@@ -8,6 +8,7 @@ interface FileTreeProps {
   contentDir: string
   onFileSelect: (filePath: string) => void
   onFileCreate: (fileName: string) => void
+  onFileDelete: (filePath: string) => void
 }
 
 interface FileTreeItemProps {
@@ -15,9 +16,10 @@ interface FileTreeItemProps {
   level: number
   selectedFile: string | null
   onFileSelect: (filePath: string) => void
+  onFileDelete: (filePath: string) => void
 }
 
-function FileTreeItem({ file, level, selectedFile, onFileSelect }: FileTreeItemProps) {
+function FileTreeItem({ file, level, selectedFile, onFileSelect, onFileDelete }: FileTreeItemProps) {
   const [isExpanded, setIsExpanded] = useState(true)
   const isSelected = selectedFile === file.path
   const isMarkdown = file.name.endsWith('.md')
@@ -34,19 +36,35 @@ function FileTreeItem({ file, level, selectedFile, onFileSelect }: FileTreeItemP
 
   return (
     <div>
-      <button
-        type="button"
-        onClick={handleClick}
-        className={`file-row ${isSelected ? 'file-row--active' : ''}`}
-        style={{ paddingLeft: `${level * 12 + 14}px` }}
-      >
-        {file.isDirectory ? (
-          <span className="file-row__icon">{isExpanded ? '▾' : '▸'}</span>
-        ) : (
-          <span className="file-row__icon file-row__icon--doc">·</span>
+      <div className={`file-row ${isSelected ? 'file-row--active' : ''}`}>
+        <button
+          type="button"
+          onClick={handleClick}
+          className="file-row__main"
+          style={{ paddingLeft: `${level * 12 + 14}px` }}
+        >
+          {file.isDirectory ? (
+            <span className="file-row__icon">{isExpanded ? '▾' : '▸'}</span>
+          ) : (
+            <span className="file-row__icon file-row__icon--doc">·</span>
+          )}
+          <span className="file-row__name">{file.name.replace(/\.md$/, '')}</span>
+        </button>
+        {!file.isDirectory && isMarkdown && (
+          <button
+            type="button"
+            className="file-row__delete"
+            onClick={(e) => {
+              e.stopPropagation()
+              onFileDelete(file.path)
+            }}
+            aria-label={`Delete ${file.name.replace(/\.md$/, '')}`}
+            title="Delete"
+          >
+            <TrashIcon />
+          </button>
         )}
-        <span className="file-row__name">{file.name.replace(/\.md$/, '')}</span>
-      </button>
+      </div>
       {file.isDirectory && isExpanded && file.children && (
         <div>
           {file.children.map((child) => (
@@ -56,6 +74,7 @@ function FileTreeItem({ file, level, selectedFile, onFileSelect }: FileTreeItemP
               level={level + 1}
               selectedFile={selectedFile}
               onFileSelect={onFileSelect}
+              onFileDelete={onFileDelete}
             />
           ))}
         </div>
@@ -64,7 +83,19 @@ function FileTreeItem({ file, level, selectedFile, onFileSelect }: FileTreeItemP
   )
 }
 
-export default function FileTree({ files, draftFiles, selectedFile, onFileSelect, onFileCreate }: FileTreeProps) {
+function TrashIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M3 6h18" />
+      <path d="M8 6V4h8v2" />
+      <path d="M19 6l-1 14H6L5 6" />
+      <path d="M10 11v6" />
+      <path d="M14 11v6" />
+    </svg>
+  )
+}
+
+export default function FileTree({ files, draftFiles, selectedFile, onFileSelect, onFileCreate, onFileDelete }: FileTreeProps) {
   const [isCreating, setIsCreating] = useState(false)
   const [newFileName, setNewFileName] = useState('')
 
@@ -125,6 +156,7 @@ export default function FileTree({ files, draftFiles, selectedFile, onFileSelect
               level={0}
               selectedFile={selectedFile}
               onFileSelect={onFileSelect}
+              onFileDelete={onFileDelete}
             />
           ))
         )}
@@ -144,6 +176,7 @@ export default function FileTree({ files, draftFiles, selectedFile, onFileSelect
               level={0}
               selectedFile={selectedFile}
               onFileSelect={onFileSelect}
+              onFileDelete={onFileDelete}
             />
           ))
         )}

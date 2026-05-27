@@ -188,9 +188,7 @@ button {
   align-items: center;
   gap: 6px;
   width: 100%;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-right: 14px;
+  padding-right: 10px;
   font-size: 13px;
   color: var(--text-secondary);
   text-align: left;
@@ -207,6 +205,17 @@ button {
 .file-row--active:hover {
   background-color: var(--accent-soft-strong);
   color: var(--accent);
+}
+
+.file-row__main {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  flex: 1;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: left;
 }
 
 .file-row__icon {
@@ -227,9 +236,34 @@ button {
 }
 
 .file-row__name {
+  min-width: 0;
+  flex: 1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.file-row__delete {
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 5px;
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1;
+  opacity: 0;
+  transition: background-color 0.12s ease, color 0.12s ease, opacity 0.12s ease;
+}
+.file-row:hover .file-row__delete,
+.file-row--active .file-row__delete {
+  opacity: 1;
+}
+.file-row__delete:hover {
+  background-color: var(--accent-soft);
+  color: var(--accent);
 }
 
 /* ─── Empty state ────────────────────────────────────────────────── */

@@ -32,6 +32,9 @@ const electronAPI = {
   createFile: (dirPath: string, fileName: string): Promise<string> => {
     return ipcRenderer.invoke('create-file', dirPath, fileName)
   },
+  deleteFile: (filePath: string): Promise<{ success: boolean; error?: string }> => {
+    return ipcRenderer.invoke('delete-file', filePath)
+  },
   publishFile: (filePath: string): Promise<{ success: boolean; newPath?: string; error?: string }> => {
     return ipcRenderer.invoke('publish-file', filePath)
   },

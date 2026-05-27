@@ -13,7 +13,7 @@ export interface Post extends PostMeta {
   content: string
 }
 
-const postFiles = import.meta.glob('/content/*.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
+const postFiles = import.meta.glob('../../../../blog/content/*.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
 
 function parseFrontmatter(raw: string): { data: Record<string, unknown>; content: string } {
   const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/)
@@ -23,16 +23,24 @@ function parseFrontmatter(raw: string): { data: Record<string, unknown>; content
 
 function parsePost(filePath: string, raw: string): Post {
   const { data, content } = parseFrontmatter(raw)
-  const slug = filePath.replace('/content/', '').replace('.md', '')
+  const slug = filePath.split('/').pop()!.replace(/\.md$/, '')
+  const { title, body } = extractTitle(content, slug)
   return {
     slug,
-    title: (data.title as string) ?? slug,
+    title,
     date: data.date ? new Date(data.date as string).toISOString().slice(0, 10) : '1970-01-01',
     tags: (data.tags as string[]) ?? [],
     description: (data.description as string) ?? '',
     cover: data.cover as string | undefined,
-    content,
+    content: body,
   }
+}
+
+function extractTitle(content: string, slug: string): { title: string; body: string } {
+  const match = content.match(/^\s*#\s+(.+?)\s*$/m)
+  if (!match) return { title: slug, body: content }
+  const body = content.slice(0, match.index) + content.slice(match.index! + match[0].length)
+  return { title: match[1].trim(), body: body.replace(/^\s+/, '') }
 }
 
 let _posts: Post[] | null = null

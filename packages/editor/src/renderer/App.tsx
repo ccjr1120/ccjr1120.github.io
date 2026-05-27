@@ -70,6 +70,37 @@ export default function App() {
     [contentDir, loadFiles],
   )
 
+  const handleFileDelete = useCallback(
+    async (filePath: string) => {
+      const isSelected = selectedFile === filePath
+      const isDraftFile = filePath.startsWith(draftContentDir)
+
+      if (isSelected && isDirty) {
+        const discardConfirmed = window.confirm('当前文件有未保存修改，删除后将直接丢失，是否继续？')
+        if (!discardConfirmed) return
+      }
+
+      const deleteConfirmed = window.confirm(
+        isDraftFile ? '删除这篇草稿？' : '删除这篇已发布文章？删除后博客中将不再显示。',
+      )
+      if (!deleteConfirmed) return
+
+      const result = await window.electronAPI.deleteFile(filePath)
+      if (!result.success) {
+        alert(`删除失败: ${result.error}`)
+        return
+      }
+
+      await loadFiles()
+      if (isSelected) {
+        setSelectedFile(null)
+        setContent('')
+        setIsDirty(false)
+      }
+    },
+    [draftContentDir, isDirty, loadFiles, selectedFile],
+  )
+
   const handleFilePublish = useCallback(
     async (filePath: string) => {
       const result = await window.electronAPI.publishFile(filePath)
@@ -157,6 +188,7 @@ export default function App() {
               contentDir={contentDir}
               onFileSelect={handleFileSelect}
               onFileCreate={handleFileCreate}
+              onFileDelete={handleFileDelete}
             />
           </aside>
         )}

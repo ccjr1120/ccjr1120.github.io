@@ -36,14 +36,7 @@ function PostPage() {
 
   return (
     <article className="max-w-3xl mx-auto px-4 py-16">
-      <Link
-        to="/blog"
-        className="rounded-md text-sm text-text-muted transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
-      >
-        &larr; 返回博客
-      </Link>
-
-      <header className="mt-6 mb-10">
+      <header className="mb-10">
         <time className="text-sm text-text-muted font-mono">{post.date}</time>
         <h1 className="mt-2 text-4xl font-extrabold tracking-tight">{post.title}</h1>
         {post.description && (

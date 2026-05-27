@@ -10,6 +10,40 @@ interface FileInfo {
   children?: FileInfo[]
 }
 
+function getToday(): string {
+  const now = new Date()
+  const year = now.getFullYear()
+  const month = String(now.getMonth() + 1).padStart(2, '0')
+  const day = String(now.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
+
+function splitFrontmatter(markdown: string): { frontmatter: string | null; body: string; newline: string } {
+  const newline = markdown.includes('\r\n') ? '\r\n' : '\n'
+  const match = markdown.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n)?/)
+  if (!match) {
+    return { frontmatter: null, body: markdown, newline }
+  }
+  return {
+    frontmatter: match[1],
+    body: markdown.slice(match[0].length),
+    newline,
+  }
+}
+
+function ensureFrontmatterDate(frontmatter: string | null, newline: string): string {
+  const dateLine = `date: ${getToday()}`
+  if (!frontmatter) return dateLine
+  if (/^date\s*:/m.test(frontmatter)) return frontmatter
+  return `${dateLine}${newline}${frontmatter}`
+}
+
+function mergeFrontmatter(frontmatter: string | null, body: string, newline = '\n'): string {
+  const nextFrontmatter = ensureFrontmatterDate(frontmatter, newline)
+  const nextBody = body.replace(/^\r?\n+/, '')
+  return `---${newline}${nextFrontmatter}${newline}---${newline}${newline}${nextBody}`
+}
+
 async function readDirectory(dirPath: string): Promise<FileInfo[]> {
   const entries = await readdir(dirPath, { withFileTypes: true })
   const files: FileInfo[] = []
@@ -110,11 +144,19 @@ export function setupFileIPC(): void {
 
   ipcMain.handle('read-file', async (_event, filePath: string) => {
     const content = await readFile(filePath, 'utf-8')
-    return content
+    return splitFrontmatter(content).body
   })
 
   ipcMain.handle('save-file', async (_event, filePath: string, content: string) => {
-    await writeFile(filePath, content, 'utf-8')
+    let frontmatter: string | null = null
+    let newline = '\n'
+    if (existsSync(filePath)) {
+      const current = await readFile(filePath, 'utf-8')
+      const parsed = splitFrontmatter(current)
+      frontmatter = parsed.frontmatter
+      newline = parsed.newline
+    }
+    await writeFile(filePath, mergeFrontmatter(frontmatter, content, newline), 'utf-8')
     return true
   })
 
@@ -128,9 +170,36 @@ export function setupFileIPC(): void {
     }
     const filePath = join(targetDir, fileName)
     if (!existsSync(filePath)) {
-      await writeFile(filePath, '', 'utf-8')
+      await writeFile(filePath, mergeFrontmatter(null, `# ${basename(fileName, extname(fileName))}\n`), 'utf-8')
     }
     return filePath
+  })
+
+  ipcMain.handle('delete-file', async (_event, filePath: string) => {
+    const draftDir = getDraftContentDir()
+
+    try {
+      const stats = await stat(filePath)
+      if (!stats.isFile()) {
+        return { success: false, error: 'Only files can be deleted' }
+      }
+
+      await rm(filePath)
+
+      const parentDir = dirname(filePath)
+      if (filePath.startsWith(draftDir) && parentDir !== draftDir) {
+        try {
+          const entries = await readdir(parentDir)
+          if (entries.length === 0) {
+            await rm(parentDir, { recursive: true })
+          }
+        } catch {}
+      }
+
+      return { success: true }
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : 'Delete failed' }
+    }
   })
 
   ipcMain.handle('publish-file', async (_event, filePath: string) => {
