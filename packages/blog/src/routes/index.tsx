@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { getAllPosts } from '@/lib/posts'
-import { PostCard } from '@/components/PostCard'
 
 export const Route = createFileRoute('/')({
   component: HomePage,
@@ -8,83 +7,78 @@ export const Route = createFileRoute('/')({
 
 function HomePage() {
   const posts = getAllPosts()
-  const [featured, ...rest] = posts
-  const bentoPosts = rest.slice(0, 2)
-  const hasPosts = posts.length > 0
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 md:py-12">
-      {/* Hero */}
-      <section className="mb-8 md:mb-10">
-        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight">
-          Hi, I'm <span className="text-primary">CCJR</span>
-        </h1>
-        <p className="mt-3 max-w-2xl text-base md:text-lg text-text-muted">
-          欢迎来到我的博客。这里记录着我的技术探索、项目经验和思考。
+    <div className="max-w-2xl mx-auto px-8 pb-16">
+      {/* Profile */}
+      <section className="mb-12 flex flex-col items-center text-center">
+        <div className="w-24 h-24 rounded-full bg-surface-muted border border-border overflow-hidden mb-5 flex items-center justify-center">
+          <span className="text-3xl font-bold text-text-muted">C</span>
+        </div>
+        <h1 className="text-2xl font-semibold tracking-tight">CCJR</h1>
+      </section>
+
+      {/* About */}
+      <Section label="About">
+        <p className="text-text-muted leading-relaxed">
+          一名开发者，喜欢把想法落成代码，把代码落成产品。记录技术探索、项目经验和思考。
         </p>
-        <div className="mt-5 flex flex-wrap gap-3">
-          <Link
-            to="/blog"
-            className="inline-flex min-h-11 items-center justify-center rounded-xl bg-primary px-6 py-2.5 font-semibold text-on-primary transition-colors hover:bg-primary-hover active:bg-primary-active focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
-          >
-            阅读博客
-          </Link>
-          <Link
-            to="/about"
-            className="inline-flex min-h-11 items-center justify-center rounded-xl border border-border px-6 py-2.5 font-semibold text-text transition-colors hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
-          >
-            了解更多
-          </Link>
-        </div>
-      </section>
+      </Section>
 
-      {/* Posts / Empty state */}
-      <section>
-        <div className="mb-4 flex items-baseline justify-between">
-          <h2 className="text-xl md:text-2xl font-bold">最新文章</h2>
-          {hasPosts && (
-            <Link
-              to="/blog"
-              className="text-sm font-medium text-text-muted transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
-            >
-              查看全部 &rarr;
-            </Link>
-          )}
-        </div>
+      <Divider />
 
-        {hasPosts ? (
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:auto-rows-[minmax(0,1fr)]">
-            <div className="md:col-span-2 lg:row-span-2">
-              <PostCard post={featured} featured />
-            </div>
-            {bentoPosts.map((post) => (
-              <PostCard key={post.slug} post={post} />
-            ))}
-          </div>
+      {/* Posts */}
+      <Section label="Posts">
+        {posts.length === 0 ? (
+          <p className="text-text-muted text-sm">暂无文章，敬请期待。</p>
         ) : (
-          <EmptyPosts />
+          <ul className="space-y-0">
+            {posts.map((post) => (
+              <li key={post.slug}>
+                <Link
+                  to="/blog/$slug"
+                  params={{ slug: post.slug }}
+                  className="group flex items-baseline justify-between gap-4 py-2.5 text-sm transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 rounded"
+                >
+                  <span className="text-text group-hover:text-primary transition-colors leading-snug">
+                    {post.title}
+                  </span>
+                  <time className="shrink-0 font-mono text-xs text-text-muted tabular-nums">
+                    {formatDate(post.date)}
+                  </time>
+                </Link>
+              </li>
+            ))}
+          </ul>
         )}
-      </section>
+      </Section>
     </div>
   )
 }
 
-function EmptyPosts() {
+function Section({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-border bg-surface px-6 py-16 text-center">
-      <p className="font-mono text-xs uppercase tracking-wider text-text-muted">
-        // status: drafting
-      </p>
-      <h3 className="mt-4 text-2xl font-bold">第一篇还在构思中</h3>
-      <p className="mt-2 max-w-md text-sm text-text-muted">
-        博客刚刚搭好，第一批文章正在路上。先去看看「关于」，或者过几天再来。
-      </p>
-      <Link
-        to="/about"
-        className="mt-6 inline-flex min-h-11 items-center justify-center rounded-xl border border-border px-5 py-2 text-sm font-medium text-text transition-colors hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
-      >
-        了解更多 &rarr;
-      </Link>
+    <div className="flex gap-8 mb-8">
+      <div className="w-16 shrink-0 pt-0.5">
+        <span className="text-xs text-text-muted">{label}</span>
+      </div>
+      <div className="flex-1 min-w-0">{children}</div>
     </div>
   )
+}
+
+function Divider() {
+  return (
+    <div className="flex gap-8 mb-8">
+      <div className="w-16 shrink-0" />
+      <div className="flex-1">
+        <hr className="border-border" />
+      </div>
+    </div>
+  )
+}
+
+function formatDate(iso: string): string {
+  const d = new Date(iso)
+  return d.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })
 }

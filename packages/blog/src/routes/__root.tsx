@@ -1,6 +1,5 @@
 import { createRootRoute, Outlet, ScrollRestoration } from '@tanstack/react-router'
 import { Header } from '@/components/Header'
-import { Footer } from '@/components/Footer'
 
 export const Route = createRootRoute({
   component: RootLayout,
@@ -8,12 +7,14 @@ export const Route = createRootRoute({
 
 function RootLayout() {
   return (
-    <div className="min-h-screen flex flex-col bg-surface text-text">
+    <div className="min-h-screen bg-surface text-text">
       <Header />
-      <main className="flex-1">
+      <main>
         <Outlet />
       </main>
-      <Footer />
+      <footer className="px-8 py-8 text-xs text-text-muted">
+        &copy; {new Date().getFullYear()} CCJR
+      </footer>
       <ScrollRestoration />
     </div>
   )
