@@ -13,7 +13,9 @@ function RootLayout() {
         <Outlet />
       </main>
       <footer className="px-8 py-8 text-xs text-text-muted">
-        &copy; {new Date().getFullYear()} CCJR
+        <div className="max-w-2xl mx-auto">
+          &copy; {new Date().getFullYear()} CCJR
+        </div>
       </footer>
       <ScrollRestoration />
     </div>
