@@ -8,19 +8,19 @@ export function Header() {
         <nav className="flex items-center gap-6">
           <Link
             to="/"
-            className="text-sm font-medium transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-4"
+            className="text-sm font-medium transition-colors hover:text-primary dark:hover:text-primary-dark focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-4"
           >
             CCJR
           </Link>
           <Link
             to="/blog"
-            className="text-sm text-text-muted transition-colors hover:text-text focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-4"
+            className="text-sm text-text-muted transition-colors hover:text-text dark:hover:text-text-dark focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-4"
           >
             Blog
           </Link>
           <Link
             to="/about"
-            className="text-sm text-text-muted transition-colors hover:text-text focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-4"
+            className="text-sm text-text-muted transition-colors hover:text-text dark:hover:text-text-dark focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-4"
           >
             About
           </Link>

@@ -5,7 +5,7 @@ export function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg p-2 transition-colors hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+      className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg p-2 transition-colors hover:bg-surface-muted dark:hover:bg-surface-muted-dark focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
       aria-label={theme === 'dark' ? '切换到亮色模式' : '切换到暗色模式'}
     >
       {theme === 'dark' ? (
