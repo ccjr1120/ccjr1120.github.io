@@ -1,24 +1,26 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-primary: #BE185D;
-  --color-primary-hover: #9D174D;
-  --color-primary-active: #831843;
+  --color-primary: #CF5473;
+  --color-primary-hover: #B8435F;
+  --color-primary-active: #9E3450;
   --color-secondary: #16A34A;
   --color-secondary-hover: #15803D;
   --color-secondary-active: #166534;
   --color-success: #22C55E;
   --color-warning: #D97706;
   --color-danger: #DC2626;
-  --color-surface: #FFFFFF;
-  --color-surface-muted: #FDF2F8;
-  --color-border: #FBCFE8;
-  --color-text: #111827;
-  --color-text-muted: #4B5563;
+  --color-surface: #FEF5F6;
+  --color-surface-muted: #F8E5E9;
+  --color-border: #F0C8D0;
+  --color-text: #321E26;
+  --color-text-muted: #A57685;
+  --color-accent: #CF5473;
   --color-on-primary: #FFFFFF;
   --color-on-secondary: #FFFFFF;
 
-  --font-sans: 'Jost', sans-serif;
+  --font-sans: 'Noto Sans SC', sans-serif;
+  --font-serif: 'Playfair Display', 'Georgia', serif;
   --font-mono: 'Overpass Mono', monospace;
 
   --focus-ring-width: 2px;
@@ -29,15 +31,16 @@
 
 @layer base {
   .dark {
-    --color-surface: #111827;
-    --color-surface-muted: #1F2937;
-    --color-border: #374151;
-    --color-text: #F9FAFB;
-    --color-text-muted: #9CA3AF;
-    --color-primary: #F472B6;
-    --color-primary-hover: #F9A8D4;
-    --color-primary-active: #FBCFE8;
-    --color-on-primary: #111827;
+    --color-surface: #2A1A20;
+    --color-surface-muted: #3A2530;
+    --color-border: #5A3545;
+    --color-text: #FEF5F6;
+    --color-text-muted: #C09AAA;
+    --color-accent: #E8789A;
+    --color-primary: #E8789A;
+    --color-primary-hover: #F0A0B8;
+    --color-primary-active: #F8C8D8;
+    --color-on-primary: #2A1A20;
     --color-secondary: #4ADE80;
     --color-secondary-hover: #86EFAC;
     --color-secondary-active: #BBF7D0;

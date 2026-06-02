@@ -1,120 +1,99 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/about')({
   component: AboutPage,
 })
 
-const techStack = {
-  前端: { items: ['React', 'TypeScript', 'Tailwind CSS', 'Vite'], accent: 'primary' as const },
-  后端: { items: ['Node.js', 'Python'], accent: 'muted' as const },
-  工具: { items: ['Git', 'Docker', 'Linux'], accent: 'muted' as const },
-}
-
-const accentClass = {
-  primary: 'bg-primary/10 text-primary',
-  muted: 'bg-surface-muted text-text-muted',
-}
-
 const links = [
-  {
-    label: 'GitHub',
-    href: 'https://github.com/ccjr1120',
-    handle: '@ccjr1120',
-    external: true,
-  },
-  {
-    label: 'RSS',
-    href: '/feed.xml',
-    handle: '订阅更新',
-    external: false,
-  },
+  { label: 'GitHub', href: 'https://github.com/ccjr1120', handle: '@ccjr1120', external: true },
+  { label: 'RSS', href: '/feed.xml', handle: 'Subscribe', external: false },
 ]
 
 function AboutPage() {
   return (
-    <div className="max-w-6xl mx-auto px-4 py-16">
-      {/* Hero */}
-      <section className="mb-12">
-        <p className="font-mono text-sm text-text-muted">// 关于我</p>
-        <h1 className="mt-3 text-4xl md:text-5xl font-bold tracking-tight leading-tight">
-          你好，我是 <span className="text-primary">CCJR</span>
+    <div style={{ minHeight: '100vh', background: '#FEF5F6', fontFamily: 'var(--font-sans)' }}>
+      {/* TopBar */}
+      <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', padding: '36px 40px 24px' }}>
+        <Link to="/" style={{ fontSize: '18px', color: '#321E26', textDecoration: 'none' }}>
+          Home
+        </Link>
+        <div style={{ flex: 1 }} />
+        <span style={{ fontSize: '18px', color: '#321E26' }}>About</span>
+        <div style={{ width: '80px' }} />
+      </div>
+
+      {/* Name */}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '48px', paddingBottom: '32px' }}>
+        <h1
+          style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: '56px',
+            fontWeight: 700,
+            color: '#321E26',
+            margin: 0,
+          }}
+        >
+          CCJR
         </h1>
-        <p className="mt-4 max-w-2xl text-lg text-text-muted">
-          一名开发者，喜欢把想法落成代码，把代码落成产品。
-        </p>
-      </section>
+      </div>
 
-      {/* Bento Grid */}
-      <section className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:auto-rows-[minmax(0,1fr)]">
-        {/* Bio - large */}
-        <article className="md:col-span-2 lg:row-span-2 flex flex-col rounded-2xl border border-border bg-surface p-8 md:p-10">
-          <h2 className="text-2xl font-bold">关于这个博客</h2>
-          <div className="mt-4 space-y-4 text-text-muted">
-            <p>
-              这里是我的个人博客，用来记录技术学习、项目经验和一些零碎的思考。文章不追求多，但希望每一篇都能解决一个具体的问题或者沉淀一段真实的实践。
-            </p>
-            <p>
-              我相信好的工具能极大放大开发者的杠杆，也相信简单、可读、可维护的代码胜过炫技。如果你在某篇文章里有共鸣或不同看法，欢迎在 GitHub 找我聊。
-            </p>
-          </div>
-          <div className="mt-auto pt-8">
-            <div className="flex flex-wrap gap-2">
-              <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-                Web 开发
-              </span>
-              <span className="inline-flex items-center rounded-full bg-surface-muted px-3 py-1 text-xs font-medium text-text-muted">
-                工程实践
-              </span>
-              <span className="inline-flex items-center rounded-full bg-surface-muted px-3 py-1 text-xs font-medium text-text-muted">
-                工具与效率
-              </span>
-            </div>
-          </div>
-        </article>
+      {/* Body */}
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px', boxSizing: 'border-box' }}>
+        {/* Bio row */}
+        <SectionRow label="Bio">
+          <p style={{ fontSize: '15px', color: '#A57686', lineHeight: 1.7, margin: 0 }}>
+            A developer who loves turning ideas into code and code into products.
+          </p>
+        </SectionRow>
 
-        {/* Tech stack */}
-        <article className="rounded-2xl border border-border bg-surface p-6">
-          <h2 className="text-lg font-bold">技术栈</h2>
-          <div className="mt-4 space-y-4">
-            {Object.entries(techStack).map(([group, { items, accent }]) => (
-              <div key={group}>
-                <p className="font-mono text-xs uppercase tracking-wider text-text-muted">{group}</p>
-                <div className="mt-2 flex flex-wrap gap-1.5">
-                  {items.map((item) => (
-                    <span
-                      key={item}
-                      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${accentClass[accent]}`}
-                    >
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </article>
+        <Divider />
 
-        {/* Contact */}
-        <article className="rounded-2xl border border-border bg-surface p-6">
-          <h2 className="text-lg font-bold">联系方式</h2>
-          <ul className="mt-4 space-y-2">
+        {/* Links row */}
+        <SectionRow label="Links">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
             {links.map((link) => (
-              <li key={link.label}>
-                <a
-                  href={link.href}
-                  {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                  className="group flex min-h-11 items-center justify-between rounded-xl border border-transparent px-3 transition-colors hover:border-primary/30 hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
-                >
-                  <span className="font-medium">{link.label}</span>
-                  <span className="font-mono text-sm text-text-muted transition-colors group-hover:text-primary">
-                    {link.handle} &rarr;
-                  </span>
-                </a>
-              </li>
+              <a
+                key={link.label}
+                href={link.href}
+                {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '10px 0',
+                  textDecoration: 'none',
+                  color: 'inherit',
+                }}
+                className="about-link-row"
+              >
+                <span style={{ fontSize: '15px', color: '#321E26' }}>{link.label}</span>
+                <span style={{ fontSize: '13px', color: '#A57686' }}>{link.handle}</span>
+              </a>
             ))}
-          </ul>
-        </article>
-      </section>
+          </div>
+        </SectionRow>
+      </div>
+    </div>
+  )
+}
+
+function SectionRow({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div style={{ display: 'flex', gap: '24px', alignItems: 'flex-start', padding: '12px 0', fontWeight: 400 }}>
+      <span style={{ fontSize: '18px', color: '#321E26', width: '120px', flexShrink: 0 }}>{label}</span>
+      <div style={{ flex: 1 }}>{children}</div>
+    </div>
+  )
+}
+
+function Divider() {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '20px 0' }}>
+      <div style={{ flex: 1, height: '1px' }} />
+      <div style={{ width: '80px', height: '1px', background: 'rgba(207,84,115,0.4)' }} />
+      <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#CF5473' }} />
+      <div style={{ width: '80px', height: '1px', background: 'rgba(207,84,115,0.4)' }} />
+      <div style={{ flex: 1, height: '1px' }} />
     </div>
   )
 }

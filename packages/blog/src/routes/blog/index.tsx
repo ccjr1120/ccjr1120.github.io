@@ -1,6 +1,5 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { getAllPosts } from '@/lib/posts'
-import { PostCard } from '@/components/PostCard'
 import { createSearch } from '@/lib/search'
 import { useState, useMemo } from 'react'
 
@@ -28,51 +27,164 @@ function BlogPage() {
   }, [query, activeTag, allPosts, search])
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-16">
-      <h1 className="text-3xl font-bold tracking-tight mb-8">博客</h1>
-
-      {/* Search */}
-      <div className="mb-6">
-        <input
-          type="search"
-          placeholder="搜索文章..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="w-full max-w-md min-h-11 rounded-xl border border-border bg-surface px-4 py-2.5 text-text placeholder:text-text-muted transition-colors focus:border-primary focus:outline-none focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
-          aria-label="搜索文章"
-        />
+    <div style={{ minHeight: '100vh', background: '#FEF5F6', fontFamily: 'var(--font-sans)' }}>
+      {/* TopBar */}
+      <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', padding: '36px 40px 24px' }}>
+        <Link to="/" style={{ fontSize: '18px', color: '#321E26', textDecoration: 'none' }}>
+          Home
+        </Link>
+        <div style={{ flex: 1 }} />
+        <span style={{ fontSize: '18px', color: '#321E26' }}>Posts</span>
+        <div style={{ width: '80px' }} />
       </div>
 
-      {/* Tags */}
-      <div className="mb-8 flex flex-wrap gap-2">
-        <button
-          onClick={() => setActiveTag(null)}
-          className={`inline-flex min-h-11 items-center rounded-full px-4 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 ${!activeTag ? 'bg-primary text-on-primary hover:bg-primary-hover' : 'bg-surface-muted text-text-muted hover:text-text'}`}
+      {/* Name */}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '48px', paddingBottom: '32px' }}>
+        <h1
+          style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: '56px',
+            fontWeight: 700,
+            color: '#321E26',
+            margin: 0,
+          }}
         >
-          全部
-        </button>
-        {tags.map(([tag, count]) => (
-          <button
-            key={tag}
-            onClick={() => setActiveTag(activeTag === tag ? null : tag)}
-            className={`inline-flex min-h-11 items-center rounded-full px-4 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 ${activeTag === tag ? 'bg-primary text-on-primary hover:bg-primary-hover' : 'bg-surface-muted text-text-muted hover:bg-primary/10 hover:text-primary'}`}
-            aria-pressed={activeTag === tag}
-          >
-            #{tag} ({count})
-          </button>
-        ))}
+          CCJR
+        </h1>
       </div>
 
-      {/* Posts */}
-      {filtered.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((post) => (
-            <PostCard key={post.slug} post={post} />
-          ))}
+      {/* Body */}
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px', boxSizing: 'border-box' }}>
+        {/* Search row */}
+        <div style={{ display: 'flex', gap: '24px', alignItems: 'center', padding: '12px 0' }}>
+          <span style={{ fontSize: '18px', color: '#321E26', width: '120px', flexShrink: 0 }}>Search</span>
+          <input
+            type="search"
+            placeholder="Search posts..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            style={{
+              flex: 1,
+              padding: '8px 0',
+              background: 'transparent',
+              border: 'none',
+              borderBottom: '1px solid rgba(207,84,115,0.3)',
+              fontSize: '15px',
+              color: '#321E26',
+              outline: 'none',
+              fontFamily: 'var(--font-sans)',
+            }}
+          />
         </div>
-      ) : (
-        <p className="text-text-muted py-12 text-center">没有找到匹配的文章。</p>
-      )}
+
+        {/* Tags row */}
+        {tags.length > 0 && (
+          <>
+            <Divider />
+            <div style={{ display: 'flex', gap: '24px', alignItems: 'flex-start', padding: '12px 0' }}>
+              <span style={{ fontSize: '18px', color: '#321E26', width: '120px', flexShrink: 0 }}>Tags</span>
+              <div style={{ flex: 1, display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                <button
+                  onClick={() => setActiveTag(null)}
+                  style={{
+                    padding: '4px 14px',
+                    borderRadius: '999px',
+                    border: '1px solid rgba(207,84,115,0.4)',
+                    background: !activeTag ? '#CF5473' : 'transparent',
+                    color: !activeTag ? '#FEF5F6' : '#A57686',
+                    fontSize: '13px',
+                    cursor: 'pointer',
+                    fontFamily: 'var(--font-sans)',
+                  }}
+                >
+                  All
+                </button>
+                {tags.map(([tag, count]) => (
+                  <button
+                    key={tag}
+                    onClick={() => setActiveTag(activeTag === tag ? null : tag)}
+                    style={{
+                      padding: '4px 14px',
+                      borderRadius: '999px',
+                      border: '1px solid rgba(207,84,115,0.4)',
+                      background: activeTag === tag ? '#CF5473' : 'transparent',
+                      color: activeTag === tag ? '#FEF5F6' : '#A57686',
+                      fontSize: '13px',
+                      cursor: 'pointer',
+                      fontFamily: 'var(--font-sans)',
+                    }}
+                  >
+                    #{tag} ({count})
+                  </button>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+
+        <Divider />
+
+        {/* Posts row */}
+        <div style={{ display: 'flex', gap: '24px', alignItems: 'flex-start', paddingTop: '8px' }}>
+          <span style={{ fontSize: '18px', color: '#321E26', width: '120px', flexShrink: 0 }}>Posts</span>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            {filtered.length === 0 ? (
+              <p style={{ color: '#A57686', fontSize: '15px', margin: 0 }}>No matching posts found.</p>
+            ) : (
+              filtered.map((post, i) => (
+                <Link
+                  key={post.slug}
+                  to="/blog/$slug"
+                  params={{ slug: post.slug }}
+                  style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
+                  className="post-row"
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 0', whiteSpace: 'nowrap' }}>
+                    <div style={{ display: 'flex', flex: 1, gap: '8px', alignItems: 'center', minWidth: 0, overflow: 'hidden' }}>
+                      {i === 0 && <span style={{ color: '#CF5473', fontSize: '12px', flexShrink: 0 }}>✦</span>}
+                      <span style={{ fontSize: '15px', color: '#321E26' }}>{post.title}</span>
+                      <span style={{ fontSize: '13px', color: '#A57686', flexShrink: 0 }}>
+                        · {estimateReadTime(post.content)} min
+                      </span>
+                    </div>
+                    <time style={{ fontSize: '13px', color: '#A57686', flexShrink: 0 }}>
+                      {formatDateChinese(post.date)}
+                    </time>
+                  </div>
+                </Link>
+              ))
+            )}
+          </div>
+        </div>
+      </div>
+
+      <style>{`
+        .post-row:hover span[style*="#321E26"] {
+          color: #CF5473 !important;
+        }
+      `}</style>
     </div>
   )
+}
+
+function Divider() {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '20px 0' }}>
+      <div style={{ flex: 1, height: '1px' }} />
+      <div style={{ width: '80px', height: '1px', background: 'rgba(207,84,115,0.4)' }} />
+      <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#CF5473' }} />
+      <div style={{ width: '80px', height: '1px', background: 'rgba(207,84,115,0.4)' }} />
+      <div style={{ flex: 1, height: '1px' }} />
+    </div>
+  )
+}
+
+function estimateReadTime(content: string): number {
+  const words = content.trim().split(/\s+/).length
+  return Math.max(1, Math.round(words / 200))
+}
+
+function formatDateChinese(iso: string): string {
+  const d = new Date(iso)
+  return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`
 }

@@ -19,7 +19,7 @@ function TagsPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-16">
-      <h1 className="text-4xl font-bold mb-8">标签</h1>
+      <h1 className="text-4xl font-bold mb-8">Tags</h1>
 
       <div className="flex flex-wrap gap-3 mb-12">
         {[...allTags.entries()]
@@ -39,7 +39,7 @@ function TagsPage() {
       {activeTag && (
         <>
           <h2 className="text-2xl font-bold mb-6">
-            标签: <span className="text-primary">#{activeTag}</span>
+            Tag: <span className="text-primary">#{activeTag}</span>
           </h2>
           {filteredPosts.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -48,7 +48,7 @@ function TagsPage() {
               ))}
             </div>
           ) : (
-            <p className="text-text-muted">暂无标记此标签的文章。</p>
+            <p className="text-text-muted">No posts with this tag.</p>
           )}
         </>
       )}

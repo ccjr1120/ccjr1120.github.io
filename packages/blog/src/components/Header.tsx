@@ -16,13 +16,13 @@ export function Header() {
             to="/blog"
             className="text-sm text-text-muted transition-colors hover:text-text focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-4"
           >
-            博客
+            Blog
           </Link>
           <Link
             to="/about"
             className="text-sm text-text-muted transition-colors hover:text-text focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-4"
           >
-            关于
+            About
           </Link>
         </nav>
         <ThemeToggle />

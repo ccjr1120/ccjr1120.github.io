@@ -1,0 +1,29 @@
+- main [ref=e4]:
+  - generic [ref=e5]:
+    - generic [ref=e6]:
+      - generic [ref=e7]: Home
+      - generic [ref=e8]:
+        - button "Professional" [ref=e9] [cursor=pointer]:
+          - img [ref=e10]
+          - text: Professional
+        - button "✦ Personal" [ref=e12] [cursor=pointer]:
+          - generic [ref=e13]: ✦
+          - text: Personal
+    - generic [ref=e14]:
+      - generic [ref=e16]: C
+      - heading "CCJR" [level=1] [ref=e17]
+    - generic [ref=e18]:
+      - generic [ref=e19]:
+        - generic [ref=e20]: About
+        - paragraph [ref=e22]: 一名开发者，喜欢把想法落成代码，把代码落成产品。
+      - generic [ref=e27]:
+        - generic [ref=e28]: Posts
+        - list [ref=e30]:
+          - listitem [ref=e31]:
+            - link "✦ Hello · 1 min read 26 May 2026" [ref=e32] [cursor=pointer]:
+              - /url: /blog/Hello
+              - generic [ref=e33]:
+                - generic [ref=e34]: ✦
+                - generic [ref=e35]: Hello
+                - generic [ref=e36]: · 1 min read
+              - time [ref=e37]: 26 May 2026

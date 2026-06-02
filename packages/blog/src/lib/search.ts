@@ -1,7 +1,7 @@
 import Fuse from 'fuse.js'
-import type { PostMeta } from './posts'
+import type { Post } from './posts'
 
-export function createSearch(posts: PostMeta[]) {
+export function createSearch(posts: Post[]) {
   return new Fuse(posts, {
     keys: ['title', 'description', 'tags'],
     threshold: 0.3,
