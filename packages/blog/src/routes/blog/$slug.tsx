@@ -20,7 +20,7 @@ function PostPage() {
       <div style={{ minHeight: '100vh', background: theme === 'dark' ? '#111827' : '#FEF5F6', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-sans)' }}>
         <h1 style={{ fontSize: '48px', fontFamily: 'var(--font-serif)', color: theme === 'dark' ? '#F9FAFB' : '#321E26', margin: 0 }}>404</h1>
         <p style={{ color: theme === 'dark' ? '#9CA3AF' : '#A57686', marginTop: '12px' }}>Post not found</p>
-        <Link to="/blog" style={{ marginTop: '24px', color: theme === 'dark' ? '#F472B6' : '#CF5473', textDecoration: 'none', fontSize: '15px' }}>
+        <Link to="/" style={{ marginTop: '24px', color: theme === 'dark' ? '#F472B6' : '#CF5473', textDecoration: 'none', fontSize: '15px' }}>
           ← Back to posts
         </Link>
       </div>

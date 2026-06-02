@@ -13,14 +13,14 @@ export function MinimalNav() {
           Home
         </Link>
         <Link
-          to="/about"
+          to="/"
           className="text-sm transition-colors hover:text-text focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-4"
           style={{ color: 'var(--color-text-muted)', textDecoration: 'none' }}
         >
           About
         </Link>
         <Link
-          to="/blog"
+          to="/"
           className="text-sm transition-colors hover:text-text focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-4"
           style={{ color: 'var(--color-text-muted)', textDecoration: 'none' }}
         >

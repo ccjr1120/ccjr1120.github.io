@@ -13,13 +13,13 @@ export function Header() {
             CCJR
           </Link>
           <Link
-            to="/blog"
+            to="/"
             className="text-sm text-text-muted transition-colors hover:text-text dark:hover:text-text-dark focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-4"
           >
             Blog
           </Link>
           <Link
-            to="/about"
+            to="/"
             className="text-sm text-text-muted transition-colors hover:text-text dark:hover:text-text-dark focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-4"
           >
             About
