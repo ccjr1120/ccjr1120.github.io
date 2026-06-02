@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "CCJR Blog & Editor Monorepo",
   "scripts": {
-    "dev:blog": "pnpm --filter @ccjr/blog dev",
+    "dev": "pnpm --filter @ccjr/blog dev",
     "dev:editor": "pnpm --filter @ccjr/editor dev",
     "build:blog": "pnpm --filter @ccjr/blog build",
     "build:editor": "pnpm --filter @ccjr/editor build"
