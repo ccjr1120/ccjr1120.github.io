@@ -36,7 +36,7 @@ function AboutPage() {
       {/* Hero */}
       <section className="mb-12">
         <p className="font-mono text-sm text-text-muted">// 关于我</p>
-        <h1 className="mt-3 text-5xl md:text-6xl font-extrabold tracking-tight leading-tight">
+        <h1 className="mt-3 text-4xl md:text-5xl font-bold tracking-tight leading-tight">
           你好，我是 <span className="text-primary">CCJR</span>
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-text-muted">

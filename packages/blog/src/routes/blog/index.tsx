@@ -29,7 +29,7 @@ function BlogPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-16">
-      <h1 className="text-4xl font-bold mb-8">博客</h1>
+      <h1 className="text-3xl font-bold tracking-tight mb-8">博客</h1>
 
       {/* Search */}
       <div className="mb-6">

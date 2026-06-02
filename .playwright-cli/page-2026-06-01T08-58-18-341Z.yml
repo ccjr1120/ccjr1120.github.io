@@ -1,0 +1,86 @@
+- main [ref=e2]:
+  - navigation "global" [ref=e4]:
+    - link "Nav Menu Item" [ref=e6] [cursor=pointer]:
+      - /url: /
+      - text: Home
+    - generic [ref=e8]:
+      - img [ref=e9]
+      - switch "Toggle between professional and personal mode" [checked] [ref=e17] [cursor=pointer]:
+        - generic [ref=e18]:
+          - img
+          - button "⚙ Professional" [ref=e20]:
+            - generic [ref=e21]: ⚙
+            - generic [ref=e22]: Professional
+          - button "✦ Personal" [ref=e23]:
+            - generic [ref=e24]: ✦
+            - generic [ref=e25]: Personal
+      - img [ref=e26]
+  - generic [ref=e34]:
+    - generic [ref=e35]:
+      - button "professional profile photo personal profile photo" [ref=e36] [cursor=pointer]:
+        - generic [ref=e37]:
+          - generic [ref=e39]:
+            - img [ref=e41]
+            - img "professional profile photo" [ref=e58]
+          - generic [ref=e60]:
+            - img [ref=e62]
+            - img "personal profile photo" [ref=e79]
+      - heading "Thariq" [level=1] [ref=e80]
+    - generic [ref=e81]:
+      - heading "About" [level=2] [ref=e83]
+      - paragraph [ref=e86]: Trying to pay attention.
+    - img [ref=e90]
+    - generic [ref=e94]:
+      - heading "Posts" [level=2] [ref=e96]
+      - list [ref=e98]:
+        - listitem [ref=e99]:
+          - generic [ref=e101]:
+            - generic "Pinned" [ref=e102]: ✦
+            - link "Clay and Light" [ref=e103] [cursor=pointer]:
+              - /url: /blog/clay-and-light/
+            - generic [ref=e104]: · 2 min read
+          - time [ref=e105]: 6 Dec 2025
+        - listitem [ref=e106]:
+          - generic [ref=e108]:
+            - 'link "Sparse Rewards: Enlightenment and Reinforcement Learning" [ref=e109] [cursor=pointer]':
+              - /url: /blog/sparse-rewards/
+            - generic [ref=e110]: · 4 min read
+          - time [ref=e111]: 28 Mar 2026
+        - listitem [ref=e112]:
+          - generic [ref=e114]:
+            - link "A Lovely Autumn Night" [ref=e115] [cursor=pointer]:
+              - /url: /blog/a-lovely-autumn-night/
+            - generic [ref=e116]: · 1 min read
+          - time [ref=e117]: 22 Feb 2026
+        - listitem [ref=e118]:
+          - generic [ref=e120]:
+            - link "The Thing" [ref=e121] [cursor=pointer]:
+              - /url: /blog/the-thing/
+            - generic [ref=e122]: · 2 min read
+          - time [ref=e123]: 14 Feb 2026
+        - listitem [ref=e124]:
+          - generic [ref=e126]:
+            - link "I can think. I can wait. I can fast." [ref=e127] [cursor=pointer]:
+              - /url: /blog/fast/
+            - generic [ref=e128]: · 2 min read
+          - time [ref=e129]: 20 Jan 2026
+        - listitem [ref=e130]:
+          - generic [ref=e132]:
+            - link "Strangers & Travelers" [ref=e133] [cursor=pointer]:
+              - /url: /blog/strangers/
+            - generic [ref=e134]: · 2 min read
+          - time [ref=e135]: 16 Dec 2025
+        - listitem [ref=e136]:
+          - generic [ref=e138]:
+            - link "Spiritual Technology" [ref=e139] [cursor=pointer]:
+              - /url: /blog/spiritual-technology/
+            - generic [ref=e140]: · 2 min read
+          - time [ref=e141]: 6 Dec 2025
+        - listitem [ref=e142]:
+          - generic [ref=e144]:
+            - link "Intention" [ref=e145] [cursor=pointer]:
+              - /url: /blog/intention/
+            - generic [ref=e146]: · 2 min read
+          - time [ref=e147]: 17 Nov 2025
+  - img [ref=e151]
+  - paragraph [ref=e159]: © 2024 Thariq Shihipar. All rights reserved.

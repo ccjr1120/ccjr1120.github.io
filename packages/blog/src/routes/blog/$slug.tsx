@@ -38,7 +38,7 @@ function PostPage() {
     <article className="max-w-3xl mx-auto px-4 py-16">
       <header className="mb-10">
         <time className="text-sm text-text-muted font-mono">{post.date}</time>
-        <h1 className="mt-2 text-4xl font-extrabold tracking-tight">{post.title}</h1>
+        <h1 className="mt-2 text-3xl font-bold tracking-tight">{post.title}</h1>
         {post.description && (
           <p className="mt-3 text-lg text-text-muted">{post.description}</p>
         )}

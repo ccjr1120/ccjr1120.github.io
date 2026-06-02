@@ -11,19 +11,15 @@ function HomePage() {
   return (
     <div className="max-w-2xl mx-auto px-8 pb-16">
       {/* Profile */}
-      <section className="mb-12 flex flex-col items-center text-center">
-        <div className="w-24 h-24 rounded-full bg-surface-muted border border-border overflow-hidden mb-5 flex items-center justify-center">
-          <span className="text-3xl font-bold text-text-muted">C</span>
+      <section className="mb-12 flex items-start gap-6">
+        <div className="w-20 h-20 rounded-full bg-surface-muted border border-border overflow-hidden shrink-0 flex items-center justify-center">
+          <span className="text-2xl font-bold text-text-muted">C</span>
         </div>
-        <h1 className="text-2xl font-semibold tracking-tight">CCJR</h1>
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">CCJR</h1>
+          <p className="mt-2 text-text-muted">一名开发者，喜欢把想法落成代码，把代码落成产品。</p>
+        </div>
       </section>
-
-      {/* About */}
-      <Section label="About">
-        <p className="text-text-muted leading-relaxed">
-          一名开发者，喜欢把想法落成代码，把代码落成产品。记录技术探索、项目经验和思考。
-        </p>
-      </Section>
 
       <Divider />
 
@@ -58,24 +54,15 @@ function HomePage() {
 
 function Section({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="flex gap-8 mb-8">
-      <div className="w-16 shrink-0 pt-0.5">
-        <span className="text-xs text-text-muted">{label}</span>
-      </div>
-      <div className="flex-1 min-w-0">{children}</div>
-    </div>
+    <section className="mb-10">
+      <h2 className="text-sm font-semibold uppercase tracking-wider text-text-muted mb-4">{label}</h2>
+      {children}
+    </section>
   )
 }
 
 function Divider() {
-  return (
-    <div className="flex gap-8 mb-8">
-      <div className="w-16 shrink-0" />
-      <div className="flex-1">
-        <hr className="border-border" />
-      </div>
-    </div>
-  )
+  return <hr className="border-border mb-10" />
 }
 
 function formatDate(iso: string): string {
