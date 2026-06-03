@@ -1,7 +1,7 @@
 import { keymap } from '@milkdown/prose/keymap'
 import { $prose } from '@milkdown/utils'
 
-const TAB_SPACES = '  '
+const TAB_SPACES = '    '
 
 export const tabIndentPlugin = $prose(() =>
   keymap({

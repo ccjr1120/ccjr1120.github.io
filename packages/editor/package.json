@@ -13,6 +13,7 @@
   "dependencies": {
     "@milkdown/core": "^7.6.4",
     "@milkdown/ctx": "^7.6.4",
+    "@milkdown/plugin-history": "^7.21.2",
     "@milkdown/plugin-listener": "^7.6.4",
     "@milkdown/preset-commonmark": "^7.6.4",
     "@milkdown/preset-gfm": "^7.6.4",
