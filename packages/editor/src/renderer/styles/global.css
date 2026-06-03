@@ -442,6 +442,7 @@ button {
 /* ─── Titlebar publish button ────────────────────────────────────── */
 
 .titlebar__publish-btn {
+  -webkit-app-region: no-drag;
   width: 26px;
   height: 26px;
   display: inline-flex;
