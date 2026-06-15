@@ -35,12 +35,31 @@ function PostPage() {
   return (
     <div style={{ minHeight: '100vh', background: theme === 'dark' ? '#111827' : '#FEF5F6', fontFamily: 'var(--font-sans)' }}>
       {/* TopBar */}
-      <div style={{ display: 'flex', alignItems: 'center', padding: '36px 80px 24px' }}>
-        <Link to="/" style={{ fontSize: '18px', color: theme === 'dark' ? '#F9FAFB' : '#321E26', textDecoration: 'none' }}>
+      <div
+        style={{
+          maxWidth: '1200px',
+          margin: '0 auto',
+          display: 'flex',
+          alignItems: 'center',
+          padding: '36px 40px 24px',
+          overflow: 'hidden',
+        }}
+      >
+        <Link
+          to="/"
+          style={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: '18px',
+            color: theme === 'dark' ? '#F9FAFB' : '#321E26',
+            textDecoration: 'none',
+            whiteSpace: 'nowrap',
+            flexShrink: 0,
+          }}
+        >
           Home
         </Link>
         <div style={{ flex: 1 }} />
-        <div style={{ width: '80px' }} />
+        <div style={{ width: '80px', flexShrink: 0 }} />
       </div>
 
       {/* Article */}
