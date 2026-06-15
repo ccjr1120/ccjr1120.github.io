@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite'
 import path from 'node:path'
 import fs from 'node:fs'
 
-const SITE_URL = 'https://ccjr1120.github.io'
+const SITE_URL = 'https://ccjr1120.bbroot.com'
 
 const contentDir = path.resolve(__dirname, '../../blog/content')
 const slugs = fs.existsSync(contentDir)
